@@ -1,0 +1,108 @@
+    #main{
+        display: grid;
+        grid-template-columns: 1fr 7fr;
+    }
+    #board{
+        width: 90%;
+        height: 90%;
+        margin: auto;
+        padding-top: 20px;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 3.5fr 2fr;
+    }
+    #board > div{
+        padding-left: 20px;
+        box-shadow: 5px 5px 15px #bebebe,
+                    -5px -5px 15px #ffffff;
+    }
+    #board > div:not(:nth-child(5)){
+        margin: auto;
+        width: 90%;
+        height: 90%;
+        border-radius: 7px;
+    }
+    #board img{
+        width: 30px;
+        height: 30px;
+    }
+
+    #visit-daily{
+        background-color: #FFE5CC;
+    }
+    #visit-weekly{
+        background-color: #FFE5CC;
+    }
+    #visit-monthly{
+        background-color: #FFE5CC;
+    }
+    #graph-stick{
+        grid-column: span 2;
+ 
+    } 
+    #graph-circle{
+        width: 90%;
+        height: 90%;
+        border-radius: 7px;
+        margin: 0 auto;
+        padding-bottom: 10px;
+      
+    }
+    .board-graph, .board-notice{
+        background-color: white;
+    }
+
+    .chart-holder{
+        margin: auto;
+    }
+    
+    #background{
+        background-color: rgba(130, 203, 196, 0.2);
+    }
+    .text-img{
+        display: flex;
+    }
+    .text-img img{
+        padding-top: 15px;
+    }
+    .text-img h3{
+        padding-left: 20px;
+    }
+    .count{
+        padding-left: 20px;
+    }
+
+    .board-notice table{
+        width: 95%;
+        margin: auto;
+    }
+    .board-notice table th{
+        text-align: left;
+    }
+    .board-notice table td:nth-child(2){
+        width: 40%;
+    }
+    .board-notice td, .board-notice th{
+        border-bottom: 2px solid lightgrey;
+    }
+    #meal-holder{
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        padding-right: 10px;
+        box-sizing: border-box;
+        padding-bottom: 10px;
+    }
+
+    #board-notice3 img{
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+
+    }
+    #img-holder img{
+        width: 90%;
+        height: 90%;
+    }
+

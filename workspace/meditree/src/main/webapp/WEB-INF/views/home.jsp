@@ -68,7 +68,7 @@
             <img src="${root}/resources/img/mediLogo.jpg" alt="로고이미지">
         </header>
         <main>
-            <form action="${root}/member/main" method="post">
+            <form action="${root}/member/main" method="get">
                 <div id="login">
                     <h2>LOGIN</h2>            <br>
                 </div>

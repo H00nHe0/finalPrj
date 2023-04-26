@@ -4,12 +4,20 @@
     <meta charset="utf-8" />
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.6/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.6/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.6/index.global.min.js"></script>
+    <!-- TimeGrid 모듈 추가 -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
+
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: "dayGridMonth",
+          headerToolbar: {
+            start: "prevYear,prev,next,nextYear",
+            center: "title",
+            end: "dayGridMonth,timeGridWeek,timeGridDay",
+          },
         });
+
         calendar.render();
       });
     </script>

@@ -55,6 +55,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <!-- <a href="#"><li>환자 진료내역</li></a> -->
         <a href="/app/member/rsvnWaiting"><li>병실 예약 대기</li></a>
         <a href="/app/member/receiveManage"><li>수납</li></a>
+        <a href="/app/member/roomCheck"><li>병실 현황</li></a>
       </ul>
       <li class="category">
         <img src="${root}/resources/img/homeImg/sideCommute.png" />근태관리

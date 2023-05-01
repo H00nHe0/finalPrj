@@ -16,7 +16,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         justify-content: center;
       }
       #board #reception-holder {
-        width: 60%;
+        width: 65%;
         height: 90%;
         display: flex;
       }
@@ -90,7 +90,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         border-radius: 5px;
       }
 
-      button:hover {
+      button:hover,
+      #register-btn:hover {
         background-color: rgba(130, 203, 196, 0.8);
       }
       .seperate-line {
@@ -101,12 +102,88 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         tr:hover:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):not(
           :last-child
         ) {
-        background-color: rgb(
-          211,
-          211,
-          211,
-          0.2
-        ); /* 변경할 색상을 여기에 입력하세요 */
+        background-color: rgb(211, 211, 211, 0.2);
+      }
+
+      /* 모달창 관련 css */
+      #register-table input,
+      #register-table textarea {
+        box-sizing: border-box;
+        margin-top: -10px;
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding-left: 5px;
+      }
+
+      #register-table {
+        height: 350px;
+        width: 450px;
+        margin: auto;
+        font-weight: 600;
+      }
+      #register-table td {
+        border: 1px solid lightgrey;
+      }
+      #modal-container {
+        display: none;
+        width: 100%;
+        height: 120%;
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(137, 141, 140, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      #modal-window {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 500px;
+        height: 600px;
+        position: relative;
+        top: -100px;
+        padding: 10px;
+      }
+      #title-line {
+        text-align: center;
+      }
+      #title-line > div {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      #title-line #form-title {
+        width: 80%;
+      }
+      #title-line #form-title h2 {
+        padding-left: 30px;
+      }
+      #title-line #close-icon {
+        width: 15%;
+      }
+      .modal img {
+        width: 30px;
+        height: 30px;
+      }
+      #close-icon button {
+        border: none;
+        background-color: white;
+      }
+      #register-form #register-btn-area {
+        margin: auto;
+        padding-top: 30px;
+        margin-left: 25px;
       }
     </style>
   </head>
@@ -116,6 +193,64 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       <div id="main">
         <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
         <div id="board">
+          <div id="modal-container" class="modal">
+            <div id="modal-window">
+              <div id="title-line">
+                <div id="form-title">
+                  <h2>신규 환자 등록</h2>
+                </div>
+                <div id="close-icon">
+                  <button type="button" id="close-btn">
+                    <img
+                      src="${root}/resources/img/receiptionImg/cxl.png"
+                      alt="닫기"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div id="modal-content" class="modal">
+                <form action="#" method="post" id="register-form">
+                  <table id="register-table">
+                    <tr>
+                      <td>이름</td>
+                      <td><input type="text" name="patientName" /></td>
+                    </tr>
+                    <tr>
+                      <td>주민등록번호</td>
+                      <td><input type="text" name="rrn" /></td>
+                    </tr>
+                    <tr>
+                      <td>연락처</td>
+                      <td><input type="text" name="patientPhone" /></td>
+                    </tr>
+                    <tr>
+                      <td>보호자연락처</td>
+                      <td>
+                        <input type="text" name="patientGueardianPhone" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>주소</td>
+                      <td><input type="text" name="patientAddress" /></td>
+                    </tr>
+                    <tr>
+                      <td>메모</td>
+                      <td><textarea name="parientMemo"></textarea></td>
+                    </tr>
+                  </table>
+                  <div id="register-btn-area">
+                    <input
+                      type="submit"
+                      value="등록하기"
+                      class="reception-btn"
+                      id="register-btn"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
           <div id="reception-holder">
             <div class="reception-form">
               <form id="form1" action="#" method="post">
@@ -125,12 +260,20 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     <td><h3>인적정보</h3></td>
                     <td></td>
                     <td>
-                      <button type="button" class="reception-btn">
+                      <button
+                        type="button"
+                        class="reception-btn"
+                        id="registed-patients-btn"
+                      >
                         환자조회
                       </button>
                     </td>
                     <td>
-                      <button type="button" class="reception-btn">
+                      <button
+                        type="button"
+                        class="reception-btn"
+                        id="register-patient-btn"
+                      >
                         환자등록
                       </button>
                     </td>
@@ -327,3 +470,40 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
   </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // const popUpList = document.querySelector("#registed-patients-btn");
+  const modalOn = document.querySelector("#register-patient-btn");
+  const modal = document.querySelector("#modal-container");
+
+  function isModalOn() {
+    return modal.style.display === "flex";
+  }
+  function modalOff() {
+    modal.style.display = "none";
+  }
+
+  // popUpList.addEventListener("click", (x) => {
+  //   window.open("");
+  // });
+
+  modalOn.addEventListener("click", (x) => {
+    modal.style.display = "flex";
+  });
+  const closeBtn = modal.querySelector("#close-btn");
+  closeBtn.addEventListener("click", (e) => {
+    modalOff();
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#registed-patients-btn").click(function () {
+      window.open(
+        "simplePatientCheck",
+        "popup",
+        "width=700px,height=800px,left=50%,top=50%"
+      );
+    });
+  });
+</script>

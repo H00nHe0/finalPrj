@@ -92,7 +92,7 @@
                                 <td>2022-01-02</td>
                                 <td>9952</td>
                             </tr>
-                        </table>
+                       </table>
                     </div>
                 </div>
                 <div class="board-notice" id="board-notice3">

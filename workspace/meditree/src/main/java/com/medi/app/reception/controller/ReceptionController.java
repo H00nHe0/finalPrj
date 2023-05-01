@@ -25,4 +25,22 @@ public class ReceptionController {
 	 
 	}
 	
+	@GetMapping("roomCheck")
+	public void roomCheck() {
+		
+	}
+	
+	@GetMapping("simplePatientCheck")
+	public void simplePatientCheck(){
+		 
+	}
+	
+	@GetMapping("rsvnInpatientRm")
+	public void rsvnInpatientRm() {
+		
+	}
+	@GetMapping("rsvnOperatingRm")
+	public void rsvnOperatingRm() {
+		
+	}
 }

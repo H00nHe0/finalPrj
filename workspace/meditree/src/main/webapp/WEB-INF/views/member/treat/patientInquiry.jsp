@@ -91,7 +91,7 @@
 			                      <th>연락처</th>
 			                      <th>보호자연락처</th>
 			                      <th>주소</th>
-			                      <th>진료내역</th>
+			                      <th>정보수정</th>
 			                    </tr> 
 	                  		</thead>
 			                <tbody>
@@ -104,7 +104,9 @@
 			                    <td>010-9306-0776</td>
 			                    <td>안양시 만안구 충훈로</td>
 			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">조회</button>
+			                    	<a href="patientInquiryEdit">
+                                 	   <button type="button" class="btn btn-secondary btn-sm">수정하기</button>	
+			                    	</a>
                                 </td>
 			                 </tr>
                              <tr>
@@ -116,7 +118,7 @@
 			                    <td>010-9306-0776</td>
 			                    <td>안양시 만안구 충훈로</td>
 			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">조회</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
                                 </td>
 			                 </tr>
                              <tr>
@@ -128,7 +130,7 @@
 			                    <td>010-9306-0776</td>
 			                    <td>안양시 만안구 충훈로</td>
 			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">조회</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
                                 </td>
 			                 </tr>
                              <tr>
@@ -140,7 +142,7 @@
 			                    <td>010-9306-0776</td>
 			                    <td>안양시 만안구 충훈로</td>
 			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">조회</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
                                 </td>
 			                 </tr>
                              <tr>
@@ -152,7 +154,7 @@
 			                    <td>010-9306-0776</td>
 			                    <td>안양시 만안구 충훈로</td>
 			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">조회</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
                                 </td>
 			                 </tr>
 
@@ -169,3 +171,13 @@
   
 </body>
 </html>
+
+<script>
+
+    const tbody = document.querySelector('table > tbody');
+        tbody.addEventListener("click" , (event)=>{
+            //const no = event.target.parentNode.children[0].innerText;
+            location.href = '${root}/treat/patientInquiryDetail';
+        });
+
+</script>

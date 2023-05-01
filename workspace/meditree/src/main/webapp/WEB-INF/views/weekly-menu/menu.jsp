@@ -23,6 +23,9 @@
     	text-align: center;
     	margin-top: 20px; 
     }
+    button {
+	float: right;
+}
 </style>
 </head>
 <body>
@@ -204,7 +207,7 @@
 							</tr>
 						</tbody>
 					</table>
-
+				<button type="button" class="btn btn-success" onclick="location.href='${root}/weekly/write'">식단표 작성</button>
             </div>
         </div>
     </div>

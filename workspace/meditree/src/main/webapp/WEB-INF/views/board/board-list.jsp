@@ -14,13 +14,18 @@
         display: grid;
         grid-template-columns: 1fr 8fr;
     }
+   
     #content{
     	width: 80%;
     	margin: 30px auto auto auto;
-    	
     }
+    
     #content button {
     	float: right;
+    }
+    
+    table{
+    	margin-top: 20px; 
     }
 </style>
 </head>
@@ -30,10 +35,11 @@
 
         <div id="main">
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
-                <div id="content">
+              
+               	 <div id="content">
                     <h2>사내게시판</h2>
-                    <table class="table table-striped">
-                          <thead>
+                    <table class="table table-hover">
+                          <thead class="table-success">
                             <tr>
                                 <th>번호</th>
                                 <th>제목</th>
@@ -94,8 +100,10 @@
                           	</tr>
                         </tbody>    
                     </table>
-                    <button type="button" class="btn btn-success">작성하기</button>
+                    <button type="button" class="btn btn-success" onclick="location.href='${root}/board/write'">작성하기</button>
                 </div>
+               
+               
         </div>
     </div>
 

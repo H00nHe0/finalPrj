@@ -12,4 +12,16 @@ public class MailController {
 	public String getMailList() {
 		return "mail/mail-list";
 	}
+	@GetMapping("write")
+	public String write() {
+		return "mail/mail-send";
+	}
+	@GetMapping("delete")
+	public String deleteBox() {
+		return "mail/mail-delete-box";
+	}
+	@GetMapping("detail")
+	public String detail() {
+		return "mail/mail-detail";
+	}
 }

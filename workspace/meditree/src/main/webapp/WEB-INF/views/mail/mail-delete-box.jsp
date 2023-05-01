@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항</title>
+<title>휴지통</title>
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <!-- JavaScript Bundle with Popper -->
@@ -14,18 +14,17 @@
         display: grid;
         grid-template-columns: 1fr 8fr;
     }
-    
-    #content{
+     #content{
     	width: 80%;
     	margin: 30px auto auto auto;
-    	
     }
-    #content button {
+    
+    #btn{
     	float: right;
+    	margin-right: 20px;
+    	margin-bottom: 20px;
     }
-    table{
-    	margin-top: 20px; 
-    }
+    
 </style>
 </head>
 <body>
@@ -35,62 +34,67 @@
         <div id="main">
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
                 <div id="content">
-					<h2>공지사항</h2>
+					<h2>휴지통</h2>
+						<div id="btn">
+						  <button type="button" class="btn btn-danger" onclick="location.href='${root}/mail/delete'">삭제하기</button>
+						  <button type="button" class="btn btn-success" onclick="location.href='${root}/mail/write'">복구하기</button>
+						</div>
                     <table class="table table-hover">
                           <thead class="table-success">
                             <tr>
-                                <th>번호</th>
+                                <th><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
+                                <th>작성자</th>
                                 <th>제목</th>
                                 <th>날짜</th>
-                                <th>조회수</th>
+                                
                             </tr>
                           </thead>  
                           <tbody>
                           	<tr>
-                          		<td>1</td>
+                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                          		<td>user1</td>
                           		<td>제목1</td>
                           		<td>23.04.25</td>
-                          		<td>5</td>
                           	</tr>
                           	<tr>
-                          		<td>1</td>
+                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                          		<td>user1</td>
                           		<td>제목1</td>
                           		<td>23.04.25</td>
-                          		<td>5</td>
                           	</tr>
                           	<tr>
-                          		<td>1</td>
+                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                          		<td>user1</td>
                           		<td>제목1</td>
                           		<td>23.04.25</td>
-                          		<td>5</td>
                           	</tr>
                           	<tr>
-                          		<td>1</td>
+                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                          		<td>user1</td>
                           		<td>제목1</td>
                           		<td>23.04.25</td>
-                          		<td>5</td>
                           	</tr>
                           	<tr>
-                          		<td>1</td>
+                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                          		<td>user1</td>
                           		<td>제목1</td>
                           		<td>23.04.25</td>
-                          		<td>5</td>
                           	</tr>
                           	<tr>
-                          		<td>1</td>
+                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                          		<td>user1</td>
                           		<td>제목1</td>
                           		<td>23.04.25</td>
-                          		<td>5</td>
                           	</tr>
                           	<tr>
-                          		<td>1</td>
+                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
+                          		<td>user1</td>
                           		<td>제목1</td>
                           		<td>23.04.25</td>
-                          		<td>5</td>
                           	</tr>
                         </tbody>    
                     </table>
-                    <button type="button" class="btn btn-success" onclick="location.href='${root}/notice/write'">작성하기</button>
+                    
 
             </div>
         </div>
@@ -98,3 +102,14 @@
 
 </body>
 </html>
+<script>
+        const arr = document.querySelectorAll("input[type=checkbox]");
+        arr[0].addEventListener("click",(event)=>{
+            const status = event.target.checked;
+            for (let temp of arr) {
+                temp.checked = status;
+            }
+            
+            
+        });
+    </script>

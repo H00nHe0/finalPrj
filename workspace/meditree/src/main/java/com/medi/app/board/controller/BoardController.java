@@ -18,4 +18,12 @@ public class BoardController {
 	public String write() {
 		return "board/board-write";
 	}
+	@GetMapping("detail")
+	public String detail() {
+		return "board/board-detail";
+	}
+	@GetMapping("edit")
+	public String edit() {
+		return "board/board-edit";
+	}
 }

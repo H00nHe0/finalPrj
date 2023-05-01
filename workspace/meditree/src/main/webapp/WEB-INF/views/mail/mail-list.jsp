@@ -17,11 +17,14 @@
      #content{
     	width: 80%;
     	margin: 30px auto auto auto;
-    	
     }
-    #content .btn-group {
+    
+    #btn{
     	float: right;
+    	margin-right: 20px;
+    	margin-bottom: 20px;
     }
+    
 </style>
 </head>
 <body>
@@ -32,12 +35,12 @@
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
                 <div id="content">
 					<h2>메일보관함</h2>
-						<div class="btn-group" role="group" aria-label="Basic mixed styles example">
-						  <button type="button" class="btn btn-danger">휴지통</button>
-						  <button type="button" class="btn btn-success">메일 보내기</button>
+						<div id="btn">
+						  <button type="button" class="btn btn-danger" onclick="location.href='${root}/mail/delete'">휴지통</button>
+						  <button type="button" class="btn btn-success" onclick="location.href='${root}/mail/write'">메일 보내기</button>
 						</div>
-                    <table class="table table-striped">
-                          <thead>
+                    <table class="table table-hover">
+                          <thead class="table-success">
                             <tr>
                                 <th><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
                                 <th>작성자</th>
@@ -99,3 +102,14 @@
 
 </body>
 </html>
+<script>
+        const arr = document.querySelectorAll("input[type=checkbox]");
+        arr[0].addEventListener("click",(event)=>{
+            const status = event.target.checked;
+            for (let temp of arr) {
+                temp.checked = status;
+            }
+            
+            
+        });
+    </script>

@@ -18,4 +18,12 @@ public class NoticeController {
 	public String write() {
 		return "notice/notice-write";
 	}
+	@GetMapping("detail")
+	public String detail() {
+		return "notice/notice-detail";
+	}
+	@GetMapping("edit")
+	public String edit() {
+		return "notice/notice-edit";
+	}
 }

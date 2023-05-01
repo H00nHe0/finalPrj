@@ -12,4 +12,8 @@ public class WeeklyMenuController {
 	public String menu() {
 		return "weekly-menu/menu";
 	}
+	@GetMapping("write")
+	public String write() {
+		return "weekly-menu/write";
+	}
 }

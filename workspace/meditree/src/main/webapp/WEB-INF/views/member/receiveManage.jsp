@@ -5,6 +5,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <head>
     <meta charset="UTF-8" />
     <title>reception</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
       #main {
         display: grid;
@@ -44,7 +45,17 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       table tr:first-child {
         border-bottom: white;
       }
-      .print-btn {
+      .print-btn1 {
+        margin: 1px;
+        width: 100%;
+        height: 110%;
+        background-color: rgba(130, 203, 196, 0.4);
+        padding: 10px 12px;
+        font-weight: 600;
+        border: none;
+        border-radius: 5px;
+      }
+      .print-btn2 {
         margin: 1px;
         width: 100%;
         height: 110%;
@@ -108,7 +119,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                 <h2>수납관리</h2>
               </div>
 
-              <table>
+              <table id="receipt-table">
                 <tr id="btn-wrap">
                   <td colspan="2">
                     <button type="button" class="head-btn">수납대기</button>
@@ -140,10 +151,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>흉부외과</td>
                   <td>해처리</td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn1">출력</button>
                   </td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn2">출력</button>
                   </td>
                 </tr>
                 <tr>
@@ -155,10 +166,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>정신과</td>
                   <td>커맨드</td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn1">출력</button>
                   </td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn2">출력</button>
                   </td>
                 </tr>
                 <tr>
@@ -170,10 +181,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>통증의학과</td>
                   <td>넥서스</td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn1">출력</button>
                   </td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn2">출력</button>
                   </td>
                 </tr>
                 <tr>
@@ -185,10 +196,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>흉부외과</td>
                   <td>해처리</td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn1">출력</button>
                   </td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn2">출력</button>
                   </td>
                 </tr>
                 <tr>
@@ -200,10 +211,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>정신과</td>
                   <td>커맨드</td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn1">출력</button>
                   </td>
                   <td>
-                    <button type="button" class="print-btn">출력</button>
+                    <button type="button" class="print-btn2">출력</button>
                   </td>
                 </tr>
                 <tr>
@@ -214,8 +225,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>333333-3******</td>
                   <td>통증의학과</td>
                   <td>넥서스</td>
-                  <td><button class="print-btn">출력</button></td>
-                  <td><button class="print-btn">출력</button></td>
+                  <td><button class="print-btn1">출력</button></td>
+                  <td><button class="print-btn2">출력</button></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" /></td>
@@ -225,8 +236,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>111111-1******</td>
                   <td>흉부외과</td>
                   <td>해처리</td>
-                  <td><button class="print-btn">출력</button></td>
-                  <td><button class="print-btn">출력</button></td>
+                  <td><button class="print-btn1">출력</button></td>
+                  <td><button class="print-btn2">출력</button></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" /></td>
@@ -236,8 +247,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>222222-2******</td>
                   <td>정신과</td>
                   <td>커맨드</td>
-                  <td><button class="print-btn">출력</button></td>
-                  <td><button class="print-btn">출력</button></td>
+                  <td><button class="print-btn1">출력</button></td>
+                  <td><button class="print-btn2">출력</button></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" /></td>
@@ -247,8 +258,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>333333-3******</td>
                   <td>통증의학과</td>
                   <td>넥서스</td>
-                  <td><button class="print-btn">출력</button></td>
-                  <td><button class="print-btn">출력</button></td>
+                  <td><button class="print-btn1">출력</button></td>
+                  <td><button class="print-btn2">출력</button></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" /></td>
@@ -258,8 +269,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>222222-2******</td>
                   <td>정신과</td>
                   <td>커맨드</td>
-                  <td><button class="print-btn">출력</button></td>
-                  <td><button class="print-btn">출력</button></td>
+                  <td><button class="print-btn1">출력</button></td>
+                  <td><button class="print-btn2">출력</button></td>
                 </tr>
               </table>
               <div id="page-area">이전 1 2 3 4 5 다음</div>
@@ -303,3 +314,55 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
   </body>
 </html>
+<script>
+  const printPrescription = document.querySelector(".print-btn1");
+  const printReceipt = document.querySelector(".print-btn2");
+
+  printPrescription.addEventListener("click", (e) => {
+    var prescriptionUrl =
+      "${root}/resources/img/receiptionImg/PrescriptionForm.png";
+    var prescriptionImage = new Image();
+    prescriptionImage.src = prescriptionUrl;
+
+    prescriptionImage.onload = function () {
+      var prescriptionWindow = window.open();
+      prescriptionWindow.document.write("<html><head><title>처방전</title>");
+      prescriptionWindow.document.write(
+        "<style>img {width: 100%; height: 100%;}</style>"
+      );
+      prescriptionWindow.document.write("</head>");
+      prescriptionWindow.document.write(
+        '<body><img src="' + prescriptionUrl + '"/></body></html>'
+      );
+      prescriptionWindow.print();
+      prescriptionWindow.close();
+    };
+  });
+
+  printReceipt.addEventListener("click", (e) => {
+    var prescriptionUrl = "${root}/resources/img/receiptionImg/receiptForm.png";
+    var prescriptionImage = new Image();
+    prescriptionImage.src = prescriptionUrl;
+
+    prescriptionImage.onload = function () {
+      var prescriptionWindow = window.open();
+      prescriptionWindow.document.write("<html><head><title>영수증</title>");
+      prescriptionWindow.document.write(
+        "<style>img {width: 100%; height: 100%;}</style>"
+      );
+      prescriptionWindow.document.write("</head>");
+      prescriptionWindow.document.write(
+        '<body><img src="' + prescriptionUrl + '"/></body></html>'
+      );
+      prescriptionWindow.print();
+      prescriptionWindow.close();
+    };
+  });
+
+  $(document).ready(function () {
+    $("#receipt-table tr").click(function () {
+      var checkbox = $(this).find('input[type="checkbox"]');
+      checkbox.prop("checked", !checkbox.prop("checked"));
+    });
+  });
+</script>

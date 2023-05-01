@@ -89,7 +89,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         padding-bottom: 5px;
       }
 
-      form > button {
+      form button {
         height: 65%;
         width: 70%;
         font-size: 15px;
@@ -144,7 +144,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             <td>남</td>
                             <td>929292-1******</td>
                             <td>일반외과</td>
-                            <td><button type="button">예약하기</button></td>
+                            <td><a href="/app/member/rsvnInpatientRm"><button type="button">예약하기</button></td></a>
                           </tr>
                           <tr>
                             <td>10399</td>
@@ -214,13 +214,14 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           </tr>
                         </thead>
                         <tbody>
+                          <!-- 반복문으로 돌려서 모든 td에 a태그 속성도 들어가게, 예약하기 화면에서는 estl로 환자 차트번호 등 정보 넘어가게 -->
                           <tr>
                             <td>99999</td>
                             <td>허훈</td>
                             <td>남</td>
                             <td>929292-1******</td>
                             <td>일반외과</td>
-                            <td><button type="button">예약하기</button></td>
+                            <td><a href="/app/member/rsvnOperatingRm"><button type="button">예약하기</button></a></td>
                           </tr>
                           <tr>
                             <td>10399</td>

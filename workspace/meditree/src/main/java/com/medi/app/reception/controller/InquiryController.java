@@ -20,5 +20,10 @@ public class InquiryController {
 		return "member/treat/patientInquiryDetail";
 	}
 	
+	//환자정보수정
+	@GetMapping("patientInquiryEdit")
+	public String patientInquiryEdit() {
+		return "member/treat/patientInquiryEdit";
+	}
 	
 }

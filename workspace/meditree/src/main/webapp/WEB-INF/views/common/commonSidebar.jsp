@@ -60,9 +60,18 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <img src="${root}/resources/img/homeImg/sideCommute.png" />근태관리
       </li>
       <ul class="sub-menu">
-        <a href="#"><li>근무 일정</li></a>
-        <a href="#"><li>휴가 신청</li></a>
-        <a href="#"><li>출.퇴근 기록</li></a>
+        <a href="/app/lsj/commute"><li>출퇴근</li></a>
+        <a href=""><li>연장근무</li></a>
+        <a href="/app/lsj/vacation"><li>휴가</li></a>
+        <a href="#"><li>월간근태</li></a>
+        <a href="#"><li>(관리자전용)사원근태</li></a>
+        <a href="#"><li>(관리자전용)사원휴가</li></a>
+        <a href="#"><li>입원실 현황</li></a>
+        <a href="#"><li>수술실 현황</li></a>
+        <a href="#"><li>응급실 현황</li></a>
+        <a href="#"><li>(관리자전용)매출</li></a>
+        <a href="#"><li>급여 조회</li></a>
+        <a href="#"><li>(관리자전용)급여입력</li></a>
       </ul>
       <li class="category">
         <img src="${root}/resources/img/homeImg/sideApproval.png" />전자결재

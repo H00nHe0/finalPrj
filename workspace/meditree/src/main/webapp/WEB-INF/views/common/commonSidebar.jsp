@@ -92,8 +92,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <img src="${root}/resources/img/homeImg/sideOrganization.png" />조직도
       </li>
       <ul class="sub-menu">
-        <a href="#"><li>부서 정보</li></a>
-        <a href="#"><li>직원 정보</li></a>
+        <a href="/app/organization/chartView"><li>조직도 조회</li></a>
       </ul>
       <li class="category">
         <img src="${root}/resources/img/homeImg/sideNotice.png" />게시판

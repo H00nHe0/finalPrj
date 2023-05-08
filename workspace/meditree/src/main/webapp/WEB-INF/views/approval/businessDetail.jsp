@@ -56,6 +56,7 @@ tbody tr td {
 	height: 1350px;
 	margin: auto;
 	margin-top: 40px;
+	background-color: white;
 }
 
 .approve {

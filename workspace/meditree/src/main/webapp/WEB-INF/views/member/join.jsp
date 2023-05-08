@@ -66,6 +66,7 @@ body h1 {
 	margin: auto;
 	display: flex;
 	justify-content: center;
+	margin-left: 65px;
 }
 
 .btn-primary {
@@ -95,31 +96,30 @@ body h1 {
 			<%@ include file="/WEB-INF/views/common/commonSidebar.jsp"%>
 			<div id="board">
 
-				<form action="${root}/member/main" method="get">
+				<form action="${root}/member/main" method="post">
 					<div class="shadow p-3 mb-5 bg-body rounded">
 						<div class="htitle">
 							<h1>직원가입</h1>
 						</div>
 
-						<form action="" method="post">
 							<div class="rec">
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">이름</label>
 									<div class="col-sm-10">
-										<input type="name" class="form-control" id="name">
+										<input type="text" class="form-control" id="empName" placeholder="이름" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">핸드폰번호</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control"
-											id="telNo">
+										<input type="tel" class="form-control"
+											id="telNo" placeholder="핸드폰번호" required>
 									</div>
 								</div>
 
 								<div class="input-group mb-3">
-									<label class="col-sm-2 col-form-label">소속과</label>
-									<select class="form-select" aria-label="Default select example">
+									<label for="deptNo" class="col-sm-2 col-form-label">소속과</label>
+									<select class="form-select" aria-label="Default select example" required>
 										<option selected>선택</option>
 										<option value="1">간호부</option>
 										<option value="2">원무부</option>
@@ -135,8 +135,8 @@ body h1 {
 								</div>
 
 								<div class="input-group mb-3">
-									<label class="col-sm-2 col-form-label">직급</label>
-									<select class="form-select" aria-label="Default select example">
+									<label for="jobNo" class="col-sm-2 col-form-label">직급</label>
+									<select class="form-select" aria-label="Default select example" required>
 										<option selected>선택</option>
 										<option value="1">병원장</option>
 										<option value="2">의사</option>
@@ -150,17 +150,17 @@ body h1 {
 								</div>
 
 								<div class="row mb-3">
-									<label class="col-sm-2 col-form-label">프로필 사진</label>
+									<label for="upfile" class="col-sm-2 col-form-label">프로필 사진</label>
 									<div class="col-sm-10">
 										<input type="file" class="form-control"
 											id="inputGroupFile04"
-											aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+											aria-describedby="inputGroupFileAddon04" aria-label="Upload" placeholder="프로필 사진" required>
 									</div>
 								</div>
 							</div>
 							<div class="btnwech">
-								<button class="btn btn-primary" type="submit">등록</button>
-								<button class="btn btn-primary" type="submit">초기화</button>
+								<button type="submit" class="btn btn-primary">등록</button>
+								<button type="reset" class="btn btn-primary">초기화</button>
 							</div>
 					</div>
 				</form>

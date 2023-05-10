@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>mediDeviceDetail</title>
 <!-- CSS only -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -59,6 +59,15 @@ body h1 {
 	justify-content: center;
 	background-color: #f3f3f4;
 }
+input, textarea {
+	width: 100%;
+	height: 100%;
+	resize: none;
+}
+
+label {
+	float: 
+}
 </style>
 </head>
 <body>
@@ -68,60 +77,111 @@ body h1 {
 		<div id="main">
 			<%@ include file="/WEB-INF/views/common/commonSidebar.jsp"%>
 			<div id="board">
-				<div class="shadow p-3 mb-5 bg-body rounded">
-					<div class="htitle">
-						<h1>의료기기 상세정보</h1>
-					</div>
+				
+					<div class="shadow p-3 mb-5 bg-body rounded">
+						<div class="htitle">
+							<h1>의료기기 상세정보</h1>
+						</div>
 
-					<div id="contAreaBox">
-						<div class="panel">
-							<div class="panel-body">
-								<div class="table-responsive" style="text-align: center;">
-									<table id="datatable-scroller"
-										class="table table-bordered tbl_Form">
-										<colgroup>
-											<col width="250px" />
-											<col />
-										</colgroup>
-										<tbody>
-											<tr>
-												<th class="active">기기명</th>
-												<td>${boardContents.board_title }</td>
-											</tr>
-											<tr>
-												<th class="active">종류</th>
-												<td>${boardContents.board_writer }</td>
-											</tr>
-											<tr>
-												<th class="active">등록일시</th>
-												<td>${boardContents.board_content }</td>
-											</tr>
-											<tr>
-												<th class="active">작동여부</th>
-												<td>${boardContents.board_content }</td>
-											</tr>
-											<tr>
-												<th class="active">현위치</th>
-												<td>${boardContents.board_content }</td>
-											</tr>
-											<tr>
-												<th class="active">설명</th>
-												<td>${boardContents.board_content }</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+						<div id="contAreaBox">
+							<div class="panel">
+								<div class="panel-body">
+									<div class="table-responsive" style="text-align: center;">
+										<%-- <table id="datatable-scroller"
+											class="table table-bordered tbl_Form">
+											<colgroup>
+												<col width="250px" />
+												<col />
+											</colgroup>
+											<tbody>
+												<tr>
+													<th class="active">기기명</th>
+													<td>${vo.name}</td>
+												</tr>
+												<tr>
+													<th class="active">종류</th>
+													<td>${vo.type}</td>
+												</tr>
+												<tr>
+													<th class="active">등록일시</th>
+													<td>${vo.rDate}</td>
+												</tr>
+												<tr>
+													<th class="active">작동여부</th>
+													<td>${vo.status}</td>
+												</tr>
+												<tr>
+													<th class="active">현위치</th>
+													<td>${vo.location}</td>
+												</tr>
+												<tr>
+													<th class="active">설명</th>
+													<td>${vo.content}</td>
+												</tr>
+											</tbody>
 
-								<div class="btnfloat">
-									<a href="${root}/mediEqList.jsp" class="btn btn-secondary">목록으로</a>
+										</table> --%>
+										
+										<!-- 수정하기  -->
+										<form action="${root}/mediDevice/edit" method="post">
+										<table id="datatable-scroller"
+											class="table table-bordered tbl_Form">
+											<colgroup>
+												<col width="250px" />
+												<col />
+											</colgroup>
+											<tbody>
+												<tr>
+													<th class="active">기기명</th>
+													<td><input type="text" name="name" value="${vo.name}" /></td>
+												</tr>
+												<tr>
+													<th class="active">종류</th>
+													<td><input type="text" name="type" value="${vo.type}" /></td>
+												</tr>
+												<tr>
+													<th class="active">등록일시</th>
+													<td>${vo.rDate}</td>
+												</tr>
+												<tr>
+													<th class="active">작동여부</th>
+													<td>
+													 <label>
+													 <input type="radio" name="status" value="Y" ${vo.status == 'Y'}/>가능</label>
+													 <label>
+													 <input type="radio" name="status" value="N" ${vo.status == 'N'}/>불가능</label>
+													</td>
+												</tr>
+												<tr>
+													<th class="active">현위치</th>
+													<td><input type="text" name="location"
+														value="${vo.location}" /></td>
+												</tr>
+												<tr>
+													<th class="active">설명</th>
+													<td><textarea name="content">${vo.content}</textarea></td>
+												</tr>
+											</tbody>
+										</table>
+										</form>
+										
+									</div>
+
+									<div class="btnfloat">
+										<a href="${root}/mediDevice/list" class="btn btn-secondary">목록으로</a>
+										<a href="${root}/mediDevice/edit?num=${vo.no}"
+											class="btn btn-success">수정하기</a> <a
+											href="${root}/mediDevice/delete?num=${vo.no}"
+											class="btn btn-danger">삭제하기</a>
+									</div>
+
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

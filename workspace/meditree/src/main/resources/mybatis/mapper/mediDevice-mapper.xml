@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mediDevice">
+
+	<select id="getMediDeviceList" resultType="mediDeviceVo">
+		SELECT *
+		FROM RA
+		WHERE STATUS = 'Y'
+		ORDER BY NO DESC
+	</select>
+	
+	<insert id="write">
+	 INSERT INTO RA
+	 (
+		NO
+		,NAME
+		,TYPE
+		,CONTENT
+		,LOCATION
+	 )
+	 VALUES
+	 (
+		SEQ_RA_NO.NEXTVAL
+		,#{name}
+		,#{type}
+		,#{content}
+		,#{location}
+	 )
+	</insert>
+	
+	<select id="getMediDevice" resultType="mediDeviceVo">
+		SELECT *
+		FROM RA
+		WHERE NO = ${num}
+		AND   STATUS = 'Y'
+	</select>
+
+</mapper>

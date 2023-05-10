@@ -39,18 +39,16 @@
                 <div id="form-area">
                     <div class="form-floating mb-3">
                    		<h3>제목</h3>
-					  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-					  <label for="floatingInput"></label>
+					  <input type="text" name = "title"class="form-control" id="title">
 					</div>
                     <div class="form-floating">
                     	<h3>내용</h3>
-					  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 350px"></textarea>
-					  <label for="floatingTextarea2"></label>
+					  <textarea name="content" class="form-control"  id="content" style="height: 350px"></textarea>
 					</div>
                     <div class="mb-3">
                     
 					  <label for="formFileMultiple" class="form-label"></label>
-					  <input class="form-control" type="file" id="formFileMultiple" multiple>
+					  <input class="form-control" type="file" name="f" id="formFileMultiple" multiple>
 					</div>
                    
                     <div id="thumbnail-area"></div>
@@ -64,3 +62,37 @@
 
 </body>
 </html>
+<script>
+
+    //업로드 파일 미리보기
+    
+    //변수 준비
+    const fileTag = document.querySelector('input[name="f"]');
+    const thumbnailArea = document.querySelector('#thumbnail-area');
+
+    //이벤트 핸들러 연결
+    fileTag.addEventListener('change' , ()=>{
+       
+        thumbnailArea.innerHTML = ''; //썸네일 에리어 지우기
+        
+        //파일이 있으면 미리보기 작업 진행
+        if(fileTag.files.length > 0){
+            for(let f of fileTag.files){
+                const reader = new FileReader();
+                reader.addEventListener("load" , processPreview);
+                reader.readAsDataURL(f);
+            }
+        }
+        
+    });
+
+    //이미지 요소 만들어서 화면에 추가
+    function processPreview(event) {
+        const imgTag = document.createElement('img');
+        imgTag.setAttribute("src" , event.target.result);
+        imgTag.setAttribute("width" , "100px");
+        imgTag.setAttribute("heigth" , "100px");
+
+        thumbnailArea.appendChild(imgTag);
+    }
+</script>

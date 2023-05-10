@@ -5,6 +5,34 @@
   
 <mapper namespace="member">
 
+
+	<insert id="join">
+		INSERT INTO
+		EMPLOYEE
+		(
+			NO
+			,PWD
+			,NAME
+			,TEL
+			,EMAIL
+			,ADDRESS
+			,BIRTH
+			,DEPT_NO
+		)
+		VALUES
+		(
+			#{no}
+			,'1234'
+			,#{name}
+			,#{tel}
+			,#{email}
+			,#{address}
+			,#{birth}
+			,#{deptNo}
+		)	
+			
+	</insert>
+
 	
 	
 	

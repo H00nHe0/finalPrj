@@ -47,7 +47,7 @@ body h1 {
 
 .shadow {
 	width: 80%;
-	height: 500px;
+	height: 700px;
 	margin: auto;
 	margin-top: 80px;
 }
@@ -96,7 +96,7 @@ body h1 {
 			<%@ include file="/WEB-INF/views/common/commonSidebar.jsp"%>
 			<div id="board">
 
-				<form action="${root}/member/main" method="post">
+				<form action="${root}/member/join" method="post">
 					<div class="shadow p-3 mb-5 bg-body rounded">
 						<div class="htitle">
 							<h1>직원가입</h1>
@@ -106,35 +106,56 @@ body h1 {
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">이름</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="empName" placeholder="이름" required>
+										<input type="text" name="name" class="form-control" id="empName" placeholder="이름" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">핸드폰번호</label>
 									<div class="col-sm-10">
-										<input type="tel" class="form-control"
+										<input type="tel" name="tel" class="form-control"
 											id="telNo" placeholder="핸드폰번호" required>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">이메일</label>
+									<div class="col-sm-10">
+										<input type="email" name="email" class="form-control"
+											id="mail" placeholder="이메일" required>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">생년월일</label>
+									<div class="col-sm-10">
+										<input type="text" name="birth" class="form-control"
+											id="rNo" placeholder="생년월일" required>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">주소</label>
+									<div class="col-sm-10">
+										<input type="text" name="address" class="form-control"
+											id="address" placeholder="주소" required>
 									</div>
 								</div>
 
 								<div class="input-group mb-3">
 									<label for="deptNo" class="col-sm-2 col-form-label">소속과</label>
-									<select class="form-select" aria-label="Default select example" required>
+									<select class="form-select" name="deptNo" aria-label="Default select example" required>
 										<option selected>선택</option>
-										<option value="1">간호부</option>
-										<option value="2">원무부</option>
-										<option value="3">경영지원부</option>
-										<option value="4">일반외과</option>
-										<option value="5">일반내과</option>
+										<option value="10">간호부</option>
+										<option value="20">원무부</option>
+										<option value="30">의사</option>
+										<option value="00">경영지원부</option>
+										<!-- <option value="5">일반내과</option>
 										<option value="6">정신과</option>
 										<option value="7">이비인후과</option>
 										<option value="8">산부인과</option>
 										<option value="9">수술실</option>
-										<option value="10">일반</option>
+										<option value="10">일반</option> -->
 									</select>
 								</div>
 
-								<div class="input-group mb-3">
+								<!-- <div class="input-group mb-3">
 									<label for="jobNo" class="col-sm-2 col-form-label">직급</label>
 									<select class="form-select" aria-label="Default select example" required>
 										<option selected>선택</option>
@@ -147,14 +168,14 @@ body h1 {
 										<option value="7">팀장</option>
 										<option value="8">인턴</option>
 									</select>
-								</div>
+								</div> -->
 
 								<div class="row mb-3">
 									<label for="upfile" class="col-sm-2 col-form-label">프로필 사진</label>
 									<div class="col-sm-10">
 										<input type="file" class="form-control"
 											id="inputGroupFile04"
-											aria-describedby="inputGroupFileAddon04" aria-label="Upload" placeholder="프로필 사진" required>
+											aria-describedby="inputGroupFileAddon04" aria-label="Upload" placeholder="프로필 사진" >
 									</div>
 								</div>
 							</div>

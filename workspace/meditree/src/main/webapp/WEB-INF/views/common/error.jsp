@@ -73,6 +73,7 @@
                 <div id="error">
                 	<img src="${root}/resources/img/error.png" alt="에러이미지">
                 	<br><br>
+                	<%-- ${errorMsg} --%>
                     <h4>찾을 수 없는 페이지입니다.<br><br>요청하신 페이지가 사라졌거나<br>잘못된 경로를 입력하셨습니다.</h4>            
                 </div>
                 <br><br>

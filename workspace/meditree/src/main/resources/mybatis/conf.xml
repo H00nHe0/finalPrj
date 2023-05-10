@@ -9,6 +9,11 @@
 		<setting name="mapUnderscoreToCamelCase" value="TRUE"/>
 	</settings>
 
-	<typeAliases></typeAliases>
+	<typeAliases>
+		<typeAlias type="com.medi.app.notice.vo.NoticeVo" alias="noticeVo"/>
+		<typeAlias type="com.medi.app.common.file.FileVo" alias="fileVo"/>
+		<typeAlias type="com.medi.app.mediDevice.vo.MediDeviceVo" alias="mediDeviceVo"/>
+       <typeAlias type="com.medi.app.reception.patient.vo.PatientVo" alias="PatientVo"/>
+	</typeAliases>
 
 </configuration>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>mediDeviceWrite</title>
 <!-- CSS only -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -41,7 +41,7 @@ body h1 {
 	margin-top: 40px;
 }
 
-tr>th {
+th active {
 	text-align: center;
 }
 
@@ -81,68 +81,41 @@ tr>th {
 					<div id="contAreaBox">
 						<div class="panel">
 							<div class="panel-body">
-								<form role="" action="" method="">
+								<form action="${root}/mediDevice/write" method="post">
 									<div class="table-responsive" style="text-align: center;">
 										<table id="datatable-scroller"
 											class="table table-bordered tbl_Form">
 											<colgroup>
-												<col width="250px" />
+												<col width="250px"/>
 												<col />
 											</colgroup>
 											<tbody>
 												<tr>
 													<th class="active">의료기기명</th>
-													<td class="form-inline"><input type="text"
-														id="board_writer" name="board_writer" class="form-control"
-														style="width: 200px" /></td>
+													<td class="form-inline">
+													<input type="text" name="name" class="form-control" style="width: 200px"/></td>
 												</tr>
 												<tr>
 													<th class="active">종류</th>
-													<td class="form-inline"><input type="text"
-														id="board_title" name="board_title" class="form-control"
-														style="width: 200px" /></td>
-												</tr>
-												<tr>
-													<th class="active">등록일시</th>
-													<td class="form-inline"><input type="text"
-														id="board_writer" name="board_writer" class="form-control"
-														style="width: 200px" /></td>
-												</tr>
-												<tr>
-													<th class="active">작동여부</th>
 													<td class="form-inline">
-														<div class="form-check form-check-inline">
-															<input class="form-check-input" type="radio"
-																name="flexRadioDefault" id="flexRadioDefault1">
-															<label class="form-check-label">
-																가능</label>
-														</div>
-														<div class="form-check form-check-inline">
-															<input class="form-check-input" type="radio"
-																name="flexRadioDefault" id="flexRadioDefault2" checked>
-															<label class="form-check-label">
-																불가능</label>
-														</div>
-													</td>
-												</tr>
+													<input type="text" name="type" class="form-control" style="width: 200px"/></td>
+												</tr>												
 												<tr>
 													<th class="active">현위치</th>
-													<td class="form-inline"><input type="text"
-														id="board_writer" name="board_writer" class="form-control"
-														style="width: 200px" /></td>
+													<td class="form-inline">
+													<input type="text" name="location" class="form-control" style="width: 200px" /></td>
 												</tr>
 												<tr>
 													<th class="active">설명</th>
-													<td class="form-inline"><textarea id="board_content"
-															name="board_content" cols="90" rows="6"
-															class="form-control"></textarea></td>
+													<td class="form-inline">
+													<textarea name="content" cols="90" rows="6" class="form-control"></textarea></td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 									<div class="btnfloat">
 										<button type="submit" class="btn btn-secondary">등록</button>
-										<a href="/stock/list" class="btn btn-danger">취소</a>
+										<a href="${root}/mediDevice/list" class="btn btn-danger">취소</a>
 									</div>
 								</form>
 							</div>
@@ -152,7 +125,5 @@ tr>th {
 			</div>
 		</div>
 	</div>
-
-
 </body>
 </html>

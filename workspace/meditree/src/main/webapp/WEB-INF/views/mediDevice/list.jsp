@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>mediDeviceList</title>
 <!-- CSS only -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -66,7 +66,6 @@ body h1 {
 </style>
 </head>
 <body>
-
 	<div id="wrap">
 		<%@ include file="/WEB-INF/views/common/common.jsp"%>
 
@@ -85,60 +84,23 @@ body h1 {
 									<th>번호</th>
 									<th>기기명</th>
 									<th>종류</th>
-									<th>설명</th>
-									<th>등록일시</th>
 									<th>작동여부</th>
+									<th>등록일시</th>
 									<th>상세보기</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>MRI</td>
-									<td>종류</td>
-									<td>이거슨 검사할 때 사용하는 기계</td>
-									<td>2023.04.19</td>
-									<td>O</td>
-									<td><a class="btn btn-outline-secondary btn-sm"
-										href="${root}/mediEqDetail.jsp">상세보기</a>
-									<td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Jacob</td>
-									<td>Thornton</td>
-									<td>@fat</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>Jacob</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>Jacob</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>Jacob</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
+								<c:forEach items="${mdvoList}" var="mdvo">
+									<tr>
+										<td>${mdvo.no}</td>
+										<td>${mdvo.name}</td>
+										<td>${mdvo.type}</td>
+										<td>${mdvo.status}</td>
+										<td>${mdvo.rDate}</td>
+										<td><a class="btn btn-outline-secondary btn-sm" 
+										href="${root}/mediDevice/detail?num=${mdvo.no}">상세보기</a>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 						<nav aria-label="Page navigation example">
@@ -152,15 +114,16 @@ body h1 {
 								</li>
 							</ul>
 						</nav>
-
+							<!-- 관리자일 때만 등록하기 버튼 보이게 -->
+						<c:if test="${loginMember.id == 'ADMIN' }">
+						</c:if>
 						<div class="btnfloat">
-							<a href="${root}/mediEqwrite.jsp" class="btn btn-secondary">등록하기</a>
+							<a href="${root}/mediDevice/write" class="btn btn-secondary">등록하기</a>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

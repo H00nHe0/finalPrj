@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="patient">
+   <insert id="enroll">
+  	INSERT INTO PATIENT
+  	(
+		NO
+		,PA_NAME
+		,PA_TEL
+		,RRN
+		,PA_GENDER
+		,CAREGIVER
+		,ADDRESS
+		,MEMO
+  	)
+  	VALUES
+  	(
+  		SEQ_PATIENT_NO.NEXTVAL
+		, #{paName}
+		, #{paTel}
+		, #{rrn}
+		, #{paGender}
+		, #{caregiver}
+		, #{address}
+		, #{memo}
+  	)
+  </insert>
+  
+  <select id="getCnt" resultType="int">
+  	SELECT COUNT (NO)
+  	FROM PATIENT
+  </select>
+  
+  <select id="getSimplePatientList" resultType="patientVo">
+
+  SELECT 
+  	NO
+	,PA_NAME
+	,PA_TEL
+	,RRN
+	,PA_GENDER
+	,CAREGIVER
+	,ADDRESS
+	,PA_DATE
+	,MEMO
+	FROM PATIENT
+	ORDER BY NO DESC
+  </select>
+  
+    <select id="getPaInfo" resultType="patientVo">
+  	SELECT *
+  	FROM PATIENT
+  	WHERE NO = #{num}
+  </select>
+  
+  </mapper>

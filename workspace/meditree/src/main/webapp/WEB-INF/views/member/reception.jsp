@@ -5,6 +5,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <head>
     <meta charset="UTF-8" />
     <title>reception</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
       #main {
         display: grid;
@@ -14,6 +16,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: rgb(211, 211, 211, 0.3);
       }
       #board #reception-holder {
         width: 65%;
@@ -28,10 +31,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         /*         border: 1px solid black; */
         margin-right: 30px;
         font-size: 18px;
+        background-color: white;
+        border: 1px solid lightgrey;
       }
-      .reception-form:hover {
-        box-shadow: 0 4px 30px rgba(130, 203, 196, 0.5);
-      }
+
       #form1 td,
       #form2 td {
         padding-right: 5px;
@@ -50,7 +53,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       }
 
       td {
-        padding-top: 10px;
+        /* padding-top: 10px; */
         width: 100px;
         text-align: center;
         font-size: 17px;
@@ -106,14 +109,18 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       }
 
       /* 모달창 관련 css */
-      #register-table input,
-      #register-table textarea {
+      #register-table input {
         box-sizing: border-box;
-        margin-top: -10px;
         width: 100%;
         height: 100%;
         border: none;
         padding-left: 5px;
+      }
+
+      #register-table textarea {
+        margin-top: 5px;
+        height: 100%;
+        border: none;
       }
 
       #register-table {
@@ -151,7 +158,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.18);
         width: 500px;
-        height: 600px;
+        height: 650px;
         position: relative;
         top: -100px;
         padding: 10px;
@@ -185,6 +192,18 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         padding-top: 30px;
         margin-left: 25px;
       }
+      .radio-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      /* 라디오 버튼 스타일 지정 */
+      input[type="radio"] {
+        margin: auto;
+      }
+      #patientInfo tr:not(:first-child) {
+        font-weight: 600;
+      }
     </style>
   </head>
   <body>
@@ -209,33 +228,60 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                 </div>
               </div>
               <div id="modal-content" class="modal">
-                <form action="#" method="post" id="register-form">
+                <form
+                  action="${root}/member/simplePatientCheck"
+                  method="post"
+                  id="register-form"
+                >
                   <table id="register-table">
                     <tr>
                       <td>이름</td>
-                      <td><input type="text" name="patientName" /></td>
+                      <td><input type="text" name="paName" /></td>
                     </tr>
                     <tr>
                       <td>주민등록번호</td>
                       <td><input type="text" name="rrn" /></td>
                     </tr>
                     <tr>
+                      <td>성별</td>
+                      <td>
+                        <div class="radio-group">
+                          <label
+                            ><input
+                              type="radio"
+                              name="paGender"
+                              value="M"
+                              required
+                            />남자</label
+                          >
+                          <label
+                            ><input
+                              type="radio"
+                              name="paGender"
+                              value="F"
+                              required
+                            />여자</label
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
                       <td>연락처</td>
-                      <td><input type="text" name="patientPhone" /></td>
+                      <td><input type="text" name="paTel" /></td>
                     </tr>
                     <tr>
                       <td>보호자연락처</td>
                       <td>
-                        <input type="text" name="patientGueardianPhone" />
+                        <input type="text" name="caregiver" />
                       </td>
                     </tr>
                     <tr>
                       <td>주소</td>
-                      <td><input type="text" name="patientAddress" /></td>
+                      <td><input type="text" name="address" /></td>
                     </tr>
                     <tr>
                       <td>메모</td>
-                      <td><textarea name="parientMemo"></textarea></td>
+                      <td><textarea name="memo"></textarea></td>
                     </tr>
                   </table>
                   <div id="register-btn-area">
@@ -254,7 +300,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           <div id="reception-holder">
             <div class="reception-form">
               <form id="form1" action="#" method="post">
-                <table>
+                <table id="patientInfo">
                   <th colspan="6">환자접수</th>
                   <tr>
                     <td><h3>인적정보</h3></td>
@@ -280,25 +326,23 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   </tr>
                   <tr>
                     <td>이름</td>
-                    <td colspan="3"></td>
+                    <td colspan="3" id="nameBox"></td>
                   </tr>
                   <tr>
                     <td>주민번호</td>
-                    <td colspan="3"></td>
+                    <td colspan="3">${pvo.rrn}</td>
                   </tr>
                   <tr>
-                    <td>최조내원일</td>
-                    <td></td>
                     <td>최근내원일</td>
-                    <td></td>
+                    <td colspan="3">${pvo.paDate}</td>
                   </tr>
                   <tr>
                     <td>최근진료과</td>
-                    <td colspan="3"></td>
+                    <td colspan="3" id="recentTreat">${pvo.enrollStatus}</td>
                   </tr>
                   <tr>
                     <td>메모</td>
-                    <td colspan="3"></td>
+                    <td colspan="3">${pvo.memo}</td>
                   </tr>
                 </table>
               </form>
@@ -471,7 +515,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </body>
 </html>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   // const popUpList = document.querySelector("#registed-patients-btn");
   const modalOn = document.querySelector("#register-patient-btn");
@@ -506,4 +549,14 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       );
     });
   });
+
+  function setSelectedPatientInfo(patientName) {
+    // 선택한 환자 정보 처리
+    console.log(patientName);
+    var gotName = patientName;
+    var nameBox = document.getElementById("nameBox");
+    nameBox.innerHTML = gotName;
+    // simplePatientCheck 팝업 창 닫기
+    window.close("simplePatientCheck");
+  }
 </script>

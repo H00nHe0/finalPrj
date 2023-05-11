@@ -7,6 +7,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+#main{
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+}
 .card{
   margin: 10px 30px;
 }
@@ -80,7 +84,7 @@ table>tbody>tr>td *{
  	  <div id="main">
         <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
         <div class="wrapper">
-		   	<!-- <main role="main" class="main-content"> -->
+		    <main role="main" class="main-content">
 		      <!-- 근무체크 -->
 		      <form action="" method="post">
 		        <div class="card shadow mb-4">
@@ -303,7 +307,7 @@ table>tbody>tr>td *{
 		        </c:if>
 		
 		      </div>
-			<!-- </main> -->
+			</main>
 		  </div>
 		 </div>
 		</div>

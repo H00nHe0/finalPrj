@@ -70,7 +70,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <a href="#"><li>수술실 현황</li></a>
         <a href="#"><li>응급실 현황</li></a>
         <a href="#"><li>(관리자전용)매출</li></a>
-        <a href="#"><li>급여 조회</li></a>
+        <a href="/app/lsj/salary"><li>급여 조회</li></a>
         <a href="#"><li>(관리자전용)급여입력</li></a>
       </ul>
       <li class="category">

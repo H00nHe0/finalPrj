@@ -20,6 +20,9 @@ public class MemberVo {
 	private String enrollDate;
 	private int leaveRemain;
 	private int useRemain;
+	private String major;
+	private String title;
+	
 	
 	
 	

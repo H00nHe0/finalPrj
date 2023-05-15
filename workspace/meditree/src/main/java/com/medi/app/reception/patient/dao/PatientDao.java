@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.medi.app.common.page.PageVo;
+import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.vo.PatientVo;
 
 @Repository
@@ -35,9 +36,26 @@ public class PatientDao {
 	}
 
 
-	public PatientVo getPaInfo(SqlSessionTemplate sst, String num) {
-		return sst.selectOne("patient.getPaInfo", num);
+	public PatientVo getPaInfo(SqlSessionTemplate sst, String paName) {
+
+		return sst.selectOne("patient.getPaInfo", paName);
 	}
+
+	//진료부서조회
+	public List<MemberVo> getDoctorList(SqlSessionTemplate sst) {
+		System.out.println("진료과조회 dao 넘어왔고 메퍼시작");
+		return sst.selectList("patient.getDoctorList");
+	}
+
+
+	public List<PatientVo> sendToWaitng(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectList("patient.sendToWaitng" , searchMap);
+	}
+
+
+//	public List<Map<String, String>> getCategoryList(SqlSessionTemplate sst) {
+//		return sst.selectList("patient.getCategoryList");
+//	}
 
 
 	

@@ -50,10 +50,65 @@
 	ORDER BY NO DESC
   </select>
   
-    <select id="getPaInfo" resultType="patientVo">
-  	SELECT *
+  <select id="getPaInfo" resultType="patientVo">
+  	SELECT
+  	 NO
+	,PA_NAME
+	,PA_TEL
+	,RRN
+	,PA_GENDER
+	,CAREGIVER
+	,ADDRESS
+	,PA_DATE
+	,MEMO
   	FROM PATIENT
-  	WHERE NO = #{num}
+  	WHERE PA_NAME = '${paName}'
   </select>
   
+  <select id="getDoctorList" resultType="memberVo">
+	SELECT
+	    E.NO,
+	    E.NAME,
+	    E.ENROLL_DATE,
+	    E.TEL,
+	    E.EMAIL,
+	    E.ADDRESS,
+	    E.BIRTH,
+	    P.POTITLE,
+        D.TITLE
+	FROM
+	    EMPLOYEE E
+	    JOIN  POSITION P ON P.NO = E.POSITION_NO
+        JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+	WHERE
+	    E.QUIT_YN = 'N'
+	    AND P.NO = 2 
+        OR P.NO = 3
+  </select>
+  
+  <select id="sendToWaitng" resultType="patientVo">
+  	  SELECT 
+	  	NO
+		,PA_NAME
+		,PA_TEL
+		,RRN
+		,PA_GENDER
+		,CAREGIVER
+		,ADDRESS
+		,PA_DATE
+		,MEMO
+		FROM PATIENT
+		ORDER BY NO DESC
+  </select>
+  
+  
+<!--   <select id="getCategoryList" resultType="map">
+		SELECT 
+			NO
+			, TITLE
+			, MAJOR
+			, INCHARGE
+			FROM DEPARTMENT
+			WHERE INCHARGE = '의료진'
+	</select> -->
   </mapper>

@@ -1,5 +1,7 @@
 package com.medi.app.member.dao;
 
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +14,6 @@ public class MemberDao {
 		
 		return sst.insert("member.join" , vo);
 	}
+
 
 }

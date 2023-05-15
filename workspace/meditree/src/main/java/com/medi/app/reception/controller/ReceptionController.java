@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +16,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 
 import com.medi.app.common.page.PageVo;
+import com.medi.app.member.dao.MemberDao;
+import com.medi.app.member.service.MemberService;
+import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.service.PatientService;
 import com.medi.app.reception.patient.vo.PatientVo;
 
@@ -33,12 +39,29 @@ public class ReceptionController {
 	public ReceptionController(PatientService x) {
 		this.ps = x;
 	}
-	//접수 화면
-	@GetMapping("reception")
-	public String reception() {
+	
 
+	//접수 화면(to HOON - MAKE DEPARTMENT LIST !!!!)
+	@GetMapping("reception")
+	public String reception(Model model,MemberVo mvo) {
+		
+		//진료과 조회
+		System.out.println("겟메핑으로 진료과 조회서비스시작");
+		List<MemberVo> mvoList = ps.getDoctorList(mvo);
+		/* List<MemberVo> mvoList = ps.getDeptList(mvo, searchMap); */
+		/* List<Map<String, String>> cvoList = ps.getCategoryList(); */
+		
+		//진료과 화면
+		/* model.addAttribute("cvoList", cvoList); */
+		model.addAttribute("mvoList", mvoList);
+		System.out.println("mvoList!!! = "+mvoList);
+		/*
+		 * model.addAttribute("searchMap" , searchMap);
+		 * System.out.println("searchMap = "+searchMap);
+		 */
 		return "/member/reception";
-	}
+				}
+	
 	//접수 
 	@PostMapping("reception")
 	public String enroll(PatientVo vo , HttpServletRequest req , HttpSession session , Model model) throws Exception {
@@ -85,26 +108,49 @@ public class ReceptionController {
 		model.addAttribute("pvoList" , pvoList);
 		model.addAttribute("searchMap" , searchMap);
 		model.addAttribute("pv" , pv);
-		
-		
-//		PatientVo vo = ps.getPaInfo(num);
-//		if(vo == null) {
-//			model.addAttribute("alertMsg", "조회실패");
-//			return "common/error-page";
-//		}
-//		model.addAttribute("vo", vo);
-//		
 
-			
-		
-	
-		
-		
 		return "member/simplePatientCheck";
 		
 	}
+	//patient select
+	@PostMapping(value ="selectName", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String selectName(Model model, String paName) {
+		System.out.println("got data ="+paName);
 
+	    try {
+	        PatientVo vo = ps.getPaInfo(paName);
+
+	        if (vo != null) {
+	            model.addAttribute("vo", vo);
+	            System.out.println("is not null & vo ="+ vo);
+	            Gson gson = new Gson();
+	            String str = gson.toJson(vo);
+	            
+	            return str;
+	        }
+	        System.out.println("is null & vo ="+ vo);
+			 return "/member/reception";
+				    } catch (Exception e) {
+			
+				    }
+			
+				    return "/member/reception";
+				}
 	
+	//수정 짱많이 필요~~~ 환자정보랑 진료과 선택한거랑 의사 선택한거 한꺼번에 업데이트하고 넘겨야됨
+	@PostMapping("sendToWaiting")
+	public String sendToWaitng(@RequestParam Map<String , String> searchMap, Model model, String num) {
+		//서비스
+		List<PatientVo> pvoList = ps.sendToWaitng(searchMap);
+		
+		//화면
+		model.addAttribute("pvoList" , pvoList);
+		model.addAttribute("searchMap" , searchMap);
+		
+		
+		return "/member/reception";
+	}
 	
 
 	@GetMapping("receiveManage")
@@ -132,4 +178,5 @@ public class ReceptionController {
 	public void rsvnOperatingRm() {
 		
 	}
+
 }

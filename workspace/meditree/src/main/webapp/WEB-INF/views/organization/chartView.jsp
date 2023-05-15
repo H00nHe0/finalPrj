@@ -1,4 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@ page
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib
+prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> <%@ page
 language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -176,7 +177,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       #mem-tb td,
       #mem-tb th {
         vertical-align: middle !important;
-        font-size: 1rem;
+        font-size: 1.2rem;
+        font-weight: bold;
         border-top: 1px solid lightgray;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -217,6 +219,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         border-radius: 7px;
         font-weight: 400;
       }
+      img #king {
+        min-width: 170px;
+        min-height: 170px;
+        width: 200px;
+        height: 200px;
+      }
 
       #chartArea li ul li {
         font-weight: 300;
@@ -224,7 +232,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       #chartArea > li:nth-of-type(2) > ul > li {
         font-weight: 600;
       }
+      .col-4 a {
+        text-decoration: none;
+      }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
     <div id="wrap">
@@ -274,11 +286,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             src="${root}/resources/img/orgImg/arrows.png"
                             alt="병원이미지"
                           />
-                          일반외과
+                          <a id="selectSurgery">일반외과</a>
                           <ul>
-                            <li>111교수</li>
-                            <li>222교수</li>
-                            <li>333교수</li>
+                            <c:forEach items="${mvoList}" var="mvo">
+                              <li>${mvo.name}</li>
+                            </c:forEach>
                           </ul>
                         </li>
                         <li>
@@ -286,33 +298,30 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             src="${root}/resources/img/orgImg/arrows.png"
                             alt="병원이미지"
                           />
-                          일반내과
-                          <ul>
-                            <li>444교수</li>
-                            <li>555교수</li>
-                          </ul>
+                          <a id="generalMedicine">일반내과</a>
+                          <c:forEach items="${mvoList}" var="mvo">
+                            <li>${mvo.name}</li>
+                          </c:forEach>
                         </li>
                         <li>
                           <img
                             src="${root}/resources/img/orgImg/arrows.png"
                             alt="병원이미지"
                           />
-                          정신과
-                          <ul>
-                            <li>666교수</li>
-                            <li>777교수</li>
-                          </ul>
+                          <a id="psychiatry">정신과</a>
+                          <c:forEach items="${mvoList}" var="mvo">
+                            <li>${mvo.name}</li>
+                          </c:forEach>
                         </li>
                         <li>
                           <img
                             src="${root}/resources/img/orgImg/arrows.png"
                             alt="병원이미지"
                           />
-                          이비인후과
-                          <ul>
-                            <li>코코코교수</li>
-                            <li>입입입레지던트</li>
-                          </ul>
+                          <a id="ent">이비인후과</a>
+                          <c:forEach items="${mvoList}" var="mvo">
+                            <li>${mvo.name}</li>
+                          </c:forEach>
                         </li>
                       </ul>
                     </li>
@@ -361,60 +370,78 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   id="org-mem"
                   style="width: 90%; margin-left: 10px"
                 >
-                  <h4 style="padding-top: 20px"><b>셀렉한 과</b></h4>
-                  <p
-                    style="float: right; margin-right: 20px; margin-top: -10px"
-                  >
-                    총인원 : x 명
-                  </p>
+                  <c:if test="${not empty mvoList}">
+                    <h4 style="padding-top: 20px">
+                      <b id="setMajor">${mvoList.major}</b>
+                    </h4>
 
-                  <hr />
-                  <table id="mem-tb" class="table">
-                    <tr>
-                      <td>
-                        <img
-                          src="${root}/resources/img/orgImg/terry.jpg"
-                          alt="terry"
-                        />
-                      </td>
-                      <td>직함1</td>
-                      <td>이름1</td>
-                      <td>전화번호1</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <img
-                          src="${root}/resources/img/orgImg/sohee.jpg"
-                          alt="sohee"
-                        />
-                      </td>
-                      <td>직함2</td>
-                      <td>이름2</td>
-                      <td>전화번호2</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <img
-                          src="${root}/resources/img/orgImg/irin.jpg"
-                          alt="irin"
-                        />
-                      </td>
-                      <td>직함3</td>
-                      <td>이름3</td>
-                      <td>전화번호3</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <img
-                          src="${root}/resources/img/orgImg/yubi.jpg"
-                          alt="yubi"
-                        />
-                      </td>
-                      <td>직함4</td>
-                      <td>이름4</td>
-                      <td>전화번호4</td>
-                    </tr>
-                  </table>
+                    <p
+                      style="
+                        float: right;
+                        margin-right: 20px;
+                        margin-top: -10px;
+                      "
+                    >
+                      총인원 : ${fn:length(mvoList)} 명
+                    </p>
+                    <hr />
+                    <table id="mem-tb" class="table">
+                      <tr>
+                        <td>
+                          <img
+                            src="${root}/resources/img/orgImg/terry.jpg"
+                            alt="terry"
+                          />
+                        </td>
+                        <td id="setTitle"></td>
+                        <td id="setName"></td>
+                        <td id="setTel"></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img
+                            src="${root}/resources/img/orgImg/terry.jpg"
+                            alt="terry"
+                          />
+                        </td>
+                        <td id="setTitle1"></td>
+                        <td id="setName1"></td>
+                        <td id="setTel1"></td>
+                      </tr>
+                    </table>
+                  </c:if>
+
+                  <c:if test="${empty mvoList}">
+                    <h4 style="padding-top: 20px">
+                      <b id="setMajor">관리자</b>
+                    </h4>
+
+                    <p
+                      style="
+                        float: right;
+                        margin-right: 20px;
+                        margin-top: -10px;
+                      "
+                    >
+                      화이팅
+                    </p>
+                    <hr />
+                    <table id="mem-tb" class="table">
+                      <tr style="height: 200px">
+                        <td>
+                          <img
+                            id="king"
+                            src="${root}/resources/img/orgImg/manager.jpg"
+                            alt="kin1"
+                          />
+                        </td>
+                        <td>대통령</td>
+                        <td>윤석열</td>
+                        <td>010-4738-7265</td>
+                      </tr>
+                    </table>
+                  </c:if>
+
                   <br /><br />
                 </div>
               </div>
@@ -436,5 +463,152 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         sublist.classList.toggle("show");
       }
     }
+  });
+
+  $("#selectSurgery").click(function (event) {
+    const major = document.querySelector("a[id = selectSurgery]").innerHTML;
+
+    $.ajax({
+      url: "/app/organization/surgery",
+      type: "post",
+      data: {
+        major: major,
+      },
+      success: function (data) {
+        console.log("통신성공");
+        const obj = JSON.parse(data);
+        console.log(obj);
+        //innerHTML
+        const setTitle = document.querySelector("#setTitle");
+        setTitle.innerHTML = obj[0].title;
+        // console.log(obj[].title);
+        const setName = document.querySelector("#setName");
+        setName.innerHTML = obj[0].name;
+        const setTel = document.querySelector("#setTel");
+        setTel.innerHTML = obj[0].tel;
+        const setMajor = document.querySelector("#setMajor");
+        setMajor.innerHTML = obj[0].major;
+
+        const setTitle1 = document.querySelector("#setTitle1");
+        setTitle1.innerHTML = obj[1].title;
+
+        const setName1 = document.querySelector("#setName1");
+        setName1.innerHTML = obj[1].name;
+        const setTel1 = document.querySelector("#setTel1");
+        setTel1.innerHTML = obj[1].tel;
+      },
+      error: function (x) {
+        console.log("통신실패..");
+      },
+    });
+  });
+
+  $("#generalMedicine").click(function (event) {
+    const major = document.querySelector("a[id = generalMedicine]").innerHTML;
+
+    $.ajax({
+      url: "/app/organization/generalMedicine",
+      type: "post",
+      data: {
+        major: major,
+      },
+      success: function (data) {
+        console.log("통신성공");
+        const obj = JSON.parse(data);
+        console.log(obj);
+        //innerHTML
+        const setTitle = document.querySelector("#setTitle");
+        setTitle.innerHTML = obj[0].title;
+        // console.log(obj[].title);
+        const setName = document.querySelector("#setName");
+        setName.innerHTML = obj[0].name;
+        const setTel = document.querySelector("#setTel");
+        setTel.innerHTML = obj[0].tel;
+        const setMajor = document.querySelector("#setMajor");
+        setMajor.innerHTML = obj[0].major;
+        const setTitle1 = document.querySelector("#setTitle1");
+        setTitle1.innerHTML = obj[1].title;
+
+        const setName1 = document.querySelector("#setName1");
+        setName1.innerHTML = obj[1].name;
+        const setTel1 = document.querySelector("#setTel1");
+        setTel1.innerHTML = obj[1].tel;
+      },
+      error: function (x) {
+        console.log("통신실패..");
+      },
+    });
+  });
+  $("#psychiatry").click(function (event) {
+    const major = document.querySelector("a[id = psychiatry]").innerHTML;
+
+    $.ajax({
+      url: "/app/organization/psychiatry",
+      type: "post",
+      data: {
+        major: major,
+      },
+      success: function (data) {
+        console.log("통신성공");
+        const obj = JSON.parse(data);
+        console.log(obj);
+        //innerHTML
+        const setTitle = document.querySelector("#setTitle");
+        setTitle.innerHTML = obj[0].title;
+        // console.log(obj[].title);
+        const setName = document.querySelector("#setName");
+        setName.innerHTML = obj[0].name;
+        const setTel = document.querySelector("#setTel");
+        setTel.innerHTML = obj[0].tel;
+        const setMajor = document.querySelector("#setMajor");
+        setMajor.innerHTML = obj[0].major;
+        const setTitle1 = document.querySelector("#setTitle1");
+        setTitle1.innerHTML = obj[1].title;
+
+        const setName1 = document.querySelector("#setName1");
+        setName1.innerHTML = obj[1].name;
+        const setTel1 = document.querySelector("#setTel1");
+        setTel1.innerHTML = obj[1].tel;
+      },
+      error: function (x) {
+        console.log("통신실패..");
+      },
+    });
+  });
+  $("#ent").click(function (event) {
+    const major = document.querySelector("a[id = ent]").innerHTML;
+
+    $.ajax({
+      url: "/app/organization/ent",
+      type: "post",
+      data: {
+        major: major,
+      },
+      success: function (data) {
+        console.log("통신성공");
+        const obj = JSON.parse(data);
+        console.log(obj);
+        //innerHTML
+        const setTitle = document.querySelector("#setTitle");
+        setTitle.innerHTML = obj[0].title;
+        // console.log(obj[].title);
+        const setName = document.querySelector("#setName");
+        setName.innerHTML = obj[0].name;
+        const setTel = document.querySelector("#setTel");
+        setTel.innerHTML = obj[0].tel;
+        const setMajor = document.querySelector("#setMajor");
+        setMajor.innerHTML = obj[0].major;
+        const setTitle1 = document.querySelector("#setTitle1");
+        setTitle1.innerHTML = obj[1].title;
+
+        const setName1 = document.querySelector("#setName1");
+        setName1.innerHTML = obj[1].name;
+        const setTel1 = document.querySelector("#setTel1");
+        setTel1.innerHTML = obj[1].tel;
+      },
+      error: function (x) {
+        console.log("통신실패..");
+      },
+    });
   });
 </script>

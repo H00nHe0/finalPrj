@@ -39,6 +39,23 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       #form2 td {
         padding-right: 5px;
       }
+      #form2 {
+        height: 80%;
+      }
+      #form2 tbody th {
+        padding-bottom: 10px;
+        height: 8%;
+      }
+      #form2 tbody > tr:nth-child(2) {
+        margin-top: 10px;
+        height: 8%;
+      }
+      #form2 tbody > tr:nth-child(3) {
+        height: 45%;
+      }
+      #form2 tbody > tr:nth-child(4) {
+        height: 15%;
+      }
 
       table {
         /* margin: auto; */
@@ -83,8 +100,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         box-sizing: border-box;
         width: 90%;
         margin: 10px;
+        margin-top: -10px;
+        padding-top: -10px;
         background-color: rgba(130, 203, 196, 0.4);
-        margin-top: 10px;
         font-size: 16px;
         padding: 10px 12px;
         height: auto;
@@ -204,6 +222,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       #patientInfo tr:not(:first-child) {
         font-weight: 600;
       }
+      #waiting-list tr:nth-child(2) {
+        height: 10%;
+
+        padding-top: -50px;
+        margin-top: -100px;
+      }
     </style>
   </head>
   <body>
@@ -229,7 +253,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
               </div>
               <div id="modal-content" class="modal">
                 <form
-                  action="${root}/member/simplePatientCheck"
+                  action="${root}/member/reception"
                   method="post"
                   id="register-form"
                 >
@@ -296,10 +320,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
               </div>
             </div>
           </div>
-
           <div id="reception-holder">
             <div class="reception-form">
-              <form id="form1" action="#" method="post">
+              <form
+                id="form1"
+                action="${root}/member/sendToWaiting"
+                method="post"
+              >
                 <table id="patientInfo">
                   <th colspan="6">환자접수</th>
                   <tr>
@@ -330,57 +357,58 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   </tr>
                   <tr>
                     <td>주민번호</td>
-                    <td colspan="3">${pvo.rrn}</td>
+                    <td colspan="3" id="gotPaRrn"></td>
                   </tr>
                   <tr>
                     <td>최근내원일</td>
-                    <td colspan="3">${pvo.paDate}</td>
+                    <td colspan="3" id="gotPaDate"></td>
                   </tr>
                   <tr>
                     <td>최근진료과</td>
-                    <td colspan="3" id="recentTreat">${pvo.enrollStatus}</td>
+                    <td colspan="3" id="gotRecentTreat"></td>
                   </tr>
                   <tr>
                     <td>메모</td>
-                    <td colspan="3">${pvo.memo}</td>
+                    <td colspan="3" id="gotPaMemo"></td>
                   </tr>
                 </table>
-              </form>
-              <form id="form2" action="#" method="post">
-                <table>
+
+                <table id="form2">
                   <th colspan="6">접수정보</th>
                   <tr>
+                    <!-- 진료과 db에서 진료과목이름만 조회하고 과목선택하면 그 과목의 의사만 보이게 조회하기 만들기!!! -->
                     <td>진료과</td>
                     <td>
                       <select class="sorting">
                         <option value="#" selected>선택</option>
-                        <option value="1">내과</option>
-                        <option value="2">외과</option>
-                        <option value="3">정신과</option>
-                        <option value="4">신경과</option>
+                        <option value="일반외과">일반외과</option>
+                        <option value="일반외과">일반내과</option>
+                        <option value="일반외과">정신과</option>
+                        <option value="일반외과">이비인후과</option>
                       </select>
                     </td>
                     <td>담당의</td>
                     <td>
-                      <select class="sorting">
+                      <select class="sorting" name="searchValue">
                         <option value="#" selected>선택</option>
-                        <option value="1">의사1</option>
-                        <option value="2">의사2</option>
-                        <option value="3">의사3</option>
-                        <option value="4">의사4</option>
+                        <c:forEach items="${mvoList}" var="mvo">
+                          <option value="${mvo.name}">
+                            ${mvo.name}(${mvo.major})
+                          </option>
+                        </c:forEach>
                       </select>
                     </td>
                   </tr>
                   <tr>
                     <td>증상</td>
                     <td colspan="3">
-                      <textarea name="" id="" cols="30" rows="10"></textarea>
+                      <textarea name="symptom" cols="30" rows="10"></textarea>
                     </td>
                   </tr>
                   <tr>
                     <td></td>
                     <td colspan="2">
-                      <button type="button" class="reception-btn">접수</button>
+                      <button class="reception-btn">접수</button>
                     </td>
                     <td></td>
                   </tr>
@@ -395,8 +423,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td colspan="4">
                     <select name="" id="waiting">
                       <option value="#" selected>전체</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
+                      <option value="일반외과">일반외과</option>
+                      <option value="일반외과">일반내과</option>
+                      <option value="일반외과">정신과</option>
+                      <option value="일반외과">이비인후과</option>
                     </select>
                   </td>
                 </tr>
@@ -408,46 +438,16 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td>나이(만)</td>
                   <td>진료과</td>
                 </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                  <td>#</td>
-                </tr>
+                <c:forEach items="${pvoList}" var="p">
+                  <!-- <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>${p.paName}</td>
+                    <td>${p.paName}</td>
+                    <td>${p.paGender}</td>
+                    <td>${p.rrn}</td>
+                    <td>${p.paGender}</td>
+                  </tr> -->
+                </c:forEach>
                 <tr>
                   <td colspan="6">
                     <button type="button" class="reception-btn">
@@ -462,9 +462,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   <td colspan="2"><p>진료 과 선택</p></td>
                   <td colspan="3">
                     <select name="" id="waiting-done">
-                      <option value="#" selected>전체</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
+                      <option value="#" selected>선택</option>
+                      <option value="일반외과">일반외과</option>
+                      <option value="일반외과">일반내과</option>
+                      <option value="일반외과">정신과</option>
+                      <option value="일반외과">이비인후과</option>
                     </select>
                   </td>
                 </tr>
@@ -552,10 +554,48 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
   function setSelectedPatientInfo(patientName) {
     // 선택한 환자 정보 처리
-    console.log(patientName);
     var gotName = patientName;
     var nameBox = document.getElementById("nameBox");
     nameBox.innerHTML = gotName;
+
+    const paName = document.querySelector("td[id = nameBox]").innerHTML;
+    $.ajax({
+      url: "/app/member/selectName",
+      type: "post",
+      data: {
+        paName: paName,
+      },
+      success: function (data) {
+        console.log("통신성공");
+        const obj = JSON.parse(data);
+        console.log(obj);
+        //jsp에 데이터 넣기
+        obj.paRecentTreat = obj.paRecentTreat || "최초 방문";
+        // 주민등록번호 가리기
+        if (obj.rrn.length > 10) {
+          const maskedRrn = obj.rrn.slice(0, -6) + "******";
+          obj.rrn = maskedRrn;
+        }
+        // 최근 내원일 형식 변경
+        const paDate = new Date(obj.paDate);
+        const options = { year: "numeric", month: "numeric", day: "numeric" };
+        const formattedPaDate = paDate.toLocaleDateString(undefined, options); // 연월일 형식으로 변환
+        obj.paDate = formattedPaDate;
+
+        const gotPaRrn = document.querySelector("#gotPaRrn");
+        gotPaRrn.innerHTML = obj.rrn;
+        const gotPaDate = document.querySelector("#gotPaDate");
+        gotPaDate.innerHTML = obj.paDate;
+        const gotRecentTreat = document.querySelector("#gotRecentTreat");
+        gotRecentTreat.innerHTML = obj.paRecentTreat;
+        const gotPaMemo = document.querySelector("#gotPaMemo");
+        gotPaMemo.innerHTML = obj.memo;
+        //innerHTML
+      },
+      error: function (x) {
+        console.log("통신실패..");
+      },
+    });
     // simplePatientCheck 팝업 창 닫기
     window.close("simplePatientCheck");
   }

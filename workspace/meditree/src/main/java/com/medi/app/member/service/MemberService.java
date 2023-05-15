@@ -1,5 +1,7 @@
 package com.medi.app.member.service;
 
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,13 @@ public class MemberService {
 		this.dao = dao;
 	}
 	
+
+
 	//직원가입
 	public int join(MemberVo vo) throws Exception {
 		
 		return dao.join(vo , sst);
 	}
+
 
 }

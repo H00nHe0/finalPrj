@@ -11,6 +11,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.medi.app.notice.vo.NoticeVo" alias="noticeVo"/>
+		<typeAlias type="com.medi.app.board.vo.BoardVo" alias="boardVo"/>
 		<typeAlias type="com.medi.app.common.file.FileVo" alias="fileVo"/>
 		<typeAlias type="com.medi.app.mediDevice.vo.MediDeviceVo" alias="mediDeviceVo"/>
        <typeAlias type="com.medi.app.reception.patient.vo.PatientVo" alias="PatientVo"/>

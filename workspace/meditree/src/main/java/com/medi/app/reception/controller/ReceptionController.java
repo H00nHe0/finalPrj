@@ -1,7 +1,9 @@
 package com.medi.app.reception.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ import com.google.gson.Gson;
 import com.medi.app.common.page.PageVo;
 import com.medi.app.member.dao.MemberDao;
 import com.medi.app.member.service.MemberService;
+import com.medi.app.member.vo.DeptVo;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.service.PatientService;
 import com.medi.app.reception.patient.vo.PatientVo;
@@ -47,18 +50,21 @@ public class ReceptionController {
 		
 		//진료과 조회
 		System.out.println("겟메핑으로 진료과 조회서비스시작");
-		List<MemberVo> mvoList = ps.getDoctorList(mvo);
-		/* List<MemberVo> mvoList = ps.getDeptList(mvo, searchMap); */
-		/* List<Map<String, String>> cvoList = ps.getCategoryList(); */
+		List<Map<String, String>> mvoList = ps.getDepartmentList();
+		List<MemberVo> evoList = ps.getDoctorList();
+
+
 		
 		//진료과 화면
-		/* model.addAttribute("cvoList", cvoList); */
+		//진료과목선택 및 진료의 선택
 		model.addAttribute("mvoList", mvoList);
+		System.out.println("mvo리스트담김");
+		model.addAttribute("evoList", evoList);
+		System.out.println("evo리스트 담김");
 		System.out.println("mvoList!!! = "+mvoList);
-		/*
-		 * model.addAttribute("searchMap" , searchMap);
-		 * System.out.println("searchMap = "+searchMap);
-		 */
+		System.out.println("evoList!!! = "+evoList);
+
+		
 		return "/member/reception";
 				}
 	
@@ -126,6 +132,7 @@ public class ReceptionController {
 	            System.out.println("is not null & vo ="+ vo);
 	            Gson gson = new Gson();
 	            String str = gson.toJson(vo);
+
 	            
 	            return str;
 	        }
@@ -134,23 +141,69 @@ public class ReceptionController {
 				    } catch (Exception e) {
 			
 				    }
-			
+
 				    return "/member/reception";
 				}
 	
-	//수정 짱많이 필요~~~ 환자정보랑 진료과 선택한거랑 의사 선택한거 한꺼번에 업데이트하고 넘겨야됨
-	@PostMapping("sendToWaiting")
-	public String sendToWaitng(@RequestParam Map<String , String> searchMap, Model model, String num) {
-		//서비스
-		List<PatientVo> pvoList = ps.sendToWaitng(searchMap);
+	
+		// 진료 접수
+		@ResponseBody
+		@RequestMapping("insert.tr")
+		public String ajaxInsertTreatment(PatientVo pvo, HttpSession session, Model model) {
+			model.addAttribute("pvo", pvo);
+			System.out.println(pvo);
+			int result = ps.insertTreatment(pvo);
+			System.out.println(result +"+"+pvo);
+			
+	
+			return result > 0 ? "success" : "fail";
+	
+		}
+		//진료관리 페이지
+		@RequestMapping("checkList.tr")
+		public String reception(Model model) {
+			List<Map<String, String>> deptList = ps.getDepartmentList();
+			List<MemberVo> doctorList = ps.getDoctorList();
+			
+			System.out.println(deptList);
+			System.out.println(doctorList);
+			
+			model.addAttribute("deptList", deptList);
+			model.addAttribute("doctorList", doctorList);
+			
+			return "redirect:/member/reception"; 
+		}
 		
-		//화면
-		model.addAttribute("pvoList" , pvoList);
-		model.addAttribute("searchMap" , searchMap);
-		
-		
-		return "/member/reception";
-	}
+		// 진료 대기, 진료중 환자 조회
+		@ResponseBody
+		@RequestMapping(value = "treatList.tr")
+		public Map<String, Object> returnMap() throws Exception {
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			List<MemberVo> wlist = ps.selectWaitingPatient();
+			System.out.println(wlist);
+			List<MemberVo> plist = ps.selectIngPatient();
+
+			/* map.put(jsp에서 사용할 이름, 넘길 자바변수); */
+			map.put("wlist", wlist);
+			map.put("plist", plist);
+
+			return map;
+		}
+		// 진료중으로 상태변경
+		@ResponseBody
+		@RequestMapping("change.tr")
+		public String changePatientStatus(@RequestParam("changeArray[]") int[] changeArray, Model model) {
+
+
+			int result = 0;
+			for (int no : changeArray) {
+				result = ps.changePatientStatus(no);
+			}
+
+			return result > 0 ? "success" : "fail";
+		}
+
 	
 
 	@GetMapping("receiveManage")

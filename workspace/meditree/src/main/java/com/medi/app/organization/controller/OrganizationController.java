@@ -34,19 +34,21 @@ public class OrganizationController {
 
 	}
 
-	// 외과
+	// 내과
 	@PostMapping(value = "surgery", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String surgery(Model model, String major) {
 
+		System.out.println(major);
 		try {
 			List<MemberVo> mvoList = os.selectSurgery(major);
 
 			if (mvoList != null) {
 				model.addAttribute("mvoList", mvoList);
+				System.out.println(mvoList);
 				Gson gson = new Gson();
 				String json = gson.toJson(mvoList);
-
+				System.out.println(json);
 				return json;
 			}
 		} catch (Exception e) {
@@ -56,7 +58,7 @@ public class OrganizationController {
 
 	}
 
-	// 내과
+	// 정신과
 	@PostMapping(value = "generalMedicine", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String generalMedicine(Model model, String major) {
@@ -78,7 +80,7 @@ public class OrganizationController {
 
 	}
 
-	// 정신과
+	// 이비인후과
 	@PostMapping(value = "psychiatry", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String psychiatry(Model model, String major) {
@@ -100,7 +102,7 @@ public class OrganizationController {
 
 	}
 
-	// 이비인후과
+	// 산부과
 	@PostMapping(value = "ent", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ent(Model model, String major) {

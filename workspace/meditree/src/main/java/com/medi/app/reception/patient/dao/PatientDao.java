@@ -1,5 +1,6 @@
 package com.medi.app.reception.patient.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.medi.app.common.page.PageVo;
+import com.medi.app.member.vo.DeptVo;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.vo.PatientVo;
 
@@ -42,20 +44,40 @@ public class PatientDao {
 	}
 
 	//진료부서조회
-	public List<MemberVo> getDoctorList(SqlSessionTemplate sst) {
+	public List<Map<String, String>> getDepartmentList(SqlSessionTemplate sst) {
 		System.out.println("진료과조회 dao 넘어왔고 메퍼시작");
+		return sst.selectList("patient.getDepartmentList");
+	}
+	//진료부서에 속한 의사 조회
+	public List<MemberVo> getDoctorList(SqlSessionTemplate sst) {
+		System.out.println("의사선택 dao 넘어왔고 메퍼시작");
 		return sst.selectList("patient.getDoctorList");
 	}
 
-
-	public List<PatientVo> sendToWaitng(SqlSessionTemplate sst, Map<String, String> searchMap) {
-		return sst.selectList("patient.sendToWaitng" , searchMap);
+	//진료등록
+	public int insertTreatment(SqlSessionTemplate sst, PatientVo pvo) {
+		return sst.insert("patient.insertTreatment", pvo);
 	}
 
 
-//	public List<Map<String, String>> getCategoryList(SqlSessionTemplate sst) {
-//		return sst.selectList("patient.getCategoryList");
-//	}
+	public List<MemberVo> selectWaitingPatient(SqlSessionTemplate sst) {
+
+		return sst.selectList("patient.selectWaitingPatient");
+	}
+
+
+	public List<MemberVo> selectIngPatient(SqlSessionTemplate sst) {
+
+		return sst.selectList("patient.selectIngPatient");
+	}
+
+
+	public int changePatientStatus(SqlSessionTemplate sst, int no) {
+		return sst.update("patient.changePatientStatus", no);
+	}
+
+
+
 
 
 	

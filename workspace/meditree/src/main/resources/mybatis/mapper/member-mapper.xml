@@ -5,7 +5,7 @@
   
 <mapper namespace="member">
 
-
+	<!-- 회원가입  -->
 	<insert id="join">
 		INSERT INTO
 		EMPLOYEE
@@ -16,8 +16,10 @@
 			,TEL
 			,EMAIL
 			,ADDRESS
+			,PROFILE
 			,BIRTH
 			,DEPT_NO
+			,POSITION_NO
 		)
 		VALUES
 		(
@@ -27,13 +29,68 @@
 			,#{tel}
 			,#{email}
 			,#{address}
+			,#{profileName}
 			,#{birth}
 			,#{deptNo}
+			,#{positionNo}
 		)	
 			
 	</insert>
-
 	
+	<!-- 아이디중복검사  -->
+	<select id="checkId" resultType="int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE NO = #{no}
+	</select>
+	
+	<!-- 로그인  -->
+	<select id="login" resultType="memberVo">
+		SELECT
+            E.NO
+            ,E.PWD
+            ,E.NAME
+            ,E.ENROLL_DATE
+            ,E.TEL
+            ,E.EMAIL
+            ,E.ADDRESS
+            ,PROFILE AS profileName
+            ,E.QUIT_YN
+            ,E.LEAVE_REMAIN
+            ,E.USE_REMAIN
+            ,E.BIRTH
+            ,E.GENDER
+            ,E.PROFILE
+            ,E.SIGN_YN
+            ,E.DEPT_NO
+            ,D.TITLE
+            ,D.NO AS DE_NO
+            ,P.NO AS PO_NO
+            ,P.POTITLE
+		FROM EMPLOYEE E
+        LEFT JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+        LEFT JOIN POSITION P ON (E.POSITION_NO = P.NO)
+		WHERE E.NO = #{no}
+		AND E.PWD = #{pwd}
+		AND E.QUIT_YN = 'N'
+	</select>
+	
+	<!-- 정보수정  -->
+	<update id="edit">
+		UPDATE EMPLOYEE
+			SET
+				NAME = #{name}
+				,PWD = #{pwd}
+				,TEL = #{tel}
+			WHERE
+				NO = #{no}
+	</update>
+	
+	<select id="getMember" resultType="MemberVo">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE NO = #{no}
+	</select>
 	
 	
 </mapper>

@@ -17,15 +17,14 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div id="sidebar-holder">
   <div id="member-profile">
-    <img
-      src="${root}/resources/img/homeImg/profile.png"
-      alt="프로필사진"
-      class="profile-image"
-    />
+    <img width="100px" height="100px" alt="프로필이미지" src="${root}/resources/img/member/${loginMember.profileName}">&nbsp;&nbsp;&nbsp;
     <div class="profile-details">
-      <h3>홍길동</h3>
-      <p>개발부</p>
-      <button id="mypage-btn">MYPAGE</button>
+      <h3>${loginMember.name}&nbsp;${loginMember.potitle}</h3>
+      <p>${loginMember.title}</p>
+      <a href="${root}/member/edit">
+      	<button id="mypage-btn" type="button">MYPAGE</button>
+      </a>
+      
     </div>
   </div>
   <nav class="sidebar">
@@ -43,9 +42,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <img src="${root}/resources/img/homeImg/sideTreatment.png" /> 진료
       </li>
       <ul class="sub-menu">
-        <a href="#"><li>진료 현황</li></a>
-        <a href="#"><li>환자 정보</li></a>
-        <a href="#"><li>진료 기록</li></a>
+        <a href="/app/treat/prescription"><li>진료</li></a>
+        <a href="/app/treat/waiting"><li>진료 대기</li></a>
+        <a href="/app/patientInquiry/list"><li>환자 정보</li></a>
       </ul>
       <li class="category">
         <img src="${root}/resources/img/homeImg/sideReception.png" /> 원무
@@ -98,9 +97,23 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <img src="${root}/resources/img/homeImg/sideNotice.png" />게시판
       </li>
       <ul class="sub-menu">
-        <a href="#"><li>공지 사항</li></a>
-        <a href="#"><li>사내 게시판</li></a>
+        <a href="${root}/notice/list"><li>공지 사항</li></a>
+        <a href="${root}/board/list"><li>사내 게시판</li></a>
       </ul>
+      <li class="category">
+        <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자(히든)
+      </li>
+      <ul class="sub-menu">
+        <a href="#"><li>사원근태 관리</li></a>
+        <a href="#"><li>사원휴가 관리</li></a>
+        <a href="#"><li>의료기기 관리</li></a>
+        <a href="#"><li>비품 관리</li></a>
+        <a href="#"><li>매출 관리</li></a>
+        <a href="#"><li>급여 관리</li></a>
+        <a href="#"><li>식단 관리</li></a>
+        <a href="/app/member/join"><li>직원 가입</li></a>
+      </ul>
+      
     </ul>
   </nav>
 </div>

@@ -11,14 +11,16 @@ public class TreatController {
 	//진료대기목록
 	@GetMapping("waiting")
 	public String waiting() {
-		return "member/treat/waitingList";
+		return "treat/waitingList";
 	}
 	
 	//진료처방
 	@GetMapping("prescription")
 	public String prescription() {
-		return "member/treat/prescription";
+		return "treat/prescription";
 	}
+	
+	
 		
 		
 }

@@ -27,4 +27,24 @@ public class MemberService {
 		return dao.join(vo , sst);
 	}
 
+	
+	//아이디중복검사
+	public int checkId(String no) {
+		return dao.checkId(sst , no);
+	}
+
+	//로그인
+	public MemberVo login(MemberVo vo) {
+		return dao.login(sst , vo);
+	}
+	
+	//정보수정
+	public MemberVo edit(MemberVo vo) throws Exception {
+		int result = dao.edit(sst , vo);
+		if(result != 1) {
+			throw new Exception();
+		}
+		return dao.selectOneByNo(sst , vo);
+	}
+
 }

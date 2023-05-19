@@ -96,7 +96,7 @@ body h1 {
 			<%@ include file="/WEB-INF/views/common/commonSidebar.jsp"%>
 			<div id="board">
 
-				<form action="${root}/member/join" method="post">
+				<form action="${root}/member/join" enctype="multipart/form-data" method="post">
 					<div class="shadow p-3 mb-5 bg-body rounded">
 						<div class="htitle">
 							<h1>직원가입</h1>
@@ -116,11 +116,18 @@ body h1 {
 											id="telNo" placeholder="핸드폰번호" required>
 									</div>
 								</div>
-								<div class="row mb-3">
+								<!-- <div class="row mb-3">
 									<label class="col-sm-2 col-form-label">이메일</label>
 									<div class="col-sm-10">
 										<input type="email" name="email" class="form-control"
 											id="mail" placeholder="이메일" required>
+									</div>
+								</div> -->
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">주소</label>
+									<div class="col-sm-10">
+										<input type="text" name="address" class="form-control"
+											id="address" placeholder="주소" >
 									</div>
 								</div>
 								<div class="row mb-3">
@@ -130,50 +137,43 @@ body h1 {
 											id="rNo" placeholder="생년월일" required>
 									</div>
 								</div>
-								<div class="row mb-3">
-									<label class="col-sm-2 col-form-label">주소</label>
-									<div class="col-sm-10">
-										<input type="text" name="address" class="form-control"
-											id="address" placeholder="주소" required>
-									</div>
-								</div>
 
 								<div class="input-group mb-3">
 									<label for="deptNo" class="col-sm-2 col-form-label">소속과</label>
 									<select class="form-select" name="deptNo" aria-label="Default select example" required>
-										<option selected>선택</option>
+										<option value="" selected>선택</option>
 										<option value="10">간호부</option>
 										<option value="20">원무부</option>
 										<option value="30">의사</option>
 										<option value="00">경영지원부</option>
-										<!-- <option value="5">일반내과</option>
-										<option value="6">정신과</option>
-										<option value="7">이비인후과</option>
-										<option value="8">산부인과</option>
-										<option value="9">수술실</option>
-										<option value="10">일반</option> -->
+										<option value="40">일반내과</option>
+										<option value="50">정신과</option>
+										<option value="60">이비인후과</option>
+										<option value="70">산부인과</option>
+										<option value="80">수술실</option>
+										<option value="90">일반</option>
 									</select>
 								</div>
 
-								<!-- <div class="input-group mb-3">
+								<div class="input-group mb-3">
 									<label for="jobNo" class="col-sm-2 col-form-label">직급</label>
-									<select class="form-select" aria-label="Default select example" required>
-										<option selected>선택</option>
+									<select class="form-select" name="positionNo" aria-label="Default select example" required>
+										<option value="" selected>선택</option>
 										<option value="1">병원장</option>
-										<option value="2">의사</option>
+										<option value="2">교수</option>
 										<option value="3">레지던트</option>
 										<option value="4">간호사</option>
 										<option value="5">사원</option>
 										<option value="6">부장</option>
-										<option value="7">팀장</option>
-										<option value="8">인턴</option>
+										<!-- <option value="7">팀장</option>
+										<option value="8">인턴</option> -->
 									</select>
-								</div> -->
+								</div>
 
 								<div class="row mb-3">
 									<label for="upfile" class="col-sm-2 col-form-label">프로필 사진</label>
 									<div class="col-sm-10">
-										<input type="file" class="form-control"
+										<input type="file" name="profile" class="form-control"
 											id="inputGroupFile04"
 											aria-describedby="inputGroupFileAddon04" aria-label="Upload" placeholder="프로필 사진" >
 									</div>
@@ -190,3 +190,44 @@ body h1 {
 	</div>
 </body>
 </html>
+
+<script>
+
+const telRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+
+const telInput = document.querySelector('#telNo');
+
+telInput.addEventListener('blur', function() {
+  const tel = telInput.value;
+
+  if (!telRegex.test(tel)) {
+    alert('잘못된 전화번호 형식입니다.');
+    telInput.value = ''; // 입력값 초기화
+  }
+});
+
+const rNoRegex = /^(\d{2})(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$/;
+
+const rNoInput = document.querySelector('#rNo');
+
+rNoInput.addEventListener('blur', function() {
+  const rNo = rNoInput.value;
+
+  if (!rNoRegex.test(rNo)) {
+    alert('잘못된 생년월일 형식입니다.');
+    rNoInput.value = ''; // 입력값 초기화
+  }
+});
+
+const form = document.querySelector('form');
+
+const addInput = document.querySelector('#address');
+
+form.addEventListener('submit', function(event) {
+  if (telInput.value.trim() === '' || addInput.value.trim() === '' || rNoInput.value.trim() === '') {
+    alert('필수 입력 항목을 모두 입력해주세요.');
+    event.preventDefault();
+  }
+});
+
+</script>

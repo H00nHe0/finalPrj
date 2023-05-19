@@ -68,16 +68,16 @@
             <img src="${root}/resources/img/mediLogo.jpg" alt="로고이미지">
         </header>
         <main>
-            <form action="${root}/member/main" method="get">
+            <form action="${root}/member/login" method="post">
                 <div id="login">
                     <h2>LOGIN</h2>            <br>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="99999999">
+                    <input type="text" class="form-control" name="no"  placeholder="99999999">
                     <label for="floatingInput">사번을 입력해주세요</label>
                   </div>
                   <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input type="password" class="form-control" name="pwd" placeholder="Password">
                     <label for="floatingPassword">비밀번호를 입력해주세요</label>
                     <br>
                 </div>

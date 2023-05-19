@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="treat">
+  
+  <select id="getCnt" resultType="int">
+  	SELECT COUNT (NO)
+  	FROM PATIENT
+  </select>
+  
+  <!-- 환자 목록조회  -->
+  <select id="getPatientList" resultType="PatientVo">
+  SELECT 
+  	NO
+	,PA_NAME
+	,PA_TEL
+	,RRN
+	,PA_GENDER
+	,CAREGIVER
+	,ADDRESS
+	,PA_DATE
+	,MEMO
+	FROM PATIENT
+	<if test="searchType == 'paName'">
+		WHERE PA_NAME LIKE '%${searchValue}%'
+	</if>
+	<if test="searchType == 'rrn'">
+		WHERE RRN LIKE '%${searchValue}%'
+	</if>
+	<if test="searchType == 'paTel'">
+		WHERE PA_TEL = #{searchValue}
+	</if>
+	ORDER BY NO DESC
+  </select>
+  
+  <!-- 환자 상세조회  -->
+  <select id="getPatientInquiry" resultType="PatientVo">
+		SELECT
+		NO
+		,PA_NAME
+		,PA_TEL
+		,RRN
+		,PA_GENDER
+		,ADDRESS
+		FROM PATIENT
+		WHERE NO = #{no}
+	</select>
+  
+  <!-- 환자 정보수정  -->
+  <update id="updatePatientInquiry">
+		UPDATE PATIENT
+	    SET 
+	        PA_NAME = #{paName}
+	        , PA_TEL = #{paTel}
+	        , ADDRESS = #{address}
+	    WHERE   NO = #{no}
+	</update>
+	
+
+  
+
+  
+  </mapper>

@@ -35,5 +35,8 @@
 		<beans:property name="maxUploadSize" value="50000000"></beans:property>
 	</beans:bean>
 	
+	<!-- GSON -->
+	<beans:bean id="gson" class="com.google.gson.Gson"></beans:bean>
+	
 	
 </beans:beans>

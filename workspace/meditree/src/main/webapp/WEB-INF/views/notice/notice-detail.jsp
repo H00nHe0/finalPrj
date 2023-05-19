@@ -27,7 +27,12 @@
     .card-title{
     	margin-top: 10px;
     }
-    
+    .view-area{display: none;}
+    .form-area{display: none;}
+
+    .active{
+        display: block;
+    }
 </style>
 </head>
 <body>
@@ -37,6 +42,7 @@
         <div id="main">
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
             <div id="content">
+                   <div class="view-area active">
                 <h1>공지사항 상세보기</h1>
                 <div class="card">
                   <div class="card-body">
@@ -48,29 +54,58 @@
                     </c:if>
                     <c:if test="${vo.modifyDate != null}">
                     <h5 class="card-title">작성일</h5> 
-                    <input type="text" readonly class="form-control" id="nDate" value="${vo.modifyDate}">
+                    <input type="text" readonly class="form-control" id="modifyDate" value="${vo.modifyDate}">
                     </c:if>
                     
                     <h5 class="card-title">내용</h5>
-                    	<textarea readonly class="form-control"  id="content" style="height: 350px">
-                    		${vo.content}
-                    	</textarea>
+                    	<textarea readonly class="form-control"  id="content" style="height: 350px">${vo.content}</textarea>
                     <div id="thumbnail-area">
-						<ul id="file-list">
-    					</ul>
+                    <h5>첨부파일</h5>
+                   		<c:forEach items="${vo.attList}" var="fvo">
+                   			<a href="${root}/notice/att/down?ano=${fvo.no}">${fvo.originName}</a>
+                   			<br>
+                   		</c:forEach>
+						
                     </div>
                   </div>
                 </div>
-            
                 <div class="mt-4">
                     <a href="${root}/notice/list" class="btn btn-secondary">목록</a>
-                    <c:if test="${loginMember.no =='000000'}">
-	                    <a href="${root}/notice/edit" class="btn btn-success">수정</a>
-	                    <a href="${root}/notice/delete?num=${vo.no}'" class="btn btn-danger">삭제</a>
-                    </c:if>
+                     <%-- <c:if test="${loginMember.no =='000000'}">  --%>
+	                    <a href="javascript:void(0);" onclick="toggleActive();" class="btn btn-success">수정</a>
+	                    <a href="${root}/notice/delete?num=${vo.no}" class="btn btn-danger">삭제</a>
+                     <%-- </c:if>  --%>
+                </div>
                 </div>
             
-            
+             <div class="form-area">
+	             <h1>공지사항 수정하기</h1>
+                <form action="${root}/notice/edit" method="post" enctype="multipart/form-data">
+                <div class="card">
+                  <div class="card-body">
+                  <input type="hidden" name="no" value="${vo.no}">
+                    <h5 class="card-title">제목</h5> 
+                    <input type="text" name="title" class="form-control" id="title" value="${vo.title} ">
+                    <h5 class="card-title">내용</h5>
+                    	<textarea name="content" class="form-control"  id="content" style="height: 350px">${vo.content}</textarea>
+                 	 <h5>첨부파일</h5>
+                 	 <input class="form-control" type="file" name="f" id="formFileMultiple" multiple>
+                   		<div id="thumbnail-area">
+                   		</div>
+                   		<c:forEach items="${vo.attList}" var="fvo">
+                   			${fvo.originName}
+                   			<br>
+                   		</c:forEach>
+						
+                    </div>
+                  </div>
+                <div class="mt-4">
+                    <a href="${root}/notice/list" class="btn btn-secondary">목록</a>
+	                    <button type="submit" class="btn btn-success">수정</button>
+                </div>
+                </form>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -78,41 +113,14 @@
 </body>
 </html>
 <script>
+    //수정하기 버튼 클릭 시 동작하는 내용
+    function toggleActive(){
+        const viewArea = document.querySelector(".view-area");
+        const formArea = document.querySelector(".form-area");
 
-const div = document.querySelector('#thumbnail-area');
+        viewArea.classList.remove('active');
+        formArea.classList.add('active');
 
-let imgTag;
-let aTag;
-<c:forEach items = "${nvo.attList}" var="fvo">
-    //a태그 만들기
-    aTag = document.createElement('a');
-    aTag.href = "${root}/notice/att/down?ano=${fvo.no}";
-    
-    //이미지 요소 만들기
-    imgTag = document.createElement('img');
-    imgTag.setAttribute("src","${root}/${path}/${fvo.changeName}");
-    imgTag.setAttribute("alt","${fvo.originName}");
-    imgTag.setAttribute("width",'100px');
-    imgTag.setAttribute("height",'100px');
-    
-    //a태그 내부에 img 추가
-    aTag.appendChild(imgTag);
-    
-    //div 안에 aTag 추가
-    div.appendChild(aTag);
-    
- 	// 파일 목록 추가
-    const liTag = document.createElement('li');
-    const fileLink = document.createElement('a');
-    fileLink.href = "${root}/notice/att/down?ano=${fvo.no}";
-    fileLink.innerText = "${fvo.originName}";
-    fileLink.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
-    liTag.appendChild(fileLink);
-    fileList.appendChild(liTag);
-    
-</c:forEach>
-
+        
+    }
 </script>
-

@@ -16,9 +16,10 @@
 <link rel="stylesheet" href="${root}/resources/css/app-light.css" id="lightTheme">
 <title>휴가</title>
 <style>
-/* .mb-0{
-    margin-top: 10px;
-} */
+#main{
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+}
 #submit-btn{
     float: right;
 }

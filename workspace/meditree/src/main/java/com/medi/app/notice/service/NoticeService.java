@@ -41,13 +41,18 @@ public class NoticeService {
 		if (result != 1) {
 			throw new Exception();
 		}
-		return dao.getNotice(sst , num);
+		NoticeVo vo = dao.getNotice(sst, num);
+		List<FileVo> fileList = dao.getAttachmentList(sst,num);
+		vo.setAttList(fileList);
+		return vo;
 	}
 
+	//공지사항 페이징
 	public int getNoticeListCnt() {
 		return dao.getNoticeListCnt(sst);
 	}
 
+	//공지사항 목록조회
 	public List<NoticeVo> getNoticeList(PageVo pv) {
 		return dao.getNoticeList(sst,pv);
 	}
@@ -60,17 +65,21 @@ public class NoticeService {
 	 * @param fvoList 파일업로드 이후 저장된 파일명 리스트
 	 * @return NOTICE 테이블 및 N_Att 테이블에 insert한 결과
 	 */
+	//공지사항 작성하기(첨부파일 추가)
 	public int write(NoticeVo vo ,List<FileVo> fvoList) throws Exception {
 		int noticeResult = dao.write(sst, vo);
-		if (noticeResult != 1) {
-			throw new Exception();
+		int attResult = 1;
+		if (fvoList.size() > 0) {
+			attResult = dao.insertAttachment(sst,fvoList);
 		}
-		
-		return dao.insertAttachment(sst,fvoList);
+		return noticeResult * attResult;
 	}
 
+	//첨부파일 불러오기
 	public FileVo getAttachment(String ano) {
 		return dao.getAttachment(sst,ano);
 	}
+
+	
 
 }

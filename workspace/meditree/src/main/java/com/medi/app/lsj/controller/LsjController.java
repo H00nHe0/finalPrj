@@ -20,5 +20,10 @@ public class LsjController {
 	public String vacation() {
 		return "/lsj/vacation";
 	}
+	
+	@GetMapping("salary")
+	public String salary() {
+		return "/lsj/salary";
+	}
 
 }

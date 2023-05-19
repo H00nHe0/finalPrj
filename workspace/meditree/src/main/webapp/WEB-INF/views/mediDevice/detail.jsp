@@ -59,15 +59,34 @@ body h1 {
 	justify-content: center;
 	background-color: #f3f3f4;
 }
+
 input, textarea {
 	width: 100%;
 	height: 100%;
 	resize: none;
+	margin: auto;
 }
 
-label {
-	float: 
+.appr-table th {
+	font-weight: 550;
+	text-align: center;
+	background: #f7f7f7;
+	color: rgb(72, 72, 72);
+	border-width: 2px;
 }
+
+.appr-table input {
+	border: none;
+	text-align: center;
+}
+
+.view-area{display: none;}
+.form-area{display: none;}
+
+.look{
+	display: block;
+}
+
 </style>
 </head>
 <body>
@@ -77,21 +96,22 @@ label {
 		<div id="main">
 			<%@ include file="/WEB-INF/views/common/commonSidebar.jsp"%>
 			<div id="board">
-				
-					<div class="shadow p-3 mb-5 bg-body rounded">
-						<div class="htitle">
-							<h1>의료기기 상세정보</h1>
-						</div>
 
-						<div id="contAreaBox">
-							<div class="panel">
-								<div class="panel-body">
-									<div class="table-responsive" style="text-align: center;">
-										<%-- <table id="datatable-scroller"
-											class="table table-bordered tbl_Form">
+				<div class="shadow p-3 mb-5 bg-body rounded">
+					<div class="htitle">
+						<h1>의료기기 상세정보</h1>
+					</div>
+
+					<div id="contAreaBox">
+						<div class="panel">
+							<div class="panel-body">
+								<div class="table-responsive" style="text-align: center;">
+
+									<div class="view-area look">
+										<table id="datatable-scroller"
+											class="table table-bordered appr-table">
 											<colgroup>
-												<col width="250px" />
-												<col />
+												<col width="250px"/>
 											</colgroup>
 											<tbody>
 												<tr>
@@ -104,7 +124,7 @@ label {
 												</tr>
 												<tr>
 													<th class="active">등록일시</th>
-													<td>${vo.rDate}</td>
+													<td>${vo.enrollDate}</td>
 												</tr>
 												<tr>
 													<th class="active">작동여부</th>
@@ -119,69 +139,86 @@ label {
 													<td>${vo.content}</td>
 												</tr>
 											</tbody>
-
-										</table> --%>
-										
-										<!-- 수정하기  -->
-										<form action="${root}/mediDevice/edit" method="post">
-										<table id="datatable-scroller"
-											class="table table-bordered tbl_Form">
-											<colgroup>
-												<col width="250px" />
-												<col />
-											</colgroup>
-											<tbody>
-												<tr>
-													<th class="active">기기명</th>
-													<td><input type="text" name="name" value="${vo.name}" /></td>
-												</tr>
-												<tr>
-													<th class="active">종류</th>
-													<td><input type="text" name="type" value="${vo.type}" /></td>
-												</tr>
-												<tr>
-													<th class="active">등록일시</th>
-													<td>${vo.rDate}</td>
-												</tr>
-												<tr>
-													<th class="active">작동여부</th>
-													<td>
-													 <label>
-													 <input type="radio" name="status" value="Y" ${vo.status == 'Y'}/>가능</label>
-													 <label>
-													 <input type="radio" name="status" value="N" ${vo.status == 'N'}/>불가능</label>
-													</td>
-												</tr>
-												<tr>
-													<th class="active">현위치</th>
-													<td><input type="text" name="location"
-														value="${vo.location}" /></td>
-												</tr>
-												<tr>
-													<th class="active">설명</th>
-													<td><textarea name="content">${vo.content}</textarea></td>
-												</tr>
-											</tbody>
 										</table>
-										</form>
 										
+										<div class="btnfloat">
+											<a href="${root}/mediDevice/list" class="btn btn-secondary">목록으로</a>
+											<%-- <c:if test="${loginMember.id eq 'ADMIN' }"></c:if> --%>
+											<button onclick="toggleLook();" class="btn btn-success">수정하기</button> 
+											<button onclick="location.href='${root}/mediDevice/delete?num=${vo.no}'" class="btn btn-danger">삭제하기</button>
+										</div>
 									</div>
 
-									<div class="btnfloat">
-										<a href="${root}/mediDevice/list" class="btn btn-secondary">목록으로</a>
-										<a href="${root}/mediDevice/edit?num=${vo.no}"
-											class="btn btn-success">수정하기</a> <a
-											href="${root}/mediDevice/delete?num=${vo.no}"
-											class="btn btn-danger">삭제하기</a>
+									<!-- 관리자만 수정하기  -->
+									<div class="form-area">
+										<form action="${root}/mediDevice/edit" method="post">
+										<input type="hidden" name="no" value="${vo.no}">
+											<table id="datatable-scroller"
+												class="table table-bordered appr-table">
+												<colgroup>
+													<col width="250px"/>
+												</colgroup>
+												<tbody>
+													<tr>
+														<th class="active">기기명</th>
+														<td><input type="text" name="name" value="${vo.name}" /></td>
+													</tr>
+													<tr>
+														<th class="active">종류</th>
+														<td><input type="text" name="type" value="${vo.type}" /></td>
+													</tr>
+													<tr>
+														<th class="active">등록일시</th>
+														<td>${vo.enrollDate}</td>
+													</tr>
+													<tr>
+														<th class="active">작동여부</th>
+														<td class="sel"><input
+															style="display: inline-block; width: 30px; height: 15px;"
+															type="radio" name="status" id="use" value="Y">가능
+															<input
+															style="display: inline-block; width: 30px; height: 15px;"
+															type="radio" name="status" id="notUse" value="N">불가능
+														</td>
+													</tr>
+													<tr>
+														<th class="active">현위치</th>
+														<td><input type="text" name="location"
+															value="${vo.location}" /></td>
+													</tr>
+													<tr>
+														<th class="active">설명</th>
+														<td><textarea name="content">${vo.content}</textarea></td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="btnfloat">
+											<button class="btn btn-success" type="submit">수정하기</button>
+											</div>
+										</form>
 									</div>
-
 								</div>
 							</div>
 						</div>
 					</div>
-				
+				</div>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
+
+<script>
+
+	//수정하기 버튼 클릭 시 동작하는 내용
+	function toggleLook() {
+		const viewArea = document.querySelector(".view-area");
+		const formArea = document.querySelector(".form-area");
+		
+		viewArea.classList.remove('look');
+		formArea.classList.add('look');
+	}
+
+</script>
+
+

@@ -81,18 +81,21 @@
 			                    </tr> 
 	                  		</thead>
 			                <tbody>
-			                 <tr>
-			                    <td>000001</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>26</td>
-			                    <td>980430-1******</td>
-			                    <td>010-9306-0776</td>
-			                    <td>010-9306-0776</td>
-			                    <td>안양시 만안구 충훈로</td>
-			                 </tr>
+			                	<tr>
+				                    <td>${vo.no}</td>
+				                    <td>${vo.paName}</td>
+				                    <td>${vo.paGender}</td>
+				                    <td>${vo.rrn}</td>
+				                    <td>${vo.rrn}</td>
+				                    <td>${vo.paTel}</td>
+				                    <td>${vo.paTel}</td>
+				                    <td>${vo.address}</td>
+			                 	</tr>
 			                 </tbody> 
 			             </table>
+						<a href="edit">
+                		   <button type="button" class="btn btn-secondary btn-sm">수정하기</button>	
+                   		</a>
 
                          <br><br><br>
 

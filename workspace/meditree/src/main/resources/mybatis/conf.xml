@@ -13,8 +13,12 @@
 		<typeAlias type="com.medi.app.notice.vo.NoticeVo" alias="noticeVo"/>
 		<typeAlias type="com.medi.app.common.file.FileVo" alias="fileVo"/>
 		<typeAlias type="com.medi.app.mediDevice.vo.MediDeviceVo" alias="mediDeviceVo"/>
-       <typeAlias type="com.medi.app.reception.patient.vo.PatientVo" alias="patientVo"/>
+       <typeAlias type="com.medi.app.reception.patient.vo.PatientVo" alias="PatientVo"/>
        <typeAlias type="com.medi.app.member.vo.MemberVo" alias="memberVo"/>
+       <typeAlias type="com.medi.app.member.vo.DeptVo" alias="deptVo"/>
+       <typeAlias type="com.medi.app.board.reply.vo.ReplyVo" alias="replyVo"/>
+       <typeAlias type="com.medi.app.bipum.vo.BipumVo" alias="bipumVo"/>
+
 	</typeAliases>
 
 </configuration>

@@ -16,4 +16,25 @@ public class MemberDao {
 	}
 
 
+	public int checkId(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("member.checkId" , no);
+	}
+
+	//로그인
+	public MemberVo login(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("member.login" , vo);
+	}
+	
+	
+	//정보수정
+	public int edit(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("member.edit" , vo);
+	}
+
+	public MemberVo selectOneByNo(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("member.getMember" , vo);
+		
+	}
+
+
 }

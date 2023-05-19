@@ -32,7 +32,7 @@
     }
     .shadow {
       width: 90%;
-      height: 600px;
+      height: 900px;
       margin: auto;
       margin-top: 40px;
     }
@@ -55,6 +55,10 @@
         float: right;
         margin-bottom: 20px;
     }
+    #page-area{
+       text-align: center;
+       padding-top: 20px;
+    }
 
 
     
@@ -69,13 +73,19 @@
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
             <div id="board">
             
-	            <form action="">
+	            <form action="${root}/patientInquiry/list" method="get">
 	               <div class="shadow p-3 mb-5 bg-body rounded">
 	               		<div class="htitle">
 	               			<h1>환자조회</h1>
 	               		</div>
                         <div id="search-area">
-                            여기다가 검색바 만들거임
+                        <select name="searchType">
+							<option value="paName">이름</option>
+							<option value="rrn">생년월일</option>
+							<option value="paTel">전화번호</option>
+						</select>
+                           <input type="text" name="searchValue" value="${searchMap.searchValue}" placeholder="검색할값을 입력하세요">
+                           <input type="submit" value="검색하기">
                         </div>
                         <div id="resist-btn">
                             <button type="button" class="btn btn-light">신규환자등록</button>
@@ -91,77 +101,42 @@
 			                      <th>연락처</th>
 			                      <th>보호자연락처</th>
 			                      <th>주소</th>
-			                      <th>정보수정</th>
 			                    </tr> 
 	                  		</thead>
 			                <tbody>
-			                 <tr>
-			                    <td>000001</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                    <td>010-9306-0776</td>
-			                    <td>010-9306-0776</td>
-			                    <td>안양시 만안구 충훈로</td>
-			                    <td>
-			                    	<a href="patientInquiryEdit">
-                                 	   <button type="button" class="btn btn-secondary btn-sm">수정하기</button>	
-			                    	</a>
-                                </td>
-			                 </tr>
-                             <tr>
-			                    <td>000001</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                    <td>010-9306-0776</td>
-			                    <td>010-9306-0776</td>
-			                    <td>안양시 만안구 충훈로</td>
-			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
-                                </td>
-			                 </tr>
-                             <tr>
-			                    <td>000001</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                    <td>010-9306-0776</td>
-			                    <td>010-9306-0776</td>
-			                    <td>안양시 만안구 충훈로</td>
-			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
-                                </td>
-			                 </tr>
-                             <tr>
-			                    <td>000001</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                    <td>010-9306-0776</td>
-			                    <td>010-9306-0776</td>
-			                    <td>안양시 만안구 충훈로</td>
-			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
-                                </td>
-			                 </tr>
-                             <tr>
-			                    <td>000001</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                    <td>010-9306-0776</td>
-			                    <td>010-9306-0776</td>
-			                    <td>안양시 만안구 충훈로</td>
-			                    <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">수정하기</button>
-                                </td>
-			                 </tr>
-
+			                <c:forEach items="${pvoList}" var="pvo">
+								<tr>
+									<td>${pvo.no}</td>
+									<td>${pvo.paName}</td>
+									<td>${pvo.paGender}</td>
+									<td>${pvo.rrn}</td>
+									<td>${pvo.paTel}</td>
+									<td>${pvo.paTel}</td>
+									<td>${pvo.address}</td>
+									
+								</tr>
+							</c:forEach>
+			                
 
 			                  
 			                 </tbody> 
 			             </table>
+			             <div id="page-area">
+		                     <c:if test="${pv.currentPage > 1}">
+		                        <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/list?page=${pv.currentPage-1}">이전</a>
+		                     </c:if>
+		                     <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+		                     <c:if test="${pv.currentPage != i}">
+		                        <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/list?page=${i}">${i}</a>
+		                     </c:if>
+		                     <c:if test="${pv.currentPage == i}">
+		                        <a class = "btn btn-secondary btn-sm">${i}</a>
+		                     </c:if>
+		                     </c:forEach>
+		                     <c:if test="${pv.currentPage < pv.maxPage}">
+		                     <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/list?page=${pv.currentPage+1}">다음</a>
+		                     </c:if>
+		                  </div>
 	
 	                </div>
 	            </form>
@@ -174,10 +149,42 @@
 
 <script>
 
+	//변수 준비
+	const searchTypeTag = document.querySelector('select[name="searchType"]');
+	const svInput = document.querySelector('input[name="searchValue"]');
+	
+	//서치타입 초기값 셋팅
+	function initSearchType(){
+		const optionTag = document.querySelector('option[value="${searchMap.searchType}"]');
+		if(optionTag != null){
+			optionTag.selected = true;
+		}
+	}
+	
+	//서치밸류 selected 셋팅
+	function initSearchValueSelected(){
+		const optionTag = document.querySelector('option[value="${searchMap.searchValue}"]');
+		if(optionTag != null){
+			optionTag.selected = true;
+		}
+	}
+	
+	//input태그 (서치밸류) 값 초기셋팅
+	function initSearchValueInput(){
+		svInput.value = '${searchMap.searchValue}';
+	}
+	
+	initSearchValueSelected();
+	initSearchType();
+	initSearchValueInput();
+	
+	
+	
+	
     const tbody = document.querySelector('table > tbody');
-        tbody.addEventListener("click" , (event)=>{
-            //const no = event.target.parentNode.children[0].innerText;
-            location.href = '${root}/treat/patientInquiryDetail';
+        tbody.addEventListener("click" , (event)=> {
+            const no = event.target.parentNode.children[0].innerText;
+            location.href = '${root}/patientInquiry/detail?no=' + no;
         });
 
 </script>

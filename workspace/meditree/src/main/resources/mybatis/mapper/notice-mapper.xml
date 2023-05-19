@@ -33,16 +33,17 @@
 	  		SEQ_NOTICE_NO.NEXTVAL
 	  		,#{title}
 	  		,#{content}
-	  		,000000
+	  		,999999
 	  	)
 	  </insert>
 	
 	<select id="getNotice" resultType="noticeVo">
 		SELECT *
 	  	FROM NOTICE
-	  	WHERE NO = #{num}
+	  	WHERE NO = #{no}
 	  	AND STATUS = 'N'
 	</select>
+	
 	
 	<update id="edit">
 		UPDATE NOTICE
@@ -57,7 +58,7 @@
 		UPDATE NOTICE
 			SET
 		STATUS = 'Y'
-		,ENROLLER_DATE = SYSDATE
+		,MODIFY_DATE = SYSDATE
 		WHERE NO = #{num} 
 	</update>
 	<select id="getNoticeListCnt" resultType="int">

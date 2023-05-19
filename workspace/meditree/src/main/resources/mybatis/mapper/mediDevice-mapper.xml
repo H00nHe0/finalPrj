@@ -8,7 +8,7 @@
 	<select id="getMediDeviceList" resultType="mediDeviceVo">
 		SELECT *
 		FROM RA
-		WHERE STATUS = 'Y'
+		WHERE DELYN = 'X'
 		ORDER BY NO DESC
 	</select>
 	
@@ -35,7 +35,31 @@
 		SELECT *
 		FROM RA
 		WHERE NO = ${num}
-		AND   STATUS = 'Y'
+		AND   DELYN = 'X'
 	</select>
+	
+	<update id="edit">
+		UPDATE RA
+			SET
+				NAME = #{name}
+				,TYPE = #{type}
+				,STATUS = #{status}
+				,LOCATION = #{location}
+				,CONTENT = #{content}
+			WHERE NO = #{no}
+	</update>
+	
+	<select id="getMediDeviceListCnt" resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM RA
+	  	WHERE  DELYN = 'X'
+	</select>
+	
+	<update id="delete">
+		UPDATE RA
+			SET 
+				DELYN = 'O'
+		WHERE NO = #{num}
+	</update>
 
 </mapper>

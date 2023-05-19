@@ -64,6 +64,13 @@ th active {
 	justify-content: center;
 	background-color: #f3f3f4;
 }
+.appr-table th {
+	font-weight: 550;
+	text-align: center;
+	background: #f7f7f7;
+	color: rgb(72, 72, 72);
+	border-width: 2px;
+}
 </style>
 </head>
 <body>
@@ -84,7 +91,7 @@ th active {
 								<form action="${root}/mediDevice/write" method="post">
 									<div class="table-responsive" style="text-align: center;">
 										<table id="datatable-scroller"
-											class="table table-bordered tbl_Form">
+											class="table table-bordered appr-table">
 											<colgroup>
 												<col width="250px"/>
 												<col />

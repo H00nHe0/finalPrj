@@ -36,12 +36,12 @@ body h1 {
 
 .shadow {
 	width: 90%;
-	height: 630px;
+	height: 650px;
 	margin: auto;
 	margin-top: 40px;
 }
 
-tr>th {
+th active {
 	text-align: center;
 }
 
@@ -64,6 +64,13 @@ tr>th {
 	justify-content: center;
 	background-color: #f3f3f4;
 }
+.appr-table th {
+	font-weight: 550;
+	text-align: center;
+	background: #f7f7f7;
+	color: rgb(72, 72, 72);
+	border-width: 2px;
+}
 </style>
 </head>
 <body>
@@ -81,54 +88,46 @@ tr>th {
 					<div id="contAreaBox">
 						<div class="panel">
 							<div class="panel-body">
-								<form role="" action="" method="">
+								<form action="${root}/bipum/write" method="post" enctype="multipart/form-data">
 									<div class="table-responsive" style="text-align: center;">
 										<table id="datatable-scroller"
-											class="table table-bordered tbl_Form">
+											class="table table-bordered appr-table">
 											<colgroup>
-												<col width="250px" />
+												<col width="250px"/>
 												<col />
 											</colgroup>
 											<tbody>
 												<tr>
 													<th class="active">비품명</th>
-													<td class="form-inline"><input type="text"
-														id="board_writer" name="board_writer" class="form-control"
-														style="width: 200px" /></td>
+													<td class="form-inline">
+													<input type="text" name="name" class="form-control" style="width: 200px"/></td>
 												</tr>
 												<tr>
 													<th class="active">수량</th>
-													<td class="form-inline"><input type="text"
-														id="board_title" name="board_title" class="form-control"
-														style="width: 200px" /></td>
-												</tr>
-												<tr>
-													<th class="active">등록일시</th>
-													<td class="form-inline"><input type="text"
-														id="board_writer" name="board_writer" class="form-control"
-														style="width: 200px" /></td>
+													<td class="form-inline">
+													<input type="text" name="amount" class="form-control" style="width: 200px"/></td>
 												</tr>
 												<tr>
 													<th class="active">설명</th>
-													<td class="form-inline"><textarea id="board_content"
-															name="board_content" cols="90" rows="6"
-															class="form-control"></textarea></td>
+													<td class="form-inline">
+													<textarea name="content" cols="90" rows="6" class="form-control"></textarea></td>
 												</tr>
 												<tr>
 													<th class="active">사진첨부</th>
-													<td class="form-inline"><input type="file"
-														id="board_writer" name="board_writer" class="form-control"
-														id="inputGroupFile04"
-															aria-describedby="inputGroupFileAddon04"
-															aria-label="Upload"/></td>
+													<td class="form-inline">
+													<input type="file" name="f" multiple class="form-control" id="formFileMultiple"></td>
 												</tr>
-
+												<tr>
+													<th class="active">미리보기</th>
+													<td class="form-inline">
+													<div id="preview-area"></div></td>
+												</tr>
 											</tbody>
 										</table>
 									</div>
 									<div class="btnfloat">
 										<button type="submit" class="btn btn-secondary">등록</button>
-										<a href="/stock/list" class="btn btn-danger">취소</a>
+										<a href="${root}/bipum/list" class="btn btn-danger">취소</a>
 									</div>
 								</form>
 							</div>
@@ -138,7 +137,42 @@ tr>th {
 			</div>
 		</div>
 	</div>
-
-
 </body>
 </html>
+
+
+<script>
+
+	//업로드 파일 미리보기 작업
+	//변수준비
+	const fileTag = document.querySelector('input[name="f"]');
+	const previewArea = document.querySelector('#preview-area');
+	
+	//이벤트 핸들러 연결
+	fileTag.addEventListener('change', function(){
+		//preview-area 지우기
+		previewArea.innerHTML = '';
+		
+		//파일이 있으면 미리보기 작업 하기
+		if(fileTag.files.length > 0){
+			for(let f of fileTag.files){
+				const reader = new FileReader();
+				//load한걸 가지로 화면에 보여주는 준비
+				reader.addEventListener("load" , processPreview);
+				reader.readAsDataURL(f);
+			}
+		}
+	});
+	
+	//이미지 요소 만들어 화면에 추가함
+	function processPreview(event){
+		const imgTag = document.createElement('img');
+		imgTag.setAttribute("src" , event.target.result);
+		imgTag.setAttribute("width" , "100px");
+		imgTag.setAttribute("height" , "100px");
+		
+		previewArea.appendChild(imgTag);
+	}
+
+</script>
+

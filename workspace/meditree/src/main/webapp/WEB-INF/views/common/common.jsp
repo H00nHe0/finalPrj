@@ -11,6 +11,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 </c:if>
 <c:remove var="alertMsg" scope="session" />
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <header>
   <div id="logo-area">
     <a href="${root}/member/main">
@@ -33,13 +35,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </div>
 
   <div id="etc-area">
-    <a href="#"
+    <a href="javascript:void(0)" onclick="listUp();"
       ><img
         id="chat"
         src="${root}/resources/img/homeImg/chat.svg"
         alt="채팅이미지"
     /></a>
-    <a href="#"
+    <a href="${root}/mail/list"
       ><img
         id="alert"
         src="${root}/resources/img/homeImg/mail.svg"
@@ -53,3 +55,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     /></a>
   </div>
 </header>
+
+<script>
+
+        function listUp() {
+            window.open("${root}/chatting/list","팝업창","width = 500, height = 600 ,top=0, left = 0");
+        }
+    </script>

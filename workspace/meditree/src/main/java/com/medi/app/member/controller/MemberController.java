@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.medi.app.common.file.FileUploader;
 import com.medi.app.member.service.MemberService;
 import com.medi.app.member.vo.MemberVo;
 
@@ -38,16 +40,37 @@ public class MemberController {
 	public String join(MemberVo vo , HttpServletRequest req , HttpSession session , Model model) throws Exception {
 		
 		
+		//파일업로드
+		String path = req.getServletContext().getRealPath("/resources/img/member/");
+		String changeName = FileUploader.upload(vo.getProfile() , path);
+		vo.setProfileName(changeName);
+		
 		//부서번호가져와서 사원번호앞 2자리넣어주기
 		String department = vo.getDeptNo();
 		
 		String prefix = department;
-		Random random = new Random();
-		int suffix = random.nextInt(9000) + 1000;
+		Random randomN = new Random();
+		int suffix = randomN.nextInt(9000) + 1000;
 		String empNo = prefix + suffix;
 		
 		vo.setNo(empNo);
 		System.out.println(vo.getNo());
+		
+		
+		// 이메일 (랜덤알파벳3자리 + 사번)@meditree.com 형식으로 만들어주기
+        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+        StringBuilder randomAlphabets = new StringBuilder();
+        Random randomA = new Random();
+        for (int i = 0; i < 3; i++) {
+            int randomIndex = randomA.nextInt(alphabet.length);
+            randomAlphabets.append(alphabet[randomIndex]);
+        }
+		
+        String newEmail = randomAlphabets.toString() + empNo + "@meditree.com";
+        vo.setEmail(newEmail);
+		
+		
 		
 		//서비스
 		int result = ms.join(vo);
@@ -66,8 +89,72 @@ public class MemberController {
 	
 	//아이디 중복확인
 	@RequestMapping("id-check")
-	public String idCheck(String no) {
-		return "";
+	public String idCheck(String no , Model model) {
+		
+		int result = ms.checkId(no);
+		
+		if(result > 0) {
+			model.addAttribute("errorMsg" , "아이디가 중복입니다.");
+			return "common/error";
+		}else {
+			return "redirect:/member/main";
+		}
+		
+	}
+	
+	//로그인
+	@PostMapping("login")
+	public String login(MemberVo vo , HttpSession session) {
+		
+		//서비스
+		MemberVo loginMember = ms.login(vo);
+		System.out.println(loginMember);
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 실패 흐엉엉..");
+		}
+		
+		//화면
+		session.setAttribute("loginMember", loginMember);
+		return "redirect:/member/main";
+	}
+	
+	//로그아웃
+	@RequestMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/home";
+	}
+
+	
+	//정보수정 화면
+	@GetMapping("edit")
+	public String edit(HttpSession session , Model model) {
+		/*
+		 * if(session.getAttribute("loginMember") == null) {
+		 * model.addAttribute("errorMsg" , "로그인 먼저 해주세요"); return "common/error"; }
+		 */
+		return "member/edit";
+	}
+	
+	//정보수정
+	@PostMapping("edit")
+	public String edit(MemberVo vo , Model model , HttpSession session) throws Exception  {
+		//서비스
+		MemberVo updatedMember = ms.edit(vo);
+		/*
+		 * //화면 if(updatedMember == null) { model.addAttribute("alertMsg" ,
+		 * "정보수정실패..."); return "common/error"; }
+		 */
+		session.setAttribute("loginMember", updatedMember);
+		session.setAttribute("alertMsg", "정보수정성공~~~");
+		return "redirect:/member/main";
+		
+	}
+	
+	@RequestMapping("quit")
+	public String quit() {
+		return "redirect:/member/main";
 	}
 	
 

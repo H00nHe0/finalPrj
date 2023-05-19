@@ -9,15 +9,9 @@ public class MediDeviceVo {
 	private String name;
 	private String type;
 	private String content;
-	private String rDate;
+	private String enrollDate;
+	private String delyn;
 	private String status;
 	private String location;
-	
-	public String getrDate() {
-		return rDate;
-	}
-	public void setrDate(String rDate) {
-		this.rDate = rDate;
-	}
 	
 }

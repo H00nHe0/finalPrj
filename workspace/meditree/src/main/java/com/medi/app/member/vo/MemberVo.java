@@ -6,6 +6,9 @@ import lombok.Data;
 
 @Data
 public class MemberVo {
+
+   
+   
 	
 	
 	private String no;
@@ -36,5 +39,4 @@ public class MemberVo {
 	
 	
 	
-
 }

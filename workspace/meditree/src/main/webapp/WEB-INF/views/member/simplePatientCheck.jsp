@@ -275,6 +275,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </body>
 </html>
 <script>
+  // 선택한 환자 이름을 저장할 전역 변수
+  var selectedPatientName = "";
+
   $(document).ready(function () {
     $("#simpleTable tr").click(function () {
       var checkbox = $(this).find('input[type="checkbox"]');
@@ -283,8 +286,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   });
 
   function selectRadio(clickedRow) {
-    var paName = clickedRow.querySelector(".nameBox").textContent;
-    alert(paName);
+    // 클릭한 행에서 환자 이름 가져오기
+    selectedPatientName = clickedRow.querySelector(".nameBox").textContent;
     const radioButton = clickedRow.querySelector('input[type="radio"]');
     radioButton.checked = true;
   }
@@ -299,9 +302,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   }
 
   function sendSelectedInfo() {
-    // 선택한 환자 이름 가져오기
-    var patientName = document.querySelector(".nameBox").textContent;
-    alert(patientName);
+    // 선택한 환자 이름 사용하기
+    var patientName = selectedPatientName;
     // 부모 창으로 선택한 환자 정보 전달
     window.opener.setSelectedPatientInfo(patientName);
     window.opener.document.querySelector(patientName);

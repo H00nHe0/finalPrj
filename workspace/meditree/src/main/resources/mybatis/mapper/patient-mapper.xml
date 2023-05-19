@@ -50,10 +50,145 @@
 	ORDER BY NO DESC
   </select>
   
-    <select id="getPaInfo" resultType="patientVo">
-  	SELECT *
+  <select id="getPaInfo" resultType="patientVo">
+  	SELECT
+  	 NO
+	,PA_NAME
+	,PA_TEL
+	,RRN
+	,PA_GENDER
+	,CAREGIVER
+	,ADDRESS
+	,PA_DATE
+	,MEMO
   	FROM PATIENT
-  	WHERE NO = #{num}
+  	WHERE PA_NAME = '${paName}'
+  </select>
+
+  <select id = "getDepartmentList" resultType="map">
+  SELECT 
+  	NO
+	,TITLE
+  	FROM DEPARTMENT
+  	WHERE
+  	NO IN (40, 50, 60, 70)
   </select>
   
+
+<select id="getDoctorList" resultType="memberVo">
+  	SELECT
+	    E.NO,
+	    E.NAME,
+	    P.POTITLE,
+        D.TITLE,
+        E.DEPT_NO
+	FROM
+	    EMPLOYEE E
+	    JOIN  POSITION P ON P.NO = E.POSITION_NO
+        JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+	WHERE
+	    E.QUIT_YN = 'N'
+		AND (P.NO = 2 OR P.NO = 3)   
+	</select>
+  
+	<insert id="insertTreatment">
+	INSERT INTO 
+	RECEIPT
+	(
+	NO
+	,STATUS
+	,PAY
+	,PA_NO
+	,SYMPTOM
+	,EMP_NO
+	,DEPT_NO
+	)
+	VALUES
+	(
+	SEQ_RECEIPT_NO.NEXTVAL
+	,'W'
+	,'N'
+	,#{paNo}
+	,#{symptom}
+	,#{empNo}
+	,#{deptNo}
+	)
+	
+	</insert>  
+	
+	<select id="selectWaitingPatient" resultType="patientVo">
+	SELECT 
+	 R.NO
+	 ,P.PA_NAME
+	 ,P.PA_GENDER
+	 ,R.DEPT_NO
+	 ,R.SYMPTOM
+	,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(P.RRN, 8, 1), '1', '19', '2', '19', '20')||substr(P.RRN, 1, 6))))/10000) as "AGE"
+	FROM
+	    PATIENT P
+	    JOIN  RECEIPT R ON P.NO = R.PA_NO
+        WHERE R.STATUS = 'W'
+	</select>
+	<select id="selectIngPatient" resultType="patientVo">
+	SELECT 
+	 R.NO
+	 ,P.PA_NAME
+	 ,P.PA_GENDER
+	 ,R.DEPT_NO
+	 ,R.SYMPTOM
+	,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(P.RRN, 8, 1), '1', '19', '2', '19', '20')||substr(P.RRN, 1, 6))))/10000) as "AGE"
+	FROM
+	    PATIENT P
+	    JOIN  RECEIPT R ON P.NO = R.PA_NO
+        WHERE R.STATUS = 'S'
+	</select>
+	
+		<!-- 진료중으로 상태 변경 -->	
+	<update id="changePatientStatus">
+	UPDATE 
+	RECEIPT
+	SET
+	STATUS = 'S'
+	WHERE NO = #{no}
+	AND STATUS = 'W'
+	</update>
+	
+	<!-- 부서조회 -->
+<!-- 	<select id="selectDeptList" resultType="list">
+	SELECT
+	NO
+	,TITLE
+	,INCHARGE
+	FROM DEPARTMENT
+	WHERE
+	NO IN(40, 50, 60, 70)
+	
+	</select>
+  
+  의사 조회
+  <select id="doctorList"  resultType="list">
+  	SELECT
+	    E.NO,
+	    E.NAME,
+	    P.POTITLE,
+        D.TITLE,
+        E.DEPT_NO
+	FROM
+	    EMPLOYEE E
+	    JOIN  POSITION P ON P.NO = E.POSITION_NO
+        JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+	WHERE
+	    E.QUIT_YN = 'N'
+		AND (P.NO = 2 OR P.NO = 3)  
+  </select>  -->
+  
+<!--   <select id="getCategoryList" resultType="map">
+		SELECT 
+			NO
+			, TITLE
+			, MAJOR
+			, INCHARGE
+			FROM DEPARTMENT
+			WHERE INCHARGE = '의료진'
+	</select> -->
   </mapper>

@@ -18,6 +18,7 @@
        <typeAlias type="com.medi.app.member.vo.DeptVo" alias="deptVo"/>
        <typeAlias type="com.medi.app.board.reply.vo.ReplyVo" alias="replyVo"/>
        <typeAlias type="com.medi.app.bipum.vo.BipumVo" alias="bipumVo"/>
+
 	</typeAliases>
 
 </configuration>

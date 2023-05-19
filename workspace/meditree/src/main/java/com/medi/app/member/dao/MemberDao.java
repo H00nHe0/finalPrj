@@ -1,5 +1,7 @@
 package com.medi.app.member.dao;
 
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ public class MemberDao {
 		
 		return sst.insert("member.join" , vo);
 	}
+
 
 	public int checkId(SqlSessionTemplate sst, String no) {
 		return sst.selectOne("member.checkId" , no);
@@ -32,5 +35,6 @@ public class MemberDao {
 		return sst.selectOne("member.getMember" , vo);
 		
 	}
+
 
 }

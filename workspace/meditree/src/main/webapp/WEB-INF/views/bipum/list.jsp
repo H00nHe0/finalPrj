@@ -33,11 +33,15 @@ body h1 {
 	text-align: center;
 }
 
+.table {
+	margin-top: 20px;
+}
+
 .htitle {
 	width: 300px;
 	height: 100px;
 	margin: auto;
-	padding-top: 10px;
+	padding-top: 40px;
 	text-align: center;
 }
 
@@ -63,6 +67,10 @@ body h1 {
 	justify-content: center;
 	background-color: #f3f3f4;
 }
+#page-area{
+    	text-align: center;
+    	padding-top: 20px;
+    }
 </style>
 </head>
 <body>
@@ -74,7 +82,6 @@ body h1 {
 			<%@ include file="/WEB-INF/views/common/commonSidebar.jsp"%>
 			<div id="board">
 
-				<form action="">
 					<div class="shadow p-3 mb-5 bg-body rounded">
 						<div class="htitle">
 							<h1>비품 목록</h1>
@@ -91,67 +98,44 @@ body h1 {
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>환자복(상의)</td>
-									<td>이것은 환자복입니다</td>
-									<td>2023.04.25</td>
-									<td>10</td>
-									<td><a class="btn btn-outline-secondary btn-sm"
-										href="${root}/bipumDetail.jsp">상세보기</a>
-									<td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Jacob</td>
-									<td>@fat</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>Jacob</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>Jacob</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>Jacob</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-									<td>@mdo</td>
-								</tr>
+								<c:forEach items="${bvoList}" var="bvo">
+									<tr>
+										<td>${bvo.no}</td>
+										<td>${bvo.name}</td>
+										<td>${bvo.content}</td>
+										<td>${bvo.enrollDate}</td>
+										<td>${bvo.amount}</td>
+										<td><a class="btn btn-outline-secondary btn-sm" href="${root}/bipum/detail?num=${bvo.no}">상세보기</a></td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
-						<nav aria-label="Page navigation example">
-							<ul class="pagination justify-content-center">
-								<li class="page-item disabled"><a class="page-link">Previous</a>
-								</li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#">Next</a>
-								</li>
-							</ul>
-						</nav>
-
+						
+						<!-- 페이징 처리 -->
+						<div id="page-area">
+							<c:if test="${pv.currentPage > 1}">
+								<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${pv.currentPage-1}">이전</a>
+							</c:if>
+							<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${i}">${i}</a>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<a class = "btn btn-secondary btn-sm">${i}</a>
+							</c:if>
+							</c:forEach>
+							<c:if test="${pv.currentPage < pv.maxPage}">
+							<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${pv.currentPage+1}">다음</a>
+							</c:if>
+						</div>
+						
+						<!-- 관리자일 때만 등록하기 버튼 보이게 -->
+						<%-- <c:if test="${loginMember.id == 'ADMIN' }">
+						</c:if> --%>
 						<div class="btnfloat">
-							<a href="${root}/bipumwrite.jsp" class="btn btn-secondary">등록하기</a>
+							<a href="${root}/bipum/write" class="btn btn-secondary">등록하기</a>
 						</div>
 					</div>
-				</form>
 			</div>
 		</div>
 	</div>

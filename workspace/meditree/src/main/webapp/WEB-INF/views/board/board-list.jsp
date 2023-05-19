@@ -27,6 +27,9 @@
     table{
     	margin-top: 20px; 
     }
+    #page-area{
+    	text-align: center;
+    }
 </style>
 </head>
 <body>
@@ -49,57 +52,33 @@
                             </tr>
                           </thead>  
                           <tbody>
-                          	<tr>
-                          		<td>1</td>
-                          		<td>제목1</td>
-                          		<td>user1</td>
-                          		<td>23.04.25</td>
-                          		<td>5</td>
-                          	</tr>
-                          	<tr>
-                          		<td>1</td>
-                          		<td>제목1</td>
-                          		<td>user1</td>
-                          		<td>23.04.25</td>
-                          		<td>5</td>
-                          	</tr>
-                          	<tr>
-                          		<td>1</td>
-                          		<td>제목1</td>
-                          		<td>user1</td>
-                          		<td>23.04.25</td>
-                          		<td>5</td>
-                          	</tr>
-                          	<tr>
-                          		<td>1</td>
-                          		<td>제목1</td>
-                          		<td>user1</td>
-                          		<td>23.04.25</td>
-                          		<td>5</td>
-                          	</tr>
-                          	<tr>
-                          		<td>1</td>
-                          		<td>제목1</td>
-                          		<td>user1</td>
-                          		<td>23.04.25</td>
-                          		<td>5</td>
-                          	</tr>
-                          	<tr>
-                          		<td>1</td>
-                          		<td>제목1</td>
-                          		<td>user1</td>
-                          		<td>23.04.25</td>
-                          		<td>5</td>
-                          	</tr>
-                          	<tr>
-                          		<td>1</td>
-                          		<td>제목1</td>
-                          		<td>user1</td>
-                          		<td>23.04.25</td>
-                          		<td>5</td>
-                          	</tr>
+                          	<c:forEach items="${bvoList}" var="bvo">
+	                          	<tr>
+	                          		<td>${bvo.no}</td>
+			                        <td>${bvo.title}</td>
+			                        <td>${bvo.empNo}</td>
+			                        <td>${bvo.enrollDate}</td>
+			                        <td>${bvo.hit}</td>
+	                          	</tr>
+                          	</c:forEach>
                         </tbody>    
                     </table>
+                    <div id="page-area">
+						<c:if test="${pv.currentPage > 1}">
+							<a class = "btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage-1}">이전</a>
+						</c:if>
+						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<a class = "btn btn-primary btn-sm" href="${root}/board/list?page=${i}">${i}</a>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<a class = "btn btn-secondary btn-sm">${i}</a>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pv.currentPage < pv.maxPage}">
+							<a class = "btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage+1}">다음</a>
+						</c:if>
+					</div>
                     <button type="button" class="btn btn-success" onclick="location.href='${root}/board/write'">작성하기</button>
                 </div>
                
@@ -109,14 +88,14 @@
 
 </body>
 </html>
+<script>
 
-                            <%-- <c:forEach items="${}" var="">
-                                <tr>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                </tr>
-                            </c:forEach> --%>
+    const table = document.querySelector("table tbody");
+    table.addEventListener("click",(event)=>{
+       const num = event.target.parentNode.children[0].innerText; 
+       location.href = '${root}/board/detail?num=' + num;
+    });
+
+</script>
+                          
 

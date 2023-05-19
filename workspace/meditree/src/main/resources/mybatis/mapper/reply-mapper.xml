@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="reply">
+ 	<insert id="write">
+ 		INSERT INTO REPLY 
+ 		(
+ 			NO
+ 			,BNO
+ 			,CONTENT
+ 			,WRITER_NO
+ 		) 
+ 		VALUES 
+ 		(
+ 			SEQ_REPLY_NO.NEXTVAL
+ 			, #{bno}
+ 			, #{content}
+ 			, 999999<!-- #{writerNo} -->
+ 		)
+ 	</insert>
+ 
+ <select id="getReplyList" resultType="replyVo">
+ 	SELECT 
+	    R.NO
+	    ,R.BNO
+	    ,R.CONTENT
+	    ,R.WRITER_NO
+	    ,R.ENROLL_DATE
+	    ,R.STATUS
+	    ,E.NAME		AS writerName
+	FROM REPLY  R
+	JOIN EMPLOYEE E ON (R.WRITER_NO = E.NO)
+	WHERE R.BNO = #{bno}
+	AND R.STATUS = 'N'
+	ORDER BY NO DESC
+ </select>
+ 
+ <update id="delete">
+ 	UPDATE REPLY
+	    SET STATUS = 'X'
+	WHERE NO = #{no}
+	AND (WRITER_NO = #{writerNo}
+	OR ${writerNo} = 999999)
+ </update>
+ 
+ 
+ </mapper>

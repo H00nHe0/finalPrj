@@ -3,50 +3,49 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="notice">
+<mapper namespace="board">
 	
-	<select id="getNoticeList" resultType="noticeVo">
+	<select id="getBoardList" resultType="boardVo">
 		SELECT 
 			NO
 			,ENROLL_DATE
 			,TITLE
 			,CONTENT
 			,HIT
-			,WRITER_NO
+			,EMP_NO
 			,MODIFY_DATE
 			,STATUS 
-		FROM NOTICE
+		FROM BOARD
 		WHERE STATUS = 'N'
 		ORDER BY NO DESC
 	  </select>
 	  
 	  <insert id="write">
-	  	INSERT INTO NOTICE
+	  	INSERT INTO BOARD 
 	  	(
 	  		NO
-			,TITLE
-			,CONTENT
-			,WRITER_NO
-	  	)
-	  	VALUES
+	  		,TITLE
+	  		,CONTENT
+	  		,EMP_NO
+	  	) 
+	  	VALUES 
 	  	(
-	  		SEQ_NOTICE_NO.NEXTVAL
-	  		,#{title}
-	  		,#{content}
+	  		SEQ_BOARD_NO.NEXTVAL
+	  		, #{title}
+	  		, #{content}
 	  		,999999
 	  	)
 	  </insert>
 	
-	<select id="getNotice" resultType="noticeVo">
+	<select id="getBoard" resultType="boardVo">
 		SELECT *
-	  	FROM NOTICE
+	  	FROM BOARD
 	  	WHERE NO = #{no}
 	  	AND STATUS = 'N'
 	</select>
 	
-	
 	<update id="edit">
-		UPDATE NOTICE
+		UPDATE BOARD
 			SET
 			TITLE = #{title}  
   			,CONTENT = #{content}
@@ -55,19 +54,19 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE NOTICE
+		UPDATE BOARD
 			SET
 		STATUS = 'Y'
 		,MODIFY_DATE = SYSDATE
 		WHERE NO = #{num} 
 	</update>
-	<select id="getNoticeListCnt" resultType="int">
+	<select id="getBoardListCnt" resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM NOTICE
+	  	FROM BOARD
 	  	WHERE STATUS = 'N'
 	  </select>
 	<update id="increaseHit">
-	  	UPDATE NOTICE
+	  	UPDATE BOARD
 	  		SET HIT = HIT+1
 	  	WHERE NO = #{num}
 	  	AND STATUS = 'N'
@@ -77,7 +76,7 @@
 	<insert id="insertAttachment">
 		INSERT ALL
 			<foreach collection="list" item="x" separator=" ">
-			    INTO N_ATT(NO,NNO, ORIGIN_NAME, CHANGE_NAME) VALUES ((SELECT GET_N_ATT_SEQ FROM DUAL) ,SEQ_NOTICE_NO.CURRVAL , #{x.originName} , #{x.changeName})
+			    INTO B_ATT(NO,BNO, ORIGIN_NAME, CHANGE_NAME) VALUES ((SELECT GET_B_ATT_SEQ FROM DUAL) ,SEQ_BOARD_NO.CURRVAL , #{x.originName} , #{x.changeName})
 			</foreach>
 		SELECT 1 FROM DUAL
 
@@ -85,19 +84,19 @@
   	<select id="getAttachmentList" resultType="fileVo">
   		SELECT 
   			NO
-			,NNO
+			,BNO
 			,ORIGIN_NAME
 			,CHANGE_NAME
 			,ENROLL_DATE
 			,STATUS 
-		FROM N_ATT
-		WHERE NNO = #{nno}
+		FROM B_ATT
+		WHERE BNO = #{bno}
 		AND STATUS = 'N'
   			
   	</select>
   	<select id="getAttachment" resultType="fileVo">
   		SELECT *
-  		FROM N_ATT
+  		FROM B_ATT
   		WHERE NO = #{ano}
   		AND STATUS = 'N'
   	</select>

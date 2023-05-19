@@ -38,26 +38,24 @@
                 <div id="content">
                     <h1>사내게시판 작성하기</h1>
                     <form action="${root}/board/write" method="post" enctype="multipart/form-data">
-                <div id="form-area">
-                    <div class="form-floating mb-3">
-                   		<h3>제목</h3>
-					  <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
-					  <label for="floatingInput"></label>
-					</div>
-                    <div class="form-floating">
-                    	<h3>내용</h3>
-					  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 350px; text-align:left;"></textarea>
-					  <label for="floatingTextarea2"></label>
-					</div>
-                    <div class="mb-3">
-                    
-					  <label for="formFileMultiple" class="form-label"></label>
-					  <input class="form-control" type="file" id="formFileMultiple" multiple>
-					</div>
-                   
-                    <div id="thumbnail-area"></div>
-                    <input type="submit" value="작성하기" class="btn btn-success" style="float: right;">
-                </div>
+                        <div id="form-area">
+                            <div class="form-floating mb-3">
+                                   <h3>제목</h3>
+                              <input type="text" name = "title"class="form-control" id="title">
+                            </div>
+                            <div class="form-floating">
+                                <h3>내용</h3>
+                              <textarea name="content" class="form-control"  id="content" style="height: 350px"></textarea>
+                            </div>
+                            <div class="mb-3">
+                            
+                              <label for="formFileMultiple" class="form-label"></label>
+                              <input class="form-control" type="file" name="f" id="formFileMultiple" multiple>
+                            </div>
+                           
+                            <div id="thumbnail-area"></div>
+                            <input type="submit" value="작성하기" class="btn btn-success" style="float: right;">
+                        </div>
             </form>
 
                 </div>

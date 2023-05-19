@@ -64,7 +64,7 @@ public class NoticeController {
 //			return "common/error-page";
 //		}
 //		String no = loginMember.getNo();
-//		boolean isAdmin = "000000".equals(no);
+//		boolean isAdmin = "999999".equals(no);
 //		
 //		if (!isAdmin) {
 //			model.addAttribute("errorMsg","잘못된 접근입니다.");
@@ -72,6 +72,7 @@ public class NoticeController {
 //		}
 		return "notice/notice-write";
 	}
+	
 	//공지사항 작성하기(기능)
 	@PostMapping("write")
 	public String write(NoticeVo vo , HttpSession session ,List<MultipartFile> f ,HttpServletRequest req) throws Exception {
@@ -82,18 +83,17 @@ public class NoticeController {
 		
 		//데이터 준비 (이름 리스트)
 		List<FileVo> fvoList = new ArrayList<FileVo>();
-		int size = changeNameList.size();
-		for (int i = 0; i < size; i++) {
-			FileVo fvo = new FileVo();
-			fvo.setOriginName(originNameList.get(i));
-			fvo.setChangeName(changeNameList.get(i));
-			fvoList.add(fvo);
-		}
-
-		
-		
+		if (changeNameList != null) {
+			int size = changeNameList.size();
+			for (int i = 0; i < size; i++) {
+				FileVo fvo = new FileVo();
+				fvo.setOriginName(originNameList.get(i));
+				fvo.setChangeName(changeNameList.get(i));
+				fvoList.add(fvo);
+		}	
+	}
 		int result = ns.write(vo ,fvoList);
-		if (changeNameList != null && result < 1) {
+		if (result <= 0) {
 			throw new Exception("공지사항 작성 실패");
 		}
 		session.setAttribute("alertMsg", "공지사항 작성 완료");
@@ -111,26 +111,10 @@ public class NoticeController {
 			return "common/error-page";
 		}
 		model.addAttribute("vo",vo);
+		model.addAttribute("path","resources/upload/notice");
 		return "notice/notice-detail";
 	}
 	
-	//공지사항 수정하기(관리자만)
-	@GetMapping("edit")
-	public String edit(Model model, HttpSession session) {
-//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//		if (loginMember == null) {
-//			model.addAttribute("errorMsg","잘못된 접근입니다.");
-//			return "common/error-page";
-//		}
-//		String no = loginMember.getNo();
-//		boolean isAdmin = "000000".equals(no);
-//		
-//		if (!isAdmin) {
-//			model.addAttribute("errorMsg","잘못된 접근입니다.");
-//			return "common/error-page";
-//		}
-		return "notice/notice-edit";
-	}
 	
 	//공지사항 수정하기
 		@PostMapping("edit")
@@ -140,7 +124,7 @@ public class NoticeController {
 //		 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
 //		 * id = ""; if (loginMember != null) { id = loginMember.getId(); }
 //		 * 
-//		 * if (!"000000".equals(no)) { model.addAttribute("errorMsg","잘못된 요청입니다.");
+//		 * if (!"999999".equals(no)) { model.addAttribute("errorMsg","잘못된 요청입니다.");
 //		 * return "common/error-page"; }
 //		 */
 			
@@ -162,12 +146,12 @@ public class NoticeController {
 		if (result != 1) {
 			throw new Exception("공지사항 삭제 실패");
 		}
-		return "redirect:/notice/notice-list?page=1";
+		return "redirect:/notice/list?page=1";
 	}
 	
 	//파일 다운로드 (방식2) //ReqponseEntity
 		@GetMapping("att/down")
-		public ResponseEntity<ByteArrayResource> download2(String ano , HttpServletRequest req) throws Exception {
+		public ResponseEntity<ByteArrayResource> download(String ano , HttpServletRequest req) throws Exception {
 			
 			
 			//바디 채우기

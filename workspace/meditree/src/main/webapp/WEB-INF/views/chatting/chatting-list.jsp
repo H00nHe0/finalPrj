@@ -60,7 +60,7 @@ img#chatImg {
   	<tr class="user">
   		<td><img id="user" src="${root}/resources/img/test/cat2.png" alt="User 1"></td>
   		<td>고양이 1</td>
-  		<td><a href="${root}/chatting/window"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  		<td><a href="javascript:void(0)" onclick="popUp();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
   	</tr>
   	<tr class="user">
   		<td><img id="user" src="${root}/resources/img/test/cat.png" alt="User 2"></td>
@@ -94,3 +94,10 @@ img#chatImg {
 	
 </body>
 </html>
+
+<script>
+
+        function popUp() {
+            window.open("${root}/chatting/window","팝업창","width = 500, height = 600 ,top=0, left = 600");
+        }
+    </script>

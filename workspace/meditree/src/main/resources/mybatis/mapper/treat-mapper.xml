@@ -10,6 +10,12 @@
   	FROM PATIENT
   </select>
   
+  <select id="getCnt2" resultType="int">
+  	SELECT COUNT (NO)
+  	FROM TM_HISTORY
+  	WHERE PA_NO = #{no}
+  </select>
+  
   <!-- 환자 목록조회  -->
   <select id="getPatientList" resultType="PatientVo">
   SELECT 
@@ -44,6 +50,7 @@
 		,RRN
 		,PA_GENDER
 		,ADDRESS
+		,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(RRN, 8, 1), '1', '19', '2', '19', '20')||substr(RRN, 1, 6))))/10000) as "AGE"
 		FROM PATIENT
 		WHERE NO = #{no}
 	</select>
@@ -56,7 +63,81 @@
 	        , PA_TEL = #{paTel}
 	        , ADDRESS = #{address}
 	    WHERE   NO = #{no}
-	</update>
+  </update>
+	
+  <!-- 환자 상세조회 화묜!!!!  -->
+  <select id="getPatientInquiry2" resultType="PatientVo">
+		SELECT
+		NO
+		,PA_NAME
+		,PA_TEL
+		,ADDRESS
+		FROM PATIENT
+		WHERE NO = #{no}
+	</select>
+	
+	<!-- 환자 진료내역조회(아래랑 이거중에 뭐가 맞는지 일단 보류)  -->
+  <!-- <select id="getPatientChart" resultType="TmHistoryVo">
+  SELECT 
+  	*
+	FROM TM_HISTORY
+	WHERE PA_NO = #{paNo}
+	ORDER BY NO DESC
+  </select> -->
+  
+  <!-- 환자 진료내역조회 (혹시몰라 일단 둠) -->
+  <!-- <select id="getPatientChart" resultType="TmHistoryVo">
+  	SELECT
+        H.NO
+		,H.TM_CONTENT
+		,H.FEE
+		,H.J_DATE
+		,H.CAUTION
+		,H.PAID_YN
+		,H.PR_CONTENT
+		,TO_CHAR(H.PR_DATE, 'YYYY-MM-DD') AS PR_DATE
+		,H.DRUG
+		,H.PA_NO
+		,H.EM_NO
+		,P.NO
+	FROM TM_HISTORY H
+    LEFT JOIN PATIENT P ON (H.PA_NO = P.NO)
+	WHERE P.NO = #{no}
+	ORDER BY H.NO DESC
+  </select> -->
+  
+  
+  <!-- 환자 진료내역조회 (혹시몰라 일단 둠) -->
+  <select id="getPatientChart" resultType="TmHistoryVo">
+  	SELECT
+	    H.NO
+	    ,H.TM_CONTENT
+	    ,H.FEE
+	    ,H.J_DATE
+	    ,H.CAUTION
+	    ,H.PAID_YN
+	    ,H.PR_CONTENT
+	    ,TO_CHAR(H.PR_DATE, 'YYYY-MM-DD') AS PR_DATE
+	    ,H.DRUG
+	    ,H.PA_NO
+	    ,H.EM_NO
+	    ,P.NO
+	    ,E.NAME AS EMPLOYEE_NAME
+	    ,D.TITLE AS DEPARTMENT_TITLE
+	FROM
+	    TM_HISTORY H
+	LEFT JOIN
+	    PATIENT P ON H.PA_NO = P.NO
+	LEFT JOIN
+	    EMPLOYEE E ON H.EM_NO = E.NO
+	LEFT JOIN
+	    DEPARTMENT D ON E.DEPT_NO = D.NO
+	WHERE
+	    P.NO = #{no}
+	ORDER BY
+	    H.NO DESC
+  </select>
+	
 	
 
   

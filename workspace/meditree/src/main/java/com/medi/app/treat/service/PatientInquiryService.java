@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.medi.app.common.page.PageVo;
 import com.medi.app.reception.patient.vo.PatientVo;
+import com.medi.app.tmHistory.vo.TmHistoryVo;
 import com.medi.app.treat.dao.PatientInquiryDao;
 
 @Service
@@ -43,6 +44,21 @@ public class PatientInquiryService {
 	//환자 정보수정
 	public int updatePatientInquiry(PatientVo vo) {
 		return dao.updatePatientInquiry(sst , vo);
+	}
+
+	//정보수정 화면쪽 !!!
+	public PatientVo getPatientInquiry2(String no) {
+		return dao.getPatientInquiry2(sst , no);
+	}
+
+	//환자진료내역조회
+	public List<TmHistoryVo> getPatientChart(String no, PageVo pv) {
+		return dao.getPatientChart(sst , no, pv);
+	}
+
+	//진료내역 갯수 조회
+	public int getCnt2(String no) {
+		return dao.getCnt2(sst ,no);
 	}
 
 

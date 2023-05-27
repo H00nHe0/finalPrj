@@ -113,19 +113,19 @@ body h2 {
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">연락처</label>
 									<div class="col-sm-10">
-										<input type="text" name="paTel" class="form-control" id="paTel" value="" required>
+										<input type="text" name="paTel" class="form-control" id="paTel" value="${vo.paTel}" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">주소</label>
 									<div class="col-sm-10">
 										<input type="text" name="address" class="form-control"
-											id="address" value="" required>
+											id="address" value="${vo.address}" required>
 									</div>
 								</div>
 
 
-							<div class="btnwech">
+							<div class="btnwech" >
 								<button type="submit" class="btn btn-primary">수정</button>
 							</div>
 					</div>

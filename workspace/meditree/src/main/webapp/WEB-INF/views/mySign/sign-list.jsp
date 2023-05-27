@@ -54,10 +54,6 @@ body h1 {
 	padding-right: 30px;
 }
 
-.page-navi {
-	margin-top: 50px;
-}
-
 #search-area {
 	display: flex;
 	float: right;
@@ -75,6 +71,38 @@ body h1 {
 	justify-content: center;
 	background-color: #f3f3f4;
 }
+#page-area{
+   	text-align: center;
+   	padding-top: 20px;
+}
+.appr-write-btn { /* 검색하기 버튼 */
+	border-color: #82CBC4;
+	color: #82CBC4;
+	float: right;
+	display: flex;
+	justify-content: center;
+}
+.appr-write-btn:hover {  /*검색 버튼 호버 */
+	background: #82CBC4;
+	border-color: #82CBC4;
+	color: white;
+}
+
+.btn-green { /* 기안하기 버튼 */
+	background: #82CBC4;
+	color: white;
+	float: right;
+	display: flex;
+	justify-content: center;
+	border-color: #82CBC4;
+	margin-right: 30px;
+}
+
+.btn-green:hover {
+	border-color: #82CBC4;
+	color: #82CBC4;
+}
+
 </style>
 </head>
 <body>
@@ -95,95 +123,69 @@ body h1 {
 							</h2>
 							<hr>
 							<div class="allApp">
-
 								<div id="search-area">
 									<select name="searchType">
 										<option>제목</option>
 										<option>결재양식</option>
-									</select> <input type="text" class="form-control"
-										placeholder="검색어를 입력해주세요">
+									</select> 
+									<input type="text" class="form-control" placeholder="검색어를 입력해주세요">
+									<input type="submit" class="btn appr-write-btn btn-sm" value="검색">
 								</div>
 							</div>
 
 							<table class="table table-hover">
-								<thead class="table-light">
+								<thead class="table-light" align="center">
 									<tr>
+										<th>번호</th>
 										<th>기안일</th>
-										<th>완료일</th>
 										<th>결재양식</th>
 										<th>제목</th>
-										<th>기안부서</th>
-										<th>결재자</th>
-										<th>문서번호</th>
 										<th>결재상태</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td>2023-05-01</td>
-										<td>2023-06-12</td>
-										<td>휴가신청(기본)</td>
-										<td>[교육]총무팀 강동원 팀장</td>
-										<td>총무팀</td>
-										<td>강동원</td>
-										<td>20230502083</td>
-										<td>결재완료</td>
-									</tr>
-									<tr>
-										<td>2023-05-01</td>
-										<td>2023-06-12</td>
-										<td>휴가신청(기본)</td>
-										<td>[교육]총무팀 강동원 팀장</td>
-										<td>총무팀</td>
-										<td>강동원</td>
-										<td>20230502083</td>
-										<td>결재완료</td>
-									</tr>
-									<tr>
-										<td>2023-05-01</td>
-										<td>2023-06-12</td>
-										<td>휴가신청(기본)</td>
-										<td>[교육]총무팀 강동원 팀장</td>
-										<td>총무팀</td>
-										<td>강동원</td>
-										<td>20230502083</td>
-										<td>결재완료</td>
-									</tr>
-									<tr>
-										<td>2023-05-01</td>
-										<td>2023-06-12</td>
-										<td>휴가신청(기본)</td>
-										<td>[교육]총무팀 강동원 팀장</td>
-										<td>총무팀</td>
-										<td>강동원</td>
-										<td>20230502083</td>
-										<td>결재완료</td>
-									</tr>
-									<tr>
-										<td>2023-05-01</td>
-										<td>2023-06-12</td>
-										<td>휴가신청(기본)</td>
-										<td>[교육]총무팀 강동원 팀장</td>
-										<td>총무팀</td>
-										<td>강동원</td>
-										<td>20230502083</td>
-										<td>결재완료</td>
-									</tr>
+								<tbody align="center">
+								<c:choose>
+									<c:when test="${empty signvoList}">
+										<tr>
+											<td colspan="5">기안한 문서가 없습니다.</td>
+										<tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="=svo" items="${signvoList}">
+											<tr>
+												<td class="no">${svo.no}</td>
+												<td>${svo.enrollDate}</td>
+												<td>${svo.formTitle}</td>
+												<td>${svo.signTitle}</td>
+												<td>${svo.status}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+							    </c:choose>
 								</tbody>
 							</table>
 						</div>
+						
+						<br>
+							<a href="${root}/mySign/write" class="btn btn-green">기안하기</a>
+						<br>
 
-						<div class="page-navi">
-							<nav aria-label="Page navigation example">
-								<ul class="pagination justify-content-center">
-									<li class="page-item disabled"><a class="page-link">Previous</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">Next</a>
-									</li>
-								</ul>
-							</nav>
+						<!-- 페이징 처리 -->
+						<div id="page-area">
+							<c:if test="${pv.currentPage > 1}">
+								<a class = "btn btn-primary btn-sm" href="${root}/mySign/list?page=${pv.currentPage-1}">이전</a>
+							</c:if>
+							<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<a class = "btn btn-primary btn-sm" href="${root}/mySign/list?page=${i}">${i}</a>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<a class = "btn btn-secondary btn-sm">${i}</a>
+							</c:if>
+							</c:forEach>
+							<c:if test="${pv.currentPage < pv.maxPage}">
+							<a class = "btn btn-primary btn-sm" href="${root}/mySign/list?page=${pv.currentPage+1}">다음</a>
+							</c:if>
 						</div>
 					</div>
 				</form>

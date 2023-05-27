@@ -54,10 +54,6 @@ body h1 {
 	padding-right: 30px;
 }
 
-.page-navi {
-	margin-top: 50px;
-}
-
 #search-area {
 	display: flex;
 	float: right;
@@ -87,6 +83,10 @@ body h1 {
 .appr-write-btn:hover {
 	background: #82CBC4;
 	color: white;
+}
+#page-area{
+   	text-align: center;
+   	padding-top: 20px;
 }
 </style>
 </head>
@@ -159,17 +159,23 @@ body h1 {
 						</table>
 					</div>
 
-					<div class="page-navi">
-						<nav aria-label="Page navigation example">
-							<ul class="pagination justify-content-center">
-								<li class="page-item disabled"><a class="page-link">Previous</a></li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#">Next</a></li>
-							</ul>
-						</nav>
-					</div>
+					<!-- 페이징 처리 -->
+						<div id="page-area">
+							<c:if test="${pv.currentPage > 1}">
+								<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${pv.currentPage-1}">이전</a>
+							</c:if>
+							<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${i}">${i}</a>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<a class = "btn btn-secondary btn-sm">${i}</a>
+							</c:if>
+							</c:forEach>
+							<c:if test="${pv.currentPage < pv.maxPage}">
+							<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${pv.currentPage+1}">다음</a>
+							</c:if>
+						</div>
 				</div>
 			</div>
 		</div>

@@ -1,12 +1,19 @@
 package com.medi.app.bipum.controller;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,16 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.medi.app.bipum.service.bipumService;
 import com.medi.app.bipum.vo.BipumVo;
 import com.medi.app.common.file.FileUploader;
 import com.medi.app.common.file.FileVo;
 import com.medi.app.common.page.PageVo;
-import com.medi.app.mediDevice.service.MediDeviceService;
-import com.medi.app.mediDevice.vo.MediDeviceVo;
-import com.medi.app.member.vo.MemberVo;
 
 @Controller
 @RequestMapping("bipum")
@@ -76,8 +79,6 @@ public class BipumController {
 	//비품 등록하기(관리자만)
 	@PostMapping("write")
 	public String write(BipumVo vo, List<MultipartFile> f, HttpSession session, HttpServletRequest req) throws Exception {
-		System.out.println(f);
-		System.out.println(f.get(0));
 		//데이터 준비(파일)
 		String path = req.getServletContext().getRealPath("/resources/upload/bipum/");
 		List<String> changeNameList = FileUploader.upload(f, path);
@@ -85,26 +86,29 @@ public class BipumController {
 
 		//데이터 준비 (이름 리스트)
 		List<FileVo> fvoList = new ArrayList<FileVo>();
-		int size = changeNameList.size();
-		for (int i = 0; i < size; i++) {
-			FileVo fvo = new FileVo();
-			fvo.setOriginName(originNameList.get(i));
-			fvo.setChangeName(changeNameList.get(i));
-			fvoList.add(fvo);
+		if(changeNameList != null) {
+			int size = changeNameList.size();
+			for (int i = 0; i < size; i++) {
+				FileVo fvo = new FileVo();
+				fvo.setOriginName(originNameList.get(i));
+				fvo.setChangeName(changeNameList.get(i));
+				fvoList.add(fvo);
+			}
 		}
 		
+		//사진첨부
 		int result = bs.write(vo ,fvoList);
 		if(result <= 0) {
-			throw new Exception("비품 등록 실패");
+			throw new Exception("비품 등록에 실패하였습니다.");
 		}
-		session.setAttribute("alertMsg", "비품 등록 완료");
+		session.setAttribute("alertMsg", "비품 등록 완료!");
 		
 		return "redirect:/bipum/list";
 	}
 	
 	//비품 상세조회
 	@GetMapping("detail")
-	public String detail(String num, Model model) {
+	public String detail(String num, Model model) throws Exception {
 		
 		BipumVo vo = bs.getBipum(num);
 		
@@ -114,6 +118,7 @@ public class BipumController {
 		}
 		
 		model.addAttribute("vo", vo);
+		model.addAttribute("path","resources/upload/bipum");
 		return "bipum/detail";
 	}
 
@@ -156,15 +161,32 @@ public class BipumController {
 		return  "redirect:/bipum/list?page=1";
 	}
 	
+	//파일 다운로드(ResponseEntity 이용)
+	@GetMapping("att/down")
+	public ResponseEntity<ByteArrayResource> download(String ano, HttpServletRequest req) throws Exception {
+		
+		//바디 채우기
+		//파일 객체 준비
+		String path = req.getServletContext().getRealPath("/resources/upload/bipum/");
+		FileVo fvo = bs.getAttachment(ano);
+		File f = new File(path + fvo.getChangeName());
+		//바이트 배열로 변환
+		byte[] data = FileUtils.readFileToByteArray(f) ;
+		ByteArrayResource bar = new ByteArrayResource(data);
+		
+		//헤더 채우기
+		//ResponseEntity 만들기
+		ResponseEntity<ByteArrayResource> entity = ResponseEntity
+				.ok()
+				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + "\"" + URLEncoder.encode(fvo.getOriginName() , "UTF-8") + "\"" )
+				.header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
+				.contentLength(data.length)
+				.body(bar)
+				;
+			
+			return entity;
+	}
 
 }
-
-
-
-
-
-
-
-
-
 

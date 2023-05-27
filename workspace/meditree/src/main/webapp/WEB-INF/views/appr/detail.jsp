@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>결재문 작성</title>
+<title>결재문 상세보기</title>
 <!-- summernote -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -95,7 +95,7 @@ input:focus, textarea:focus {
 	border: none;
 }
 
-.btn-green { /* 이전목록 버튼 */
+.btn-green {  /*이전목록 버튼 */
 	border-color: #82CBC4;
 	color: #82CBC4;
 	float: right;
@@ -103,39 +103,56 @@ input:focus, textarea:focus {
 	justify-content: center;
 	margin-bottom: 15px;
 	margin-right: 5px;
+	margin-left: 5px;
 }
 
-.btn-green:hover {
+.btn-green:hover {  /*이전목록 버튼 호버 */
 	background: #82CBC4;
 	border-color: #82CBC4;
 	color: white;
 }
 
-.appr-write-btn { /* 수정, 삭제 버튼 */
+.appr-write-btn { /* 수정하기 버튼 */
 	background: #82CBC4;
 	color: white;
-	border: none;
 	float: right;
 	display: flex;
 	justify-content: center;
+	border-color: #82CBC4;
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-bottom: 15px;
 }
 
-.appr-write-btn:hover {
+
+.appr-write-btn:hover { /* 수정하기 버튼 호버 */
 	background: #82CBC4;
 	color: white;
-	border: none;
+}
+.btnfloat {
+	float: right;
 }
 
-.appr-table-wrapper {
+.btnfloat-danger {
+	float: right;
+	display: flex;
+	justify-content: center;
+	border-color: #82CBC4;
+	margin-right: 38px;
+	margin-left: 5px;
+	margin-bottom: 15px;
+}
+
+.appr-table-wrapper { 
 	width: 1050px;
 	padding-left: 40px;
 }
+.view-area{display: none;}
+.form-area{display: none;}
 
-#del-btn {
-	background: crimson;
-	margin-right: 5px;
+.look{
+	display: block;
 }
-
 </style>
 </head>
 <body>
@@ -149,56 +166,54 @@ input:focus, textarea:focus {
 					<br>
 					<div class="approve">
 						<h2>
-							전자결재 | <b>결재양식 관리 수정/삭제</b>
+							전자결재 | <b>결재양식</b>
 						</h2>
 						<hr>
-						<form action="formUpdate.si" method="post">
-							<input type="hidden" id="formNo" name="formNo"
-								value="${ f.formNo }">
+						<div class="view-area look">
 							<div class="appr-table-wrapper" style="margin-left: 20px;">
-								<button type="submit" class="btn btn-success appr-write-btn">
-									수정하기
-								</button>
-								<button type="button" class="btn btn-danger appr-write-btn"
-									id="del-btn" onclick="deleteForm();">
-									삭제하기
-								</button>
-								<button type="button" class="btn btn-outline-success btn-green"
-									onclick="location.href='formList.si'">
-									이전목록
-								</button>
-
-								<script>
-									function deleteForm() {
-										location.href = 'formDelete.si?formNo=${f.formNo}';
-									}
-								</script>
-
+								<button type="button" class="btn btn-success appr-write-btn" onclick="toggleLook();">수정하기</button>
+								<a href="${root}/appr/list" class="btn btn-outline-success btn-green">이전목록</a>&nbsp;<br>
 								<table class="table table-bordered appr-table">
 									<tr>
-										<th width="250px;">양식종류</th>
-										<td>일반</td>
-									</tr>
-									<tr>
-										<th>사용여부</th>
-										<td><input type="radio" name="formStatus" id="use"
-											value="Y">사용 &nbsp; <input type="radio"
-											name="formStatus" id="notUse" value="N">미사용</td>
+										<th width="250px;">사용여부</th>
+										<td>${vo.status}</td>
 									</tr>
 									<tr>
 										<th>제목</th>
-										<td><input type="text" name="formTitle"
-											value="${ f.formTitle }"></td>
+										<td>${vo.title}</td>
 									</tr>
 									<tr>
 										<th>설명</th>
-										<td><input type="text" name="formInfo"
-											value="${ f.formInfo }" style="width: 800px;"></td>
+										<td>${vo.info}</td>
 									</tr>
 								</table>
-
-								<c:choose>
-									<c:when test="${ f.formStatus eq 'Y' }">
+								<div>${vo.content}</div>
+							</div>
+						</div>
+							
+							<!-- 수정하기  -->
+							<div class="form-area">
+							<div class="btnfloat-danger">
+							<button onclick="location.href='${root}/appr/delete?num=${vo.no}'" class="btn btn-danger">삭제하기</button>
+							</div>
+							<form action="${root}/appr/edit" method="post">
+							<div class="appr-table-wrapper" style="margin-left: 20px;">
+							<div class="btnfloat">
+								<button type="submit" class="btn btn-success appr-write-btn">수정하기</button>
+							</div>
+								<input type="hidden" name="no" value="${vo.no}">
+								<table class="table table-bordered appr-table">
+									<tr>
+										<th width="250px;">사용여부</th>
+										<td>
+										<input style="display: inline-block; width: 30px; height: 15px;"
+										       type="radio" name="status" id="use" value="O">가능
+									    <input style="display: inline-block; width: 30px; height: 15px;"
+											   type="radio" name="status" id="notUse" value="X">불가능
+									    </td>
+									</tr>
+									<c:choose>
+									<c:when test="${ vo.status eq 'O' }">
 										<script>
 											$(function() {
 												$("#use").attr("checked", true);
@@ -208,23 +223,25 @@ input:focus, textarea:focus {
 									<c:otherwise>
 										<script>
 											$(function() {
-												$("#notUse").attr("checked",
-														true);
+												$("#notUse").attr("checked", true);
 											})
 										</script>
 									</c:otherwise>
 								</c:choose>
-
-								<div>
-									<textarea class="yui3-cssreset" id="summernote"
-										name="formContent">${ f.formContent }</textarea>
-								</div>
+									
+									<tr>
+										<th>제목</th>
+										<td><input type="text" name="title" value="${ vo.title }"></td>
+									</tr>
+									<tr>
+										<th>설명</th>
+										<td><input type="text" name="info" value="${ vo.info }" style="width: 800px;"></td>
+									</tr>
+								</table>
+								<div><textarea id="summernote" name="content">${vo.content}</textarea></div>
 							</div>
-						</form>
-					</div>
-				</div>
-
-				<!-- summernote -->
+							</form>
+							<!-- summernote -->
 				<script src="https://code.jquery.com/jquery-3.5.1.min.js"
 					crossorigin="anonymous"></script>
 				<script
@@ -282,10 +299,24 @@ input:focus, textarea:focus {
 														});
 									});
 				</script>
-
-
+							
+							</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
+<script>
+
+	//수정하기 버튼 클릭 시 동작하는 내용
+	function toggleLook() {
+		const viewArea = document.querySelector(".view-area");
+		const formArea = document.querySelector(".form-area");
+		
+		viewArea.classList.remove('look');
+		formArea.classList.add('look');
+	}
+
+</script>

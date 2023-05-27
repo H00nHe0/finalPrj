@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>bipumDetail</title>
 <!-- CSS only -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -85,6 +85,7 @@ input, textarea {
 .look{
 	display: block;
 }
+
 </style>
 </head>
 <body>
@@ -127,10 +128,15 @@ input, textarea {
 													<th class="active">설명</th>
 													<td>${vo.content}</td>
 												</tr>
-												<%-- <tr>
-													<th class="active">이미지</th>
-													<td>${vo.img}</td>
-												</tr> --%>
+												<tr>
+													<th class="active">첨부파일</th>
+													<td><c:forEach items="${vo.attList}" var="fvo">
+                     								<a href="${root}/bipum/att/down?ano=${fvo.no}">${fvo.originName}</a></c:forEach></td>
+												</tr>
+												<tr>
+													<th class="active">미리보기</th>
+													<td><div id="preview-area"> </div></td>
+												</tr>
 											</tbody>
 										</table>
 
@@ -169,11 +175,12 @@ input, textarea {
 													<td><textarea name="content">${vo.content}</textarea></td>
 												</tr>
 												<tr>
-													<th class="active">사진첨부</th>
-													<td><input type="file" name="f" multiple class="form-control" id="formFileMultiple"></td>
+													<th class="active">첨부파일</th>
+													<td><c:forEach items="${vo.attList}" var="fvo">${fvo.originName}</c:forEach></td>
 												</tr>
 												<tr>
-													<td><div id="preview-area"></div></td>
+													<th class="active">미리보기</th>
+													<td><div id="preview-area"> </div></td>
 												</tr>
 											</tbody>
 										</table>
@@ -183,7 +190,6 @@ input, textarea {
 											</div>
 										</form>
 									</div>
-									
 								</div>
 							</div>
 						</div>
@@ -191,6 +197,7 @@ input, textarea {
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 </html>
 
@@ -204,5 +211,19 @@ input, textarea {
 		viewArea.classList.remove('look');
 		formArea.classList.add('look');
 	}
+	
+	//이미지 미리보기
+	const div = document.querySelector('#preview-area');
+	let imgTag;
+	<c:forEach items="${vo.attList}" var="fvo">
+		//이미지 요소 만들기
+		imgTag = document.createElement('img');
+		imgTag.setAttribute("src" , "${root}/${path}/${fvo.changeName}");
+		imgTag.setAttribute("alt" , "${fvo.originName}");
+		imgTag.setAttribute("width" , "150px");
+		imgTag.setAttribute("height" , "150px");
+		//이미지 요소를 div 안에 추가하기
+		div.appendChild(imgTag);
+	</c:forEach>
 
 </script>

@@ -50,7 +50,10 @@ public class bipumService {
 	
 	//상세조회
 	public BipumVo getBipum(String num) {
-		return dao.getBipum(sst, num);
+		BipumVo vo = dao.getBipum(sst, num);
+		List<FileVo> fileList = dao.getAttachmentList(sst,num);
+		vo.setAttList(fileList);
+		return vo;
 	}
 	
 	//수정하기
@@ -67,7 +70,11 @@ public class bipumService {
 	public int getBipumListCnt() {
 		return dao.getBipumListCnt(sst);
 	}
-
+	
+	//첨부파일 불러오기
+	public FileVo getAttachment(String ano) {
+		return dao.getAttachment(sst, ano);
+	}
 
 
 }

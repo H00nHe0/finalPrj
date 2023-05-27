@@ -18,78 +18,100 @@ import com.medi.app.common.page.PageVo;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.treat.service.PatientInquiryService;
 import com.medi.app.reception.patient.vo.PatientVo;
+import com.medi.app.tmHistory.vo.TmHistoryVo;
 
 @Controller
 @RequestMapping("patientInquiry")
 public class PatientInquiryController {
-	
+
 	private final PatientInquiryService ps;
-	
+
 	@Autowired
 	public PatientInquiryController(PatientInquiryService ps) {
 		this.ps = ps;
-	} 
+	}
 
-	//환자조회
+	// 환자조회
 	@GetMapping("list")
-	public String getPatientList(@RequestParam(defaultValue = "1") int page ,@RequestParam Map<String , String> searchMap, Model model) {
-		
-		//데이터
+	public String getPatientList(@RequestParam(defaultValue = "1") int page,
+			@RequestParam Map<String, String> searchMap, Model model) {
+
+		// 데이터
 		int listCount = ps.getCnt(searchMap);
 		int currentPage = page;
 		int pageLimit = 5;
 		int boardLimit = 10;
 		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		
-		//서비스
+
+		// 서비스
 		List<PatientVo> pvoList = ps.getPatientList(pv, searchMap);
-		
-		//화면
-		model.addAttribute("searchMap" , searchMap);
-		model.addAttribute("pv" , pv);
-		model.addAttribute("pvoList" , pvoList);
+
+		// 화면
+		model.addAttribute("searchMap", searchMap);
+		model.addAttribute("pv", pv);
+		model.addAttribute("pvoList", pvoList);
 		return "patientInquiry/list";
 	}
-	
-	
-	
-	
-	//환자상세조회
+
+	// 환자상세조회 + //환자 진료내역 조회(상세조회페이지랑 같이있음)
 	@GetMapping("detail")
-	public String inquiryDetail(String no , Model model) {
+	public String inquiryDetail(@RequestParam(defaultValue = "1") int page  , String no , Model model) {
+
+		int listCount = ps.getCnt2(no);
+		int currentPage = page;
+		int pageLimit = 5;
+		int boardLimit = 5;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
 		
 		PatientVo vo = ps.getPatientInquiry(no);
+		List<TmHistoryVo> tmvoList = ps.getPatientChart(no , pv);
 		
-		if(vo == null) {
-			model.addAttribute("errorMsg" , "조회실패....");
+		if (vo == null) {
+			model.addAttribute("errorMsg", "조회실패....");
 			return "common/error";
 		}
 		
-		model.addAttribute("vo" , vo);
+		model.addAttribute("pv", pv);
+		model.addAttribute("tmvoList", tmvoList);
+		model.addAttribute("vo", vo);
 		return "patientInquiry/detail";
 	}
-	
+
 	
 	//환자정보수정 화면
-	@GetMapping("edit")
-	public String InquiryEdit() {
-		return "patientInquiry/edit";
-	}
-	
-	//정보수정
-	@PostMapping("edit")
-	public String InquiryEdit(PatientVo vo , RedirectAttributes ra) throws Exception{
+	@GetMapping("edit") 
+	public String InquiryEdit(String no, Model model) { 
 		
+		PatientVo vo = ps.getPatientInquiry2(no);
+		
+		if (vo == null) {
+			model.addAttribute("errorMsg", "조회실패....");
+			return "common/error";
+		}
+
+		model.addAttribute("vo", vo);
+		
+		return "patientInquiry/edit"; 
+		}
+	 
+
+	// 정보수정
+	@PostMapping("edit")
+	public String InquiryEdit(PatientVo vo, HttpSession session) throws Exception {
+
 		int result = ps.updatePatientInquiry(vo);
-				
-		if(result != 1) {
+
+		if (result == 0) {
 			throw new Exception("수정 실패 ...");
 		}
-		
-		ra.addFlashAttribute("alertMsg" , "수정하기 성공!");
-		ra.addAttribute("no" , vo.getNo());
-		return "redirect:/patientInquiry/detail";
-		
+
+		session.setAttribute("alertMsg", "수정하기 성공!");
+		//session.setAttribute("no", vo.getNo());
+		return "redirect:/patientInquiry/detail?no=" + vo.getNo();
+
 	}
 	
+
+	
+
 }

@@ -69,7 +69,7 @@
                   <h5 class="card-title">제목</h5> 
                   <input type="text" readonly class="form-control" id="title" value="${vo.title}">
                   <h5 class="card-title">작성자 | 작성일</h5> 
-                  <input type="text" readonly class="form-control" id="enrollDate" value="${vo.empNo} | ${vo.enrollDate}">
+                  <input type="text" readonly class="form-control" id="enrollDate" value="${vo.writerName} | ${vo.enrollDate}">
                   <h5 class="card-title">내용</h5>
                   <textarea readonly class="form-control"  id="content" style="height: 350px; text-align:left;">${vo.content}</textarea>
                   
@@ -110,7 +110,7 @@
                     <h5 class="card-title">제목</h5> 
                     <input type="text" name="title" class="form-control" id="title" value="${vo.title} ">
                     <h5 class="card-title">작성자 | 작성일</h5> 
-                  <input type="text" class="form-control" id="enrollDate" value="${vo.empNo} | ${vo.enrollDate}">
+                  <input type="text" readonly class="form-control" id="enrollDate" value="${vo.writerName} | ${vo.enrollDate}">
                     <h5 class="card-title">내용</h5>
                     <textarea name="content" class="form-control"  id="content" style="height: 350px">${vo.content}</textarea>
                  	  <h5>첨부파일</h5>
@@ -153,7 +153,7 @@
       //로그인 안되어 있으면 ㄴㄴ
       const writerNo = '${loginMember.no}';
       if(writerNo <= 0 ){
-          alert("로그인 후 작성 가능합니다.(JS에서 검사)");
+          alert("로그인 후 작성 가능합니다.");
           return;
       }
 
@@ -166,7 +166,7 @@
           url : "${root}/board/reply/write",
           type : 'POST',
           data : {
-              'bno' : '${bvo.no}',
+              'bno' : '${vo.no}',
               'content' : content
           },
           success : function(data){
@@ -219,9 +219,9 @@ function loadReply(){
           str += "<span id='delBtn'>";
               str += replyVo.writerName;
           str += "</span>";
-          /* if(writerNo == replyVo.writerNo || writerNo == 999999){
-          } */
+           if(writerNo == replyVo.writerNo || writerNo == 999999){
               str += "<button  class='btn btn-outline-danger btn-sm' onclick = 'deleteReply(" +  replyVo.no +");'>삭제</button>";
+           } 
           str += "</div>";
           commentArea.innerHTML += str;
       }

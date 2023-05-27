@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메일보관함</title>
+<title>받은 메일함</title>
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <!-- JavaScript Bundle with Popper -->
@@ -34,67 +34,60 @@
         <div id="main">
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
                 <div id="content">
-					<h2>메일보관함</h2>
+                	<div id="nav">
+                	<ul class="nav nav-tabs">
+					  <li class="nav-item">
+					    <a class="nav-link " aria-current="page" href="${root}/mail/inlist">받은 메일</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link active" href="${root}/mail/sendlist">보낸 메일</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link " href="${root}/mail/delete">휴지통</a>
+					  </li>
+					</ul>
+                </div>
+					<h2 style="margin-top: 20px;">보낸 메일</h2>
 						<div id="btn">
 						  <button type="button" class="btn btn-danger" onclick="location.href='${root}/mail/delete'">휴지통</button>
-						  <button type="button" class="btn btn-success" onclick="location.href='${root}/mail/write'">메일 보내기</button>
+						  <button type="button" class="btn btn-success" onclick="location.href='${root}/mail/write'">메일 작성</button>
 						</div>
                     <table class="table table-hover">
                           <thead class="table-success">
                             <tr>
                                 <th><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
-                                <th>작성자</th>
+                                <th>받는사람</th>
                                 <th>제목</th>
                                 <th>날짜</th>
-                                
                             </tr>
                           </thead>  
                           <tbody>
+                          	<c:forEach items="${mvoList}" var="mvo">
                           	<tr>
                           		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
+                          		<td>${mvo.receiverName}</td>
+                          		<td>${mvo.title}</td>
+                          		<td>${mvo.enrollDate }</td>
                           	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
+                          	</c:forEach>
                         </tbody>    
                     </table>
-                    
+                    <div id="page-area">
+						<c:if test="${pv.currentPage > 1}">
+							<a class = "btn btn-primary btn-sm" href="${root}/notice/list?page=${pv.currentPage-1}">이전</a>
+						</c:if>
+						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<a class = "btn btn-primary btn-sm" href="${root}/notice/list?page=${i}">${i}</a>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<a class = "btn btn-secondary btn-sm">${i}</a>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pv.currentPage < pv.maxPage}">
+							<a class = "btn btn-primary btn-sm" href="${root}/notice/list?page=${pv.currentPage+1}">다음</a>
+						</c:if>
+					</div>
 
             </div>
         </div>

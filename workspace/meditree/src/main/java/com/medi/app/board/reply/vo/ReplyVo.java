@@ -9,7 +9,7 @@ public class ReplyVo {
 	private String bno;
 	private String content;
 	private String writerNo;
-	private String writerNick;
+	private String writerName;
 	private String enrollDate;
 	private String status;
 }

@@ -56,7 +56,7 @@
 	                          	<tr>
 	                          		<td>${bvo.no}</td>
 			                        <td>${bvo.title}</td>
-			                        <td>${bvo.empNo}</td>
+			                        <td>${bvo.writerName}</td>
 			                        <td>${bvo.enrollDate}</td>
 			                        <td>${bvo.hit}</td>
 	                          	</tr>

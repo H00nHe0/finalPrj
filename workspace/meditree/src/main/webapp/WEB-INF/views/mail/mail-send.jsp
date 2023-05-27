@@ -40,22 +40,20 @@
                   <div class="card-body">
                 <div id="form-area">
                     <div class="form-floating mb-3">
+                    <input type="hidden" name="writer">
                    		<h5>제목</h5>
-					  <input type="text" class="form-control"  placeholder="Default input" aria-label="default input example">
-					  <label for="floatingInput"></label>
+					  <input type="text" class="form-control"  name = "title">
                    		<h5>받는사람</h5>
-					  <input type="email" class="form-control"  placeholder="Default input" aria-label="default input example">
-					  <label for="floatingInput"></label>
+					  <input type="text" class="form-control" name="receiver" >
 					</div>
                     <div class="form-floating">
                     	<h5>내용</h5>
-					  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 350px"></textarea>
-					  <label for="floatingTextarea2"></label>
+					  <textarea class="form-control" name="content"></textarea>
 					</div>
                     <div class="mb-3">
                     
 					  <label for="formFileMultiple" class="form-label"></label>
-					  <input class="form-control" type="file" id="formFileMultiple" multiple>
+					  <input class="form-control" name="f" type="file" id="formFileMultiple" multiple>
 					</div>
                    
                     <div id="thumbnail-area"></div>

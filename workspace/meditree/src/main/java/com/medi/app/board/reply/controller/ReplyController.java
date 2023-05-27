@@ -46,7 +46,6 @@ public class ReplyController {
 		
 		int result = rs.write(vo);
 		
-		
 		if (result != 1) {
 			return "fail";
 		}

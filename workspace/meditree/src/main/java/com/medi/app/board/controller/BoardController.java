@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.medi.app.board.service.BoardService;
@@ -27,6 +28,7 @@ import com.medi.app.board.vo.BoardVo;
 import com.medi.app.common.file.FileUploader;
 import com.medi.app.common.file.FileVo;
 import com.medi.app.common.page.PageVo;
+import com.medi.app.member.vo.MemberVo;
 import com.medi.app.notice.vo.NoticeVo;
 
 @Controller
@@ -63,7 +65,7 @@ public class BoardController {
 	
 	//게시판 작성하기(기능)
 	@PostMapping("write")
-	public String write(BoardVo vo , HttpSession session ,List<MultipartFile> f ,HttpServletRequest req) throws Exception {
+	public String write(BoardVo vo , HttpSession session ,List<MultipartFile> f ,HttpServletRequest req, @SessionAttribute MemberVo loginMember) throws Exception {
 		//데이터 준비 (파일)
 		String path = req.getServletContext().getRealPath("/resources/upload/board/");
 		List<String> changeNameList = FileUploader.upload(f, path);
@@ -80,6 +82,8 @@ public class BoardController {
 				fvoList.add(fvo);
 		}
 	}
+		String empNo = loginMember.getNo();
+		vo.setEmpNo(empNo);
 
 		int result = bs.write(vo ,fvoList);
 		if (result <= 0) {
@@ -92,13 +96,17 @@ public class BoardController {
 	
 	//게시판 상세보기
 	@GetMapping("detail")
-	public String detail(String num , Model model) throws Exception {
+	public String detail(String num , Model model, @SessionAttribute MemberVo loginMember) throws Exception {
 		BoardVo vo = bs.getBoard(num);
+		
+		String writerName = loginMember.getName();
 		
 		if (vo == null) {
 			model.addAttribute("errorMsg","조회실패");
 			return "common/error-page";
 		}
+		
+		vo.setWriterName(writerName);
 		model.addAttribute("vo",vo);
 		model.addAttribute("path","resources/upload/board");
 		return "board/board-detail";

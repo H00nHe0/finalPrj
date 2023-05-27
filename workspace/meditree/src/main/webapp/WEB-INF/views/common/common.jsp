@@ -41,7 +41,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         src="${root}/resources/img/homeImg/chat.svg"
         alt="채팅이미지"
     /></a>
-    <a href="${root}/mail/list"
+    <a href="${root}/mail/inlist"
       ><img
         id="alert"
         src="${root}/resources/img/homeImg/mail.svg"

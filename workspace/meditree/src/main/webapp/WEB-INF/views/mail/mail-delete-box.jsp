@@ -34,10 +34,22 @@
         <div id="main">
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
                 <div id="content">
-					<h2>휴지통</h2>
+                	<div id="nav">
+                	<ul class="nav nav-tabs">
+					  <li class="nav-item">
+					    <a class="nav-link " aria-current="page" href="${root}/mail/inlist">받은 메일</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link " href="${root}/mail/sendlist">보낸 메일</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link active" href="${root}/mail/delete">휴지통</a>
+					  </li>
+					</ul>
+                </div>
+					<h2 style="margin-top: 20px;">휴지통</h2>
 						<div id="btn">
-						  <button type="button" class="btn btn-danger" onclick="location.href='${root}/mail/delete'">삭제하기</button>
-						  <button type="button" class="btn btn-success" onclick="location.href='${root}/mail/write'">복구하기</button>
+						  <button type="button" class="btn btn-danger" onclick="location.href='${root}/mail/delete'">영구삭제</button>
 						</div>
                     <table class="table table-hover">
                           <thead class="table-success">

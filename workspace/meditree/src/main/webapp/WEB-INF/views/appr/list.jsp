@@ -90,13 +90,12 @@ body h1 {
 
 #appr-manage-table>thead>tr {
 	border-top: 1px solid lightgray;
+	background-color: #f3f3f4;
 }
 
-#appr-manage-select { /* 카테고리 */
-	height: 30px;
-	font-size: 14px;
-	float: right;
-	margin-right: 15px;
+#page-area{
+    	text-align: center;
+    	padding-top: 20px;
 }
 </style>
 </head>
@@ -113,53 +112,42 @@ body h1 {
 					<br>
 					<div class="approve">
 						<h2>
-							전자결재 | <b>결재양식 관리 목록</b>
+							전자결재 | <b>결재양식 관리</b>
 						</h2>
 						<hr>
 						<br>
-						<div class="appr-table-wrapper" style="margin-left: 20px;">
+						<div class="appr-table-wrapper" style="margin-top: 30px;">
 
-							<div id="search-area">
-								<select name="searchType" id="appr-manage-select">
-									<option>전체</option>
-									<option>양식종류</option>
-									<option>사용</option>
-									<option>미사용</option>
-								</select>
-							</div>
-
-							<table class="table " id="appr-manage-table">
+							<table class="table table-hover" id="appr-manage-table">
 								<thead align="center">
 									<tr>
 										<th>번호</th>
 										<th>사용여부</th>
-										<th>양식종류</th>
 										<th>양식명</th>
 										<th>양식설명</th>
 									</tr>
 								</thead>
 								<tbody align="center">
 									<c:choose>
-										<c:when test="${ empty list }">
+										<c:when test="${empty apvoList}">
 											<tr>
-												<td colspan="5">사용 가능한 양식이 없습니다.</td>
+												<td colspan="4">사용 가능한 양식이 없습니다.</td>
 											<tr>
 										</c:when>
 										<c:otherwise>
-											<c:forEach var="f" items="${ list }">
+											<c:forEach var="avo" items="${apvoList}">
 												<tr>
-													<td class="formNo">${ f.formNo }</td>
+													<td class="no">${avo.no}</td>
 													<c:choose>
-														<c:when test="${ f.formStatus eq 'Y' }">
+														<c:when test="${ avo.status eq 'O' }">
 															<td>사용</td>
 														</c:when>
 														<c:otherwise>
 															<td>미사용</td>
 														</c:otherwise>
 													</c:choose>
-													<td>${ f.formType }</td>
-													<td>${ f.formTitle }</td>
-													<td>${ f.formInfo }</td>
+													<td>${avo.title}</td>
+													<td>${avo.info}</td>
 												</tr>
 											</c:forEach>
 										</c:otherwise>
@@ -167,37 +155,24 @@ body h1 {
 								</tbody>
 							</table>
 							<br>
-							<button class="btn appr-write-btn"
-								onclick="location.href='formEnrollForm.si'">양식추가</button>
-
-
-							<script>
-								$(function() {
-									$("#appr-manage-table>tbody>tr")
-											.click(
-													function() {
-														location.href = 'formDetail.si?formNo='
-																+ $(this)
-																		.find(
-																				".formNo")
-																		.text();
-													})
-								})
-							</script>
-
-							<!-- 페이징 -->
-							<div class="page-navi">
-								<nav aria-label="Page navigation example">
-									<ul class="pagination justify-content-center">
-										<li class="page-item disabled"><a class="page-link">Previous</a>
-										</li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#">Next</a>
-										</li>
-									</ul>
-								</nav>
+								<a href="${root}/appr/write" class="btn appr-write-btn">양식추가</a>
+							<br>
+							<!-- 페이징 처리 -->
+							<div id="page-area">
+								<c:if test="${pv.currentPage > 1}">
+									<a class = "btn btn-primary btn-sm" href="${root}/appr/list?page=${pv.currentPage-1}">이전</a>
+								</c:if>
+								<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+								<c:if test="${pv.currentPage != i}">
+									<a class = "btn btn-primary btn-sm" href="${root}/appr/list?page=${i}">${i}</a>
+								</c:if>
+								<c:if test="${pv.currentPage == i}">
+									<a class = "btn btn-secondary btn-sm">${i}</a>
+								</c:if>
+								</c:forEach>
+								<c:if test="${pv.currentPage < pv.maxPage}">
+								<a class = "btn btn-primary btn-sm" href="${root}/appr/list?page=${pv.currentPage+1}">다음</a>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -207,3 +182,12 @@ body h1 {
 	</div>
 </body>
 </html>
+<script>
+
+    const table = document.querySelector("#appr-manage-table tbody");
+    table.addEventListener("click",(event)=>{
+       const num = event.target.parentNode.children[0].innerText; 
+       location.href = '${root}/appr/detail?num=' + num;
+    });
+
+</script>

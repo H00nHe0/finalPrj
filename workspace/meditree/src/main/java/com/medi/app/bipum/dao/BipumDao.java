@@ -52,4 +52,14 @@ public class BipumDao {
 		return sst.insert("bipum.insertAttachment", fvoList);
 	}
 	
+	//첨부파일 조회
+	public FileVo getAttachment(SqlSessionTemplate sst, String ano) {
+		return sst.selectOne("bipum.getAttachment", ano);
+	}
+
+	//첨부파일 목록조회
+	public List<FileVo> getAttachmentList(SqlSessionTemplate sst, String num) {
+		return sst.selectList("bipum.getAttachmentList", num);
+	}
+	
 }

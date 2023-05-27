@@ -145,37 +145,30 @@ input:focus, textarea:focus {
 							전자결재 | <b>결재양식 추가하기</b>
 						</h2>
 						<hr>
-						<form action="formInsert.si" method="post">
+						<form action="${root}/appr/write" method="post">
 							<div class="appr-table-wrapper" style="margin-left: 20px;">
-								<button type="submit" class="btn btn-success appr-write-btn">
-									추가하기</button>
-								<button type="button" class="btn btn-outline-success btn-green"
-									onclick="location.href='formList.si'">이전목록</button>
+								<button type="submit" class="btn btn-success appr-write-btn">추가하기</button>
+								<a href="${root}/appr/list" class="btn btn-outline-success btn-green">이전목록</a>
 								<table class="table table-bordered appr-table">
 									<tr>
-										<th width="250px;">양식종류</th>
-										<td>일반</td>
-									</tr>
-									<tr>
-										<th>사용여부</th>
-										<td><input type="radio" name="formStatus" value="Y">사용
-											&nbsp; <input type="radio" name="formStatus" value="N">미사용
+										<th width="250px;">사용여부</th>
+										<td>
+											<input type="radio" name="status" value="O">사용 &nbsp;
+											<input type="radio" name="status" value="X">미사용
 										</td>
 									</tr>
 									<tr>
 										<th>제목</th>
-										<td><input type="text" placeholder="제목을 입력해주세요"
-											name="formTitle"></td>
+										<td><input type="text" placeholder="제목을 입력해주세요" name="title"></td>
 									</tr>
 									<tr>
 										<th>설명</th>
-										<td><input type="text" placeholder="설명을 입력해주세요"
-											style="width: 800px;" name="formInfo"></td>
+										<td>
+										<input type="text" placeholder="설명을 입력해주세요" style="width: 800px;" name="info"></td>
 									</tr>
 								</table>
 								<div>
-									<textarea class="yui3-cssreset" id="summernote"
-										name="formContent"></textarea>
+									<textarea class="form-control" id="summernote" name="content"></textarea>
 								</div>
 							</div>
 						</form>
@@ -183,18 +176,13 @@ input:focus, textarea:focus {
 				</div>
 
 				<!-- summernote -->
-				<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+				<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+				<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+				    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
 					crossorigin="anonymous"></script>
-				<script
-					src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-					integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-					crossorigin="anonymous"></script>
-				<script
-					src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-					integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-					crossorigin="anonymous"></script>
-				<script
-					src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+					integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+				<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 				<script>
 					$(document)
 							.ready(

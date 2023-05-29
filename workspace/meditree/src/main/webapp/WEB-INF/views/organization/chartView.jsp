@@ -80,7 +80,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         display: block;
       }
       #chartArea > li {
-        font-size: 18px;
+        font-size: 19px;
         font-weight: 600;
         list-style: none;
         margin-left: 20px;
@@ -92,9 +92,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       #chartArea {
         padding-left: 30px;
       }
-      #chartArea * {
+      /* #chartArea * {
         font-size: 1rem;
-      }
+      } */
       #org-chart ul {
         list-style-type: none;
         margin: 0;
@@ -227,13 +227,17 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       }
 
       #chartArea li ul li {
-        font-weight: 300;
+        font-weight: 600;
       }
       #chartArea > li:nth-of-type(2) > ul > li {
         font-weight: 600;
       }
       .col-4 a {
         text-decoration: none;
+      }
+      #emp-cnt {
+        padding-right: 20px;
+        font-weight: 600;
       }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -259,12 +263,14 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                 >
                   <br />
                   <h4>
-                    <b>
-                      <img
-                        src="${root}/resources/img/orgImg/building.png"
-                        alt="병원이미지"
-                      />메디병원</b
-                    >
+                    <a href="/app/organization/chartView">
+                      <b>
+                        <img
+                          src="${root}/resources/img/orgImg/building.png"
+                          alt="병원이미지"
+                        />메디병원</b
+                      >
+                    </a>
                   </h4>
                   <ul id="chartArea">
                     <li>
@@ -287,11 +293,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             alt="병원이미지"
                           />
                           <a id="selectSurgery">일반내과</a>
-                          <ul>
-                            <c:forEach items="${mvoList}" var="mvo">
-                              <li>${mvo.name}</li>
-                            </c:forEach>
-                          </ul>
                         </li>
                         <li>
                           <img
@@ -299,9 +300,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             alt="병원이미지"
                           />
                           <a id="psychiatry">정신과</a>
-                          <c:forEach items="${mvoList}" var="mvo">
-                            <li>${mvo.name}</li>
-                          </c:forEach>
                         </li>
                         <li>
                           <img
@@ -309,9 +307,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             alt="병원이미지"
                           />
                           <a id="ent">이비인후과</a>
-                          <c:forEach items="${mvoList}" var="mvo">
-                            <li>${mvo.name}</li>
-                          </c:forEach>
                         </li>
                         <li>
                           <img
@@ -332,9 +327,20 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                       />
                       간호부
                       <ul>
-                        <li>허훈 수간호사</li>
-                        <li>김승우 섭간호사</li>
-                        <li>후훈 신입간호사</li>
+                        <li>
+                          <img
+                            src="${root}/resources/img/orgImg/arrows.png"
+                            alt="병원이미지"
+                          />
+                          <a id="emer">수술실</a>
+                        </li>
+                        <li>
+                          <img
+                            src="${root}/resources/img/orgImg/arrows.png"
+                            alt="병원이미지"
+                          />
+                          <a id="pRm">일반</a>
+                        </li>
                       </ul>
                     </li>
                     <li>
@@ -342,22 +348,14 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                         src="${root}/resources/img/orgImg/arrows.png"
                         alt="병원이미지"
                       />
-                      원무부
-                      <ul>
-                        <li>허훈 팀장</li>
-                        <li>김승우 대리</li>
-                        <li>후훈 사원</li>
-                      </ul>
+                      <a id="receipt">원무부</a>
                     </li>
                     <li>
                       <img
                         src="${root}/resources/img/orgImg/arrows.png"
                         alt="병원이미지"
                       />
-                      경영지원부
-                      <ul>
-                        <li>울랄라 전무</li>
-                      </ul>
+                      <a id="management">경영지원부</a>
                     </li>
                   </ul>
                 </div>
@@ -370,77 +368,17 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   id="org-mem"
                   style="width: 90%; margin-left: 10px"
                 >
-                  <!-- <c:if test="${empty mvoList}">
-                    <h4 style="padding-top: 20px">
-                      <b id="setTitle">병원장</b>
-                    </h4>
-
-                    <p
-                      style="
-                        float: right;
-                        margin-right: 20px;
-                        margin-top: -10px;
-                      "
-                    >
-                      화이팅
-                    </p>
-                    <hr />
-                    <table id="mem-tb" class="table">
-                      <tr style="height: 200px">
-                        <td>
-                          <img
-                            id="king"
-                            src="${root}/resources/img/orgImg/manager.jpg"
-                            alt="kin1"
-                          />
-                        </td>
-                        <td>대통령</td>
-                        <td>윤석열</td>
-                        <td>010-4738-7265</td>
-                      </tr>
-                    </table>
-                  </c:if> -->
                   <c:if test="${empty mvoList}">
                     <h4 style="padding-top: 20px">
                       <b id="setTitle"></b>
                     </h4>
-
-                    <p
-                      style="
-                        float: right;
-                        margin-right: 20px;
-                        margin-top: -10px;
-                      "
-                    >
-                      총인원 : 명
-                    </p>
+                    <p id="emp-cnt" style="text-align: right"></p>
                     <hr />
                     <table id="mem-tb" class="table">
-                      <tr>
-                        <td>
-                          <img
-                            src="${root}/resources/img/orgImg/terry.jpg"
-                            alt="terry"
-                          />
-                        </td>
-                        <td id="setMajor"></td>
-                        <td id="setName"></td>
-                        <td id="setTel"></td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="${root}/resources/img/orgImg/terry.jpg"
-                            alt="terry"
-                          />
-                        </td>
-                        <td id="setMajor1"></td>
-                        <td id="setName1"></td>
-                        <td id="setTel1"></td>
-                      </tr>
+                      <tbody id="chart-holder"></tbody>
                     </table>
                   </c:if>
-
+                  <td style="height: 300px; width: 250px" align="center"></td>
                   <br /><br />
                 </div>
               </div>
@@ -452,6 +390,33 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </body>
 
   <script>
+    $(function () {
+      // 새로운 <tr> 요소 생성
+      const newRow1 = document.createElement("tr");
+      const newRow2 = document.createElement("tr");
+      const setTitle = document.querySelector("#setTitle");
+      setTitle.innerHTML = "병원장의 말씀";
+      // <tr> 내부에 들어갈 HTML 코드 작성
+      const newRowHTML =
+        "<td style='height: 250px'  align='center'>" +
+        "<img style='height: 200px; width: 200px'  align='center'" +
+        "src='${root}/resources/img/orgImg/captin.jpg'" +
+        "alt='kin1'/>" +
+        "</td>" +
+        "<td>한국을 넘어 세계 일류 병원으로 도약하도록 모두 화이팅합시다!</td>";
+
+      const newRowHTML2 = "<td>J-dragon</td>" + "<td>병원장</td>";
+
+      // <tr> 요소에 HTML 코드 할당
+      newRow1.innerHTML = newRowHTML;
+      newRow2.innerHTML = newRowHTML2;
+
+      // 추가할 테이블을 선택하여 <tr> 요소를 추가
+      const tableBody = document.querySelector("#mem-tb tbody");
+      tableBody.appendChild(newRow1);
+      tableBody.appendChild(newRow2);
+    });
+
     const orgChart = document.querySelector("#chartArea");
 
     orgChart.addEventListener("click", function (event) {
@@ -478,21 +443,36 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           const obj = JSON.parse(data);
           console.log(obj);
           //innerHTML
-          console.log(obj[0].title);
+
+          let chartValue = "";
           const setTitle = document.querySelector("#setTitle");
           setTitle.innerHTML = obj[0].title;
-          const setName = document.querySelector("#setName");
-          setName.innerHTML = obj[0].name;
-          const setTel = document.querySelector("#setTel");
-          setTel.innerHTML = obj[0].tel;
-          const setMajor = document.querySelector("#setMajor");
-          setMajor.innerHTML = obj[0].potitle;
-          const setMajor1 = document.querySelector("#setMajor1");
-          setMajor1.innerHTML = obj[1].potitle;
-          const setName1 = document.querySelector("#setName1");
-          setName1.innerHTML = obj[1].name;
-          const setTel1 = document.querySelector("#setTel1");
-          setTel1.innerHTML = obj[1].tel;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
         },
         error: function (x) {
           console.log("통신실패..");
@@ -514,22 +494,35 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           const obj = JSON.parse(data);
           console.log(obj);
           //innerHTML
-          console.log(obj[0].title);
-
+          let chartValue = "";
           const setTitle = document.querySelector("#setTitle");
           setTitle.innerHTML = obj[0].title;
-          const setName = document.querySelector("#setName");
-          setName.innerHTML = obj[0].name;
-          const setTel = document.querySelector("#setTel");
-          setTel.innerHTML = obj[0].tel;
-          const setMajor = document.querySelector("#setMajor");
-          setMajor.innerHTML = obj[0].potitle;
-          const setMajor1 = document.querySelector("#setMajor1");
-          setMajor1.innerHTML = obj[1].potitle;
-          const setName1 = document.querySelector("#setName1");
-          setName1.innerHTML = obj[1].name;
-          const setTel1 = document.querySelector("#setTel1");
-          setTel1.innerHTML = obj[1].tel;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
         },
         error: function (x) {
           console.log("통신실패..");
@@ -550,21 +543,35 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           const obj = JSON.parse(data);
           console.log(obj);
           //innerHTML
-          console.log(obj[0].title);
+          let chartValue = "";
           const setTitle = document.querySelector("#setTitle");
           setTitle.innerHTML = obj[0].title;
-          const setName = document.querySelector("#setName");
-          setName.innerHTML = obj[0].name;
-          const setTel = document.querySelector("#setTel");
-          setTel.innerHTML = obj[0].tel;
-          const setMajor = document.querySelector("#setMajor");
-          setMajor.innerHTML = obj[0].potitle;
-          const setMajor1 = document.querySelector("#setMajor1");
-          setMajor1.innerHTML = obj[1].potitle;
-          const setName1 = document.querySelector("#setName1");
-          setName1.innerHTML = obj[1].name;
-          const setTel1 = document.querySelector("#setTel1");
-          setTel1.innerHTML = obj[1].tel;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
         },
         error: function (x) {
           console.log("통신실패..");
@@ -585,21 +592,236 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           const obj = JSON.parse(data);
           console.log(obj);
           //innerHTML
-          console.log(obj[0].title);
+          let chartValue = "";
           const setTitle = document.querySelector("#setTitle");
           setTitle.innerHTML = obj[0].title;
-          const setName = document.querySelector("#setName");
-          setName.innerHTML = obj[0].name;
-          const setTel = document.querySelector("#setTel");
-          setTel.innerHTML = obj[0].tel;
-          const setMajor = document.querySelector("#setMajor");
-          setMajor.innerHTML = obj[0].potitle;
-          const setMajor1 = document.querySelector("#setMajor1");
-          setMajor1.innerHTML = obj[1].potitle;
-          const setName1 = document.querySelector("#setName1");
-          setName1.innerHTML = obj[1].name;
-          const setTel1 = document.querySelector("#setTel1");
-          setTel1.innerHTML = obj[1].tel;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
+        },
+        error: function (x) {
+          console.log("통신실패..");
+        },
+      });
+    });
+
+    //간호부
+    $("#emer").click(function (event) {
+      const major = document.querySelector("a[id = emer]").innerHTML;
+
+      $.ajax({
+        url: "/app/organization/emer",
+        type: "post",
+        data: {
+          major: major,
+        },
+        success: function (data) {
+          console.log("통신성공");
+          const obj = JSON.parse(data);
+          console.log(obj);
+          //innerHTML
+          let chartValue = "";
+          const setTitle = document.querySelector("#setTitle");
+          setTitle.innerHTML = obj[0].title;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
+        },
+        error: function (x) {
+          console.log("통신실패..");
+        },
+      });
+    });
+    //간호부--일반
+    $("#pRm").click(function (event) {
+      const major = document.querySelector("a[id = pRm]").innerHTML;
+
+      $.ajax({
+        url: "/app/organization/pRm",
+        type: "post",
+        data: {
+          major: major,
+        },
+        success: function (data) {
+          console.log("통신성공");
+          const obj = JSON.parse(data);
+          console.log(obj);
+          //innerHTML
+          let chartValue = "";
+          const setTitle = document.querySelector("#setTitle");
+          setTitle.innerHTML = obj[0].title;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
+        },
+        error: function (x) {
+          console.log("통신실패..");
+        },
+      });
+    });
+    //원무부
+    $("#receipt").click(function (event) {
+      const major = document.querySelector("a[id = receipt]").innerHTML;
+
+      $.ajax({
+        url: "/app/organization/receipt",
+        type: "post",
+        data: {
+          major: major,
+        },
+        success: function (data) {
+          console.log("통신성공");
+          const obj = JSON.parse(data);
+          console.log(obj);
+          //innerHTML
+          let chartValue = "";
+          const setTitle = document.querySelector("#setTitle");
+          setTitle.innerHTML = obj[0].title;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
+        },
+        error: function (x) {
+          console.log("통신실패..");
+        },
+      });
+    });
+    //경영지원부
+    $("#management").click(function (event) {
+      const major = document.querySelector("a[id = management]").innerHTML;
+
+      $.ajax({
+        url: "/app/organization/management",
+        type: "post",
+        data: {
+          major: major,
+        },
+        success: function (data) {
+          console.log("통신성공");
+          const obj = JSON.parse(data);
+          console.log(obj);
+          //innerHTML
+          let chartValue = "";
+          const setTitle = document.querySelector("#setTitle");
+          setTitle.innerHTML = obj[0].title;
+          // 명수 보여주기 위한 변수
+          let count = 0;
+          for (let i = 0; i < obj.length; i++) {
+            chartValue +=
+              "<tr style='height: 100px'><td id = 'profile'>" +
+              "<img " +
+              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "alt='kin1'/>" +
+              "</td>" +
+              "<td>" +
+              obj[i].potitle +
+              "</td>" +
+              "<td>" +
+              obj[i].name +
+              "</td>" +
+              "<td>" +
+              "Tel : " +
+              obj[i].tel +
+              "</td>" +
+              "</tr>";
+            // 반복문이 실행될 때마다 rowCount 증가
+            count++;
+          }
+          const empCnt = document.querySelector("#emp-cnt");
+          empCnt.innerHTML = "총 " + count + " 명";
+          $("#mem-tb tbody").html(chartValue);
         },
         error: function (x) {
           console.log("통신실패..");

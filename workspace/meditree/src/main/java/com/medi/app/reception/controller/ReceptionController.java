@@ -44,7 +44,7 @@ public class ReceptionController {
 	}
 	
 
-	//접수 화면(to HOON - MAKE DEPARTMENT LIST !!!!)
+	//접수 화면
 	@GetMapping("reception")
 	public String reception(Model model,MemberVo mvo) {
 		
@@ -52,15 +52,13 @@ public class ReceptionController {
 		System.out.println("겟메핑으로 진료과 조회서비스시작");
 		List<Map<String, String>> mvoList = ps.getDepartmentList();
 		List<MemberVo> evoList = ps.getDoctorList();
-
-
 		
 		//진료과 화면
 		//진료과목선택 및 진료의 선택
 		model.addAttribute("mvoList", mvoList);
-		System.out.println("mvo리스트담김");
+		//System.out.println("mvo리스트담김");
 		model.addAttribute("evoList", evoList);
-		System.out.println("evo리스트 담김");
+		//System.out.println("evo리스트 담김");
 		System.out.println("mvoList!!! = "+mvoList);
 		System.out.println("evoList!!! = "+evoList);
 
@@ -112,6 +110,7 @@ public class ReceptionController {
 		
 		//화면
 		model.addAttribute("pvoList" , pvoList);
+		//System.out.println(pvoList);
 		model.addAttribute("searchMap" , searchMap);
 		model.addAttribute("pv" , pv);
 
@@ -121,11 +120,11 @@ public class ReceptionController {
 	//patient select
 	@PostMapping(value ="selectName", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String selectName(Model model, String paName) {
-		System.out.println("got data ="+paName);
+	public String selectName(Model model, String paNo) {
+		System.out.println("got data ="+paNo);
 
 	    try {
-	        PatientVo vo = ps.getPaInfo(paName);
+	        PatientVo vo = ps.getPaInfo(paNo);
 
 	        if (vo != null) {
 	            model.addAttribute("vo", vo);
@@ -151,9 +150,9 @@ public class ReceptionController {
 		@RequestMapping("insert.tr")
 		public String ajaxInsertTreatment(PatientVo pvo, HttpSession session, Model model) {
 			model.addAttribute("pvo", pvo);
-			System.out.println(pvo);
+			//System.out.println(pvo);
 			int result = ps.insertTreatment(pvo);
-			System.out.println(result +"+"+pvo);
+			//System.out.println(result +"+"+pvo);
 			
 	
 			return result > 0 ? "success" : "fail";
@@ -165,8 +164,8 @@ public class ReceptionController {
 			List<Map<String, String>> deptList = ps.getDepartmentList();
 			List<MemberVo> doctorList = ps.getDoctorList();
 			
-			System.out.println(deptList);
-			System.out.println(doctorList);
+			//System.out.println(deptList);
+			//System.out.println(doctorList);
 			
 			model.addAttribute("deptList", deptList);
 			model.addAttribute("doctorList", doctorList);
@@ -181,7 +180,7 @@ public class ReceptionController {
 			Map<String, Object> map = new HashMap<String, Object>();
 
 			List<MemberVo> wlist = ps.selectWaitingPatient();
-			System.out.println(wlist);
+			//System.out.println(wlist);
 			List<MemberVo> plist = ps.selectIngPatient();
 
 			/* map.put(jsp에서 사용할 이름, 넘길 자바변수); */
@@ -203,8 +202,53 @@ public class ReceptionController {
 
 			return result > 0 ? "success" : "fail";
 		}
+		//선택한 과로 대기 리스트 조회하기
+		@ResponseBody
+		@RequestMapping(value = "wlist.pt")
+		public Map<String, Object> returnDeptMap(String deptNo) throws Exception {
+			Map<String, Object> map = new HashMap<String, Object>();
 
-	
+			List<MemberVo> wlist = ps.wlistSortByDept(deptNo);
+			//System.out.println(wlist);
+
+			/* map.put(jsp에서 사용할 이름, 넘길 자바변수); */
+			map.put("wlist", wlist);
+
+			return map;
+		}
+		//선택한 과로 진료중 리스트 조회하기
+		@ResponseBody
+		@RequestMapping(value = "plist.pt")
+		public Map<String, Object> returnDeptMap2(String deptNo) throws Exception {
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			List<MemberVo> plist = ps.plistSortByDept(deptNo);
+			//System.out.println(plist);
+
+			/* map.put(jsp에서 사용할 이름, 넘길 자바변수); */
+			map.put("plist", plist);
+
+			return map;
+		}
+		
+		//예약대기환자 조회
+		@ResponseBody
+		@RequestMapping(value = "rsvWaitinglist.pt")
+		public Map<String, Object> returnrsvWaitingMap() throws Exception {
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			List<MemberVo> slist = ps.surgeryWaitingList();
+			System.out.println(slist);
+			List<MemberVo> plist = ps.proomWaitingList();
+			System.out.println(plist);
+
+			
+			/* map.put(jsp에서 사용할 이름, 넘길 자바변수); */
+			map.put("slist", slist);
+			map.put("plist", plist);
+
+			return map;
+		}
 
 	@GetMapping("receiveManage")
 	public void receiveManage() {
@@ -223,10 +267,6 @@ public class ReceptionController {
 	}
 	
 	
-	@GetMapping("rsvnInpatientRm")
-	public void rsvnInpatientRm() {
-		
-	}
 	@GetMapping("rsvnOperatingRm")
 	public void rsvnOperatingRm() {
 		

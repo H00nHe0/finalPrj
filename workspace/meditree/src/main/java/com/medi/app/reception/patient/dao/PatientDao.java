@@ -38,9 +38,9 @@ public class PatientDao {
 	}
 
 
-	public PatientVo getPaInfo(SqlSessionTemplate sst, String paName) {
+	public PatientVo getPaInfo(SqlSessionTemplate sst, String paNo) {
 
-		return sst.selectOne("patient.getPaInfo", paName);
+		return sst.selectOne("patient.getPaInfo", paNo);
 	}
 
 	//진료부서조회
@@ -74,6 +74,41 @@ public class PatientDao {
 
 	public int changePatientStatus(SqlSessionTemplate sst, int no) {
 		return sst.update("patient.changePatientStatus", no);
+	}
+
+
+	public List<MemberVo> wlistSortByDept(SqlSessionTemplate sst, String deptNo) {
+		return sst.selectList("patient.wlistSortByDept", deptNo );
+	}
+
+
+	public List<MemberVo> plistSortByDept(SqlSessionTemplate sst, String deptNo) {
+		return sst.selectList("patient.plistSortByDept", deptNo );
+	}
+
+
+	public List<MemberVo> surgeryWaitingList(SqlSessionTemplate sst) {
+		return sst.selectList("patient.surgeryWaitingList");
+	}
+
+
+	public List<MemberVo> proomWaitingList(SqlSessionTemplate sst) {
+		return sst.selectList("patient.proomWaitingList");
+	}
+
+
+	public PatientVo rsvnScreen(SqlSessionTemplate sst, String paNo) {
+
+		return sst.selectOne("patient.rsvnScreen", paNo);
+	}
+
+	public PatientVo rsvnScreenS(SqlSessionTemplate sst, String paNo) {
+		// TODO Auto-generated method stub
+		return sst.selectOne("patient.rsvnScreenS", paNo);
+	}
+
+	public PatientVo putWaitingPatient(SqlSessionTemplate sst, String paNo) {
+		return sst.selectOne("patient.putWaitingPatient",paNo);
 	}
 
 

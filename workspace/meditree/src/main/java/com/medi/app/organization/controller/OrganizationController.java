@@ -124,5 +124,93 @@ public class OrganizationController {
 			
 
 				}
+	// 수술실간로사
+	@PostMapping(value = "emer", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String emer(Model model, String major) {
 
+	    try {
+	        List<MemberVo> mvoList = os.emer(major);
+
+	        if (mvoList != null) {
+		        model.addAttribute("mvoList", mvoList);			
+				  Gson gson = new Gson(); String json = gson.toJson(mvoList);
+
+	            return json;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return "organization/chartView";
+			
+
+				}
+
+	// 일반실간로사
+	@PostMapping(value = "pRm", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String pRm(Model model, String major) {
+
+	    try {
+	        List<MemberVo> mvoList = os.pRm(major);
+
+	        if (mvoList != null) {
+		        model.addAttribute("mvoList", mvoList);			
+				  Gson gson = new Gson(); String json = gson.toJson(mvoList);
+
+	            return json;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return "organization/chartView";
+			
+
+				}
+	
+	@PostMapping(value = "receipt", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String receipt(Model model, String major) {
+
+	    try {
+	        List<MemberVo> mvoList = os.receipt(major);
+
+	        if (mvoList != null) {
+		        model.addAttribute("mvoList", mvoList);			
+				  Gson gson = new Gson(); String json = gson.toJson(mvoList);
+
+	            return json;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return "organization/chartView";
+			
+
+				}
+	
+	@PostMapping(value = "management", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String management(Model model, String major) {
+
+	    try {
+	        List<MemberVo> mvoList = os.management(major);
+
+	        if (mvoList != null) {
+		        model.addAttribute("mvoList", mvoList);			
+				  Gson gson = new Gson(); String json = gson.toJson(mvoList);
+
+	            return json;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return "organization/chartView";
+			
+
+				}
 }

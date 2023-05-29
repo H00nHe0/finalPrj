@@ -471,8 +471,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                 <tr>
                   <td colspan="2"><p>진료 과 선택</p></td>
                   <td colspan="4">
-                    <select name="" id="waiting">
-                      <option value="#" selected>전체</option>
+                    <select
+                      name="waitingDeptNo"
+                      id="waiting"
+                      onchange="changeWaitingCondition(this)"
+                    >
+                      <option value="1" selected>전체</option>
                       <c:forEach items="${mvoList}" var="m">
                         <option value="${m.NO}">${m.TITLE}</option>
                       </c:forEach>
@@ -511,8 +515,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                 <tr>
                   <td colspan="2"><p>진료 과 선택</p></td>
                   <td colspan="3">
-                    <select name="" id="waiting-done">
-                      <option value="#" selected>선택</option>
+                    <select
+                      name="ingDeptNo"
+                      id="waiting-done"
+                      onchange="changeIngCondition(this)"
+                    >
+                      <option value="1" selected>전체</option>
                       <c:forEach items="${mvoList}" var="m">
                         <option value="${m.NO}">${m.TITLE}</option>
                       </c:forEach>
@@ -592,18 +600,20 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     });
   });
 
-  function setSelectedPatientInfo(patientName) {
+  function setSelectedPatientInfo(patientNo) {
     // 선택한 환자 정보 처리
-    var gotName = patientName;
-    var nameBox = document.getElementById("nameBox");
-    nameBox.innerHTML = gotName;
+    var gotNo = patientNo;
 
-    const paName = document.querySelector("td[id = nameBox]").innerHTML;
+    var paNo = document.getElementById("paNo");
+
+    paNo.innerHTML = gotNo;
+
+    const gotPaNo = document.querySelector("td[id = paNo]").innerHTML;
     $.ajax({
       url: "/app/member/selectName",
       type: "post",
       data: {
-        paName: paName,
+        paNo: gotPaNo,
       },
       success: function (data) {
         console.log("통신성공");
@@ -622,8 +632,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         const formattedPaDate = paDate.toLocaleDateString(undefined, options); // 연월일 형식으로 변환
         obj.paDate = formattedPaDate;
 
-        const paNo = document.querySelector("#paNo");
-        paNo.innerHTML = obj.no;
+        const paName = document.querySelector("#nameBox");
+        paName.innerHTML = obj.paName;
         const gotPaRrn = document.querySelector("#gotPaRrn");
         gotPaRrn.innerHTML = obj.rrn;
         const gotPaDate = document.querySelector("#gotPaDate");
@@ -836,6 +846,119 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       },
       error: function () {
         console.log("ajax통신 실패");
+      },
+    });
+  }
+  function changeWaitingCondition(deptNo) {
+    let selectDeptNo = $(deptNo).val();
+    //console.log(selectDeptNo);
+
+    $.ajax({
+      url: "wlist.pt",
+      data: {
+        deptNo: selectDeptNo,
+      },
+      success: function (data) {
+        //console.log(wlist);
+        let wlist = data.wlist;
+
+        let waitingValue = "";
+
+        for (let i = 0; i < wlist.length; i++) {
+          let deptName = "";
+          if (wlist[i].deptNo === "40") {
+            deptName = "일반내과";
+          } else if (wlist[i].deptNo === "50") {
+            deptName = "정신과";
+          } else if (wlist[i].deptNo === "60") {
+            deptName = "이비인후과";
+          } else if (wlist[i].deptNo === "70") {
+            deptName = "산부인과";
+          }
+
+          waitingValue +=
+            "<tr onclick='selectCB(this)'>" +
+            "<td><input type='checkbox' name='change' value='" +
+            wlist[i].no +
+            "' onclick='uncheckOthercbButtons(this)'></td>" +
+            "<td>" +
+            (i + 1) +
+            "</td>" +
+            "<td>" +
+            wlist[i].paName +
+            "</td>" +
+            "<td>" +
+            wlist[i].paGender +
+            "</td>" +
+            "<td>" +
+            wlist[i].age +
+            "세" +
+            "</td>" +
+            "<td>" +
+            deptName +
+            "</td>" +
+            "</tr>";
+        }
+
+        $("#waiting-list #holder").html(waitingValue);
+      },
+      error: function () {
+        console.log("진료 대기 환자 조회용 ajax통신 실패");
+      },
+    });
+  }
+  function changeIngCondition(deptNo) {
+    let selectDeptNo = $(deptNo).val();
+    //console.log(selectDeptNo);
+
+    $.ajax({
+      url: "plist.pt",
+      data: {
+        deptNo: selectDeptNo,
+      },
+      success: function (data) {
+        //console.log(wlist);
+        let plist = data.plist;
+
+        let ingValue = "";
+
+        for (let i = 0; i < plist.length; i++) {
+          let deptName = "";
+          if (plist[i].deptNo === "40") {
+            deptName = "일반내과";
+          } else if (plist[i].deptNo === "50") {
+            deptName = "정신과";
+          } else if (plist[i].deptNo === "60") {
+            deptName = "이비인후과";
+          } else if (plist[i].deptNo === "70") {
+            deptName = "산부인과";
+          }
+
+          ingValue +=
+            "<tr onclick='selectCB(this)'>" +
+            "<td>" +
+            (i + 1) +
+            "</td>" +
+            "<td>" +
+            plist[i].paName +
+            "</td>" +
+            "<td>" +
+            plist[i].paGender +
+            "</td>" +
+            "<td>" +
+            plist[i].age +
+            "세" +
+            "</td>" +
+            "<td>" +
+            deptName +
+            "</td>" +
+            "</tr>";
+        }
+
+        $("#ing-list #ing-holder").html(ingValue);
+      },
+      error: function () {
+        console.log("진료 대기 환자 조회용 ajax통신 실패");
       },
     });
   }

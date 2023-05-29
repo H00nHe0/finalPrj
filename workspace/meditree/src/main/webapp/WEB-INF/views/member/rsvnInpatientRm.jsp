@@ -41,9 +41,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       #title {
         text-align: center;
         background-color: white;
-        padding: 1px;
+
         border-radius: 20px 20px 0 0;
         border-bottom: 2px solid grey;
+        font-size: 30px;
+        font-weight: 600;
+        padding-top: 10px;
+        padding-bottom: 10px;
       }
       #rsvn-holder {
         height: 100%;
@@ -123,6 +127,16 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       h2:not(#rsvn-form h2) {
         font-size: 23px;
       }
+      #date-of-today {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 600;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .readOnly {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -134,13 +148,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <div id="board">
           <div id="board-inner">
             <div id="rsvn-holder">
-              <div id="title"><h2>차트번호 xxxx 입원실 예약</h2></div>
+              <div id="title"></div>
 
               <div id="list-holder">
                 <div class="rsvn-page" id="rsvn-form">
-                  <div>
-                    <h2>예약일자 2023-06-12</h2>
-                  </div>
+                  <div id="date-of-today"></div>
                   <div>
                     <table>
                       <tbody>
@@ -149,7 +161,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>
                             <input
                               type="text"
-                              placeholder="EL로받아온번호"
+                              name="chartNo"
                               readonly
                               class="readOnly"
                             />
@@ -160,7 +172,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>
                             <input
                               type="text"
-                              placeholder="EL로받아온이름"
+                              name="pName"
                               readonly
                               class="readOnly"
                             />
@@ -172,23 +184,17 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             <label for="sickroom2">2인 병실</label>
                             <select id="sickroom2" name="sickroom">
                               <option selected>선택안함</option>
-                              <option value="SickRm101">ESTL</option>
-                              <option value="SickRm102">반복문으로</option>
-                              <option value="SickRm103">사용가능한</option>
-                              <option value="SickRm104">2인실</option>
-                              <option value="SickRm105">조회하기</option>
-                              <option value="SickRm106">할수있지?</option>
+                              <option value="201">201호</option>
+                              <option value="202">202호</option>
+                              <option value="203">203호</option>
                             </select>
                             &nbsp;
                             <label for="sickroom4">4인 병실</label>
                             <select id="sickroom4" name="sickroom">
                               <option selected>선택안함</option>
-                              <option value="SickRm107">ESTL</option>
-                              <option value="SickRm108">반복문으로</option>
-                              <option value="SickRm109">사용가능한</option>
-                              <option value="SickRm110">4인실</option>
-                              <option value="SickRm111">조회하기</option>
-                              <option value="SickRm112">할수있지?</option>
+                              <option value="204">204호</option>
+                              <option value="205">205호</option>
+                              <option value="206">206호</option>
                             </select>
                           </td>
                         </tr>
@@ -220,13 +226,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>담당의</td>
                           <td>
                             <select id="selectDoctor" name="attendingDoctor">
-                              <option selected>선택안함</option>
-                              <option value="doctor1">ESTL</option>
-                              <option value="doctor2">반복문으로</option>
-                              <option value="doctor3">담당의</option>
-                              <option value="doctor4">조회하기</option>
-                              <option value="doctor5">할수있지</option>
-                              <option value="doctor6">?</option>
+                              <option value="#" selected>선택</option>
+                              <c:forEach items="${evoList}" var="e">
+                                <option class="${e.title}" value="${e.no}">
+                                  ${e.name}(${e.potitle})
+                                </option>
+                              </c:forEach>
                             </select>
                           </td>
                         </tr>
@@ -356,5 +361,46 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     });
 
     calendar.render();
+  });
+
+  // member/rsvnInpatientRm 페이지에서 전달받은 값 가져오기
+  $(function () {
+    const params = new URLSearchParams(window.location.search);
+    const gotPaNo = params.get("paNo");
+    console.log("gotPaNo:", gotPaNo);
+    const chartNo = document.querySelector("#title");
+    chartNo.innerHTML = "차트번호 " + gotPaNo + "번 환자 입원실 예약";
+    //오늘 날짜
+    const todayIs = new Date();
+
+    var year = todayIs.getFullYear();
+    var month = ("0" + (todayIs.getMonth() + 1)).slice(-2);
+    var day = ("0" + todayIs.getDate()).slice(-2);
+
+    var dateString = year + "-" + month + "-" + day;
+    const dateBox = document.querySelector("#date-of-today");
+    dateBox.innerHTML = "예약일자 :" + dateString;
+    // 가져온 값을 사용하여 필요한 처리 수행
+    // ...
+
+    $.ajax({
+      url: "putWaitingPatient.st",
+      type: "post",
+      data: {
+        paNo: gotPaNo,
+      },
+      success: function (data) {
+        console.log(data);
+        const parsedData = JSON.parse(data);
+        const chartNo = parsedData.paNo;
+        const name = parsedData.paName;
+        console.log(name);
+        document.querySelector('input[name="chartNo"]').value = chartNo;
+        document.querySelector('input[name="pName"]').value = name;
+      },
+      error: function () {
+        console.log("ajax통신 실패");
+      },
+    });
   });
 </script>

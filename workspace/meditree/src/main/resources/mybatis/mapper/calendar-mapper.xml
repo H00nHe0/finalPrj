@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+   <mapper namespace="schedule">
+
+	<select id="hosCalendarList" resultType="scheduleVo">
+	SELECT 
+		NO
+		,TITLE
+		,CONTENT
+		,CAL_START
+		,CAL_END
+		
+		FROM HOS_CALENDAR
+		WHERE
+			DELETE_YN = 'N'
+	</select>
+	
+	<insert id="insertEventToDB">
+	INSERT 
+	INTO 
+	HOS_CALENDAR
+	(
+	NO
+	,TITLE
+	,CAL_START
+	,CAL_END
+	,DELETE_YN
+	)
+	VALUES
+	(
+	SEQ_HOS_CALENDAR_NO.NEXTVAL
+	,#{title}
+	,#{calStart}
+	,#{calEnd}
+	,default
+	)
+	
+	</insert>
+
+  <update id="deleteEventFromDB">
+  	UPDATE HOS_CALENDAR
+  		SET
+  			DELETE_YN = 'Y'
+  		WHERE TITLE = #{title}
+  </update>
+   
+   </mapper>

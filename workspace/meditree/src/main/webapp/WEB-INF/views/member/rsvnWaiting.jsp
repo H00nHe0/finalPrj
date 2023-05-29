@@ -16,7 +16,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         box-sizing: border-box;
       }
       #board-inner {
-        width: 65%;
+        width: 70%;
         height: 80%;
         margin: auto;
         margin-top: 30px;
@@ -50,6 +50,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         box-sizing: border-box;
         height: 80%;
         margin-bottom: -100px;
+        overflow-y: auto;
       }
       .sub-title {
         padding-left: 10px;
@@ -58,20 +59,15 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         font-size: 20px;
         font-weight: 600;
       }
-      form {
-        height: 80%;
-        overflow: scroll;
-        overflow-x: hidden;
-      }
       table {
         margin: auto;
-        width: 90%;
+        width: 100%;
         height: 80%;
         border-collapse: collapse;
       }
       table td {
         text-align: center;
-        height: 60px;
+        height: 50px;
       }
       tbody tr:hover {
         background-color: rgb(
@@ -84,12 +80,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       th,
       tbody td {
         border-bottom: 1px solid lightgrey;
+        height: 50px;
       }
       th {
         padding-bottom: 5px;
       }
 
-      form button {
+      button {
         height: 65%;
         width: 70%;
         font-size: 15px;
@@ -101,6 +98,15 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       }
       button:hover {
         background-color: rgba(130, 203, 196, 0.8);
+      }
+
+      #PRoomWaitingArea #PRoomWaitingArea-holder,
+      #SurgeryWaitingArea #SurgeryWaitingArea-holder {
+        overflow-y: auto;
+      }
+      #PRoomWaitingArea tbody tr {
+        height: 50px;
+        max-height: 50px;
       }
     </style>
   </head>
@@ -125,70 +131,19 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     입원실
                   </div>
                   <div class="table-holder">
-                    <form action="">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>차트번호</th>
-                            <th>이름</th>
-                            <th>성별</th>
-                            <th>주민등록번호</th>
-                            <th>진료과</th>
-                            <th>예약</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>99999</td>
-                            <td>허훈</td>
-                            <td>남</td>
-                            <td>929292-1******</td>
-                            <td>일반외과</td>
-                            <td><a href="/app/member/rsvnInpatientRm"><button type="button">예약하기</button></td></a>
-                          </tr>
-                          <tr>
-                            <td>10399</td>
-                            <td>허훗</td>
-                            <td>여</td>
-                            <td>559292-1******</td>
-                            <td>신경외과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </form>
+                    <table id="PRoomWaitingArea">
+                      <thead>
+                        <tr>
+                          <th>차트번호</th>
+                          <th>이름</th>
+                          <th>성별</th>
+                          <th>주민등록번호</th>
+                          <th>진료과</th>
+                          <th>예약</th>
+                        </tr>
+                      </thead>
+                      <tbody id="PRoomWaitingArea-holder"></tbody>
+                    </table>
                   </div>
                 </div>
 
@@ -201,71 +156,19 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     수술실
                   </div>
                   <div class="table-holder">
-                    <form action="">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>차트번호</th>
-                            <th>이름</th>
-                            <th>성별</th>
-                            <th>주민등록번호</th>
-                            <th>진료과</th>
-                            <th>예약</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <!-- 반복문으로 돌려서 모든 td에 a태그 속성도 들어가게, 예약하기 화면에서는 estl로 환자 차트번호 등 정보 넘어가게 -->
-                          <tr>
-                            <td>99999</td>
-                            <td>허훈</td>
-                            <td>남</td>
-                            <td>929292-1******</td>
-                            <td>일반외과</td>
-                            <td><a href="/app/member/rsvnOperatingRm"><button type="button">예약하기</button></a></td>
-                          </tr>
-                          <tr>
-                            <td>10399</td>
-                            <td>허훗</td>
-                            <td>여</td>
-                            <td>559292-1******</td>
-                            <td>신경외과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                          <tr>
-                            <td>87559</td>
-                            <td>허양</td>
-                            <td>여</td>
-                            <td>948292-2******</td>
-                            <td>이비인후과</td>
-                            <td><button type="button">예약하기</button></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </form>
+                    <table id="SurgeryWaitingArea">
+                      <thead>
+                        <tr>
+                          <th>차트번호</th>
+                          <th>이름</th>
+                          <th>성별</th>
+                          <th>주민등록번호</th>
+                          <th>진료과</th>
+                          <th>예약</th>
+                        </tr>
+                      </thead>
+                      <tbody id="SurgeryWaitingArea-holder"></tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -276,3 +179,171 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
   </body>
 </html>
+<script>
+  // 예약 대기 환자 조회
+  function ajaxSelectWaitingList() {
+    $.ajax({
+      url: "rsvWaitinglist.pt",
+      success: function (data) {
+        let slist = data.slist;
+        console.log(slist);
+        let plist = data.plist;
+        console.log(plist);
+
+        let surgeryValue = "";
+        let deptName = "";
+
+        for (let i = 0; i < slist.length; i++) {
+          if (slist[i].deptNo === "40") {
+            deptName = "일반내과";
+          } else if (slist[i].deptNo === "50") {
+            deptName = "정신과";
+          } else if (slist[i].deptNo === "60") {
+            deptName = "이비인후과";
+          } else if (slist[i].deptNo === "70") {
+            deptName = "산부인과";
+          }
+          surgeryValue +=
+            "<tr><td id = 'paNoS'>" +
+            slist[i].paNo +
+            "</td>" +
+            "<td>" +
+            slist[i].paName +
+            "</td>" +
+            "<td>" +
+            slist[i].paGender +
+            "</td>" +
+            "<td>" +
+            slist[i].rrn +
+            "</td>" +
+            "<td>" +
+            deptName +
+            "</td>" +
+            "<td>" +
+            "<button class='button' type ='button' name='rsvSRoom' value='" +
+            slist[i].paNo +
+            "'>예약하기</button></td>" +
+            "</tr>";
+        }
+
+        let pRoomValue = "";
+
+        for (let i = 0; i < plist.length; i++) {
+          if (plist[i].deptNo === "40") {
+            deptName = "일반내과";
+          } else if (plist[i].deptNo === "50") {
+            deptName = "정신과";
+          } else if (plist[i].deptNo === "60") {
+            deptName = "이비인후과";
+          } else if (plist[i].deptNo === "70") {
+            deptName = "산부인과";
+          }
+          pRoomValue +=
+            "<tr><td id = 'paNo'>" +
+            plist[i].paNo +
+            "</td>" +
+            "<td>" +
+            plist[i].paName +
+            "</td>" +
+            "<td>" +
+            plist[i].paGender +
+            "</td>" +
+            "<td>" +
+            plist[i].rrn +
+            "</td>" +
+            "<td id = 'deptName'>" +
+            deptName +
+            "</td>" +
+            "<td>" +
+            "<button class='button' type ='button' name='rsvPRoom' value='" +
+            plist[i].paNo +
+            "'>예약하기</button></td>" +
+            "</tr>";
+        }
+
+        $("#SurgeryWaitingArea tbody").html(surgeryValue);
+        $("#PRoomWaitingArea tbody").html(pRoomValue);
+      },
+      error: function () {
+        console.log("예약 대기 환자 조회용 ajax통신 실패");
+      },
+    });
+  }
+  // 버튼 클릭 이벤트 핸들러-입원실
+  $(document).on("click", "button[name='rsvPRoom']", function () {
+    alert("클릭!!");
+    const gotPaNo = $(this).closest("tr").find("td#paNo").text();
+    const gotPaDept = $(this).closest("tr").find("td#deptName").text();
+    // ... 기존 코드 내용 ...
+    $.ajax({
+      url: "rsvnScreen.pRm",
+      type: "post",
+      data: {
+        paNo: gotPaNo,
+        paDept: gotPaDept,
+      },
+      success: function (data) {
+        console.log("통신성공(입원실예약화면)!");
+        const obj = JSON.parse(data);
+        console.log(obj);
+        // 다른 화면으로 값 전달을 위한 form 생성
+        const form = document.createElement("form");
+        form.method = "GET";
+        form.action = "/app/member/rsvnInpatientRm";
+
+        // 값 전달을 위한 hidden input 추가
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "paNo";
+        input.value = gotPaNo;
+        form.appendChild(input);
+
+        // form을 body에 추가하고 submit
+        document.body.appendChild(form);
+        form.submit();
+      },
+      error: function (x) {
+        console.log("통신실패(입원실예약화면)");
+      },
+    });
+  });
+  // 버튼 클릭 이벤트 핸들러-수술실
+  $(document).on("click", "button[name='rsvSRoom']", function () {
+    alert("클릭!!");
+    const gotPaNoS = $(this).closest("tr").find("td#paNoS").text();
+    // ... 기존 코드 내용 ...
+    $.ajax({
+      url: "rsvnScreenS.sRm",
+      type: "post",
+      data: {
+        paNo: gotPaNoS,
+      },
+      success: function (data) {
+        console.log("통신성공(수숳실예약화면)!");
+        const obj = JSON.parse(data);
+        console.log(obj);
+        // 다른 화면으로 값 전달을 위한 form 생성
+        const form = document.createElement("form");
+        form.method = "GET";
+        form.action = "/app/member/rsvnOperatingRm";
+
+        // 값 전달을 위한 hidden input 추가
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "paNo";
+        input.value = gotPaNo;
+        form.appendChild(input);
+
+        // form을 body에 추가하고 submit
+        document.body.appendChild(form);
+        form.submit();
+      },
+      error: function (x) {
+        console.log("통신실패(수술실예약화면)");
+      },
+    });
+  });
+  $(function () {
+    ajaxSelectWaitingList();
+  });
+</script>

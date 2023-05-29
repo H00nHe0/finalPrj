@@ -68,5 +68,70 @@
         AND D.TITLE = '${major}'
   </select>
   
+<!--   간호부 조회 -->
+      <select id="emer" resultType="memberVo">
+    SELECT 
+	    E.NO
+	    ,E.NAME
+	    ,E.TEL
+	    ,E.EMAIL
+	    ,D.TITLE
+	    ,P.POTITLE
+   	FROM
+	    EMPLOYEE E
+	    JOIN  POSITION P ON P.NO = E.POSITION_NO
+        JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+   WHERE E.QUIT_YN = 'N'
+        AND D.TITLE = '${major}'
+  </select>
   
+        <select id="pRm" resultType="memberVo">
+    SELECT 
+	    E.NO
+	    ,E.NAME
+	    ,E.TEL
+	    ,E.EMAIL
+	    ,D.TITLE
+	    ,P.POTITLE
+   	FROM
+	    EMPLOYEE E
+	    JOIN  POSITION P ON P.NO = E.POSITION_NO
+        JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+   WHERE E.QUIT_YN = 'N'
+        AND D.TITLE = '${major}'
+  </select>
+  <!-- 원무부 조회 -->
+          <select id="receipt" resultType="memberVo">
+    SELECT 
+	    E.NO
+	    ,E.NAME
+	    ,E.TEL
+	    ,E.EMAIL
+	    ,D.TITLE
+	    ,P.POTITLE
+   	FROM
+	    EMPLOYEE E
+	    JOIN  POSITION P ON P.NO = E.POSITION_NO
+        JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+   WHERE E.QUIT_YN = 'N'
+        AND D.TITLE = '${major}'
+  </select>
+  
+  
+  <!-- 경영지원부 조회  -->
+          <select id="management" resultType="memberVo">
+    SELECT 
+	    E.NO
+	    ,E.NAME
+	    ,E.TEL
+	    ,E.EMAIL
+	    ,D.TITLE
+	    ,P.POTITLE
+   	FROM
+	    EMPLOYEE E
+	    JOIN  POSITION P ON P.NO = E.POSITION_NO
+        JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+   WHERE E.QUIT_YN = 'N'
+        AND D.TITLE = '${major}'
+  </select>
   </mapper>

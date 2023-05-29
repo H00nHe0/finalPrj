@@ -178,6 +178,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         text-decoration: none;
         font-size: 20px;
       }
+      .hiddenNo {
+        display: none;
+      }
     </style>
     <!-- 부트스트랩 -->
 
@@ -225,6 +228,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   </td>
                   <td class="nameBox">${p.paName}</td>
                   <td>${p.rrn}</td>
+                  <td class="hiddenNo">${p.no}</td>
                 </tr>
               </c:forEach>
             </table>
@@ -275,9 +279,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </body>
 </html>
 <script>
-  // 선택한 환자 이름을 저장할 전역 변수
+  // 선택한 환자 번호을 저장할 전역 변수
   var selectedPatientName = "";
-
+  var selectedPatientNo = "";
   $(document).ready(function () {
     $("#simpleTable tr").click(function () {
       var checkbox = $(this).find('input[type="checkbox"]');
@@ -288,6 +292,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   function selectRadio(clickedRow) {
     // 클릭한 행에서 환자 이름 가져오기
     selectedPatientName = clickedRow.querySelector(".nameBox").textContent;
+    selectedPatientNo = clickedRow.querySelector(".hiddenNo").textContent;
     const radioButton = clickedRow.querySelector('input[type="radio"]');
     radioButton.checked = true;
   }
@@ -302,12 +307,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   }
 
   function sendSelectedInfo() {
-    // 선택한 환자 이름 사용하기
-    var patientName = selectedPatientName;
+    // 선택한 환자 번호 사용하기
+    var patientNo = selectedPatientNo;
     // 부모 창으로 선택한 환자 정보 전달
-    window.opener.setSelectedPatientInfo(patientName);
-    window.opener.document.querySelector(patientName);
-    console.log(patientName);
+    window.opener.setSelectedPatientInfo(patientNo);
+    //window.opener.document.querySelector(patientNo);
+    console.log(patientNo);
     // 팝업 창 닫기
     window.close();
   }

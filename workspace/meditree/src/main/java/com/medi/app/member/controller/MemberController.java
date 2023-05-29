@@ -121,7 +121,8 @@ public class MemberController {
 	
 	//로그아웃
 	@RequestMapping("logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session , Model model) {
+		model.addAttribute("alertMsg", "로그아웃 되었습니다.");
 		session.invalidate();
 		return "redirect:/home";
 	}

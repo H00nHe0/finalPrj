@@ -16,6 +16,11 @@
   	WHERE PA_NO = #{no}
   </select>
   
+  <select id="getCnt3" resultType="int">
+  	SELECT COUNT (NO)
+  	FROM JINRYO
+  </select>
+  
   <!-- 환자 목록조회  -->
   <select id="getPatientList" resultType="PatientVo">
   SELECT 
@@ -23,7 +28,11 @@
 	,PA_NAME
 	,PA_TEL
 	,RRN
-	,PA_GENDER
+	,CASE
+		WHEN PA_GENDER = 'M' THEN '남'
+		WHEN PA_GENDER = 'F' THEN '여'
+		ELSE PA_GENDER
+	END AS PA_GENDER
 	,CAREGIVER
 	,ADDRESS
 	,PA_DATE
@@ -48,7 +57,11 @@
 		,PA_NAME
 		,PA_TEL
 		,RRN
-		,PA_GENDER
+		,CASE
+		WHEN PA_GENDER = 'M' THEN '남'
+		WHEN PA_GENDER = 'F' THEN '여'
+		ELSE PA_GENDER
+	END AS PA_GENDER
 		,ADDRESS
 		,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(RRN, 8, 1), '1', '19', '2', '19', '20')||substr(RRN, 1, 6))))/10000) as "AGE"
 		FROM PATIENT
@@ -75,37 +88,6 @@
 		FROM PATIENT
 		WHERE NO = #{no}
 	</select>
-	
-	<!-- 환자 진료내역조회(아래랑 이거중에 뭐가 맞는지 일단 보류)  -->
-  <!-- <select id="getPatientChart" resultType="TmHistoryVo">
-  SELECT 
-  	*
-	FROM TM_HISTORY
-	WHERE PA_NO = #{paNo}
-	ORDER BY NO DESC
-  </select> -->
-  
-  <!-- 환자 진료내역조회 (혹시몰라 일단 둠) -->
-  <!-- <select id="getPatientChart" resultType="TmHistoryVo">
-  	SELECT
-        H.NO
-		,H.TM_CONTENT
-		,H.FEE
-		,H.J_DATE
-		,H.CAUTION
-		,H.PAID_YN
-		,H.PR_CONTENT
-		,TO_CHAR(H.PR_DATE, 'YYYY-MM-DD') AS PR_DATE
-		,H.DRUG
-		,H.PA_NO
-		,H.EM_NO
-		,P.NO
-	FROM TM_HISTORY H
-    LEFT JOIN PATIENT P ON (H.PA_NO = P.NO)
-	WHERE P.NO = #{no}
-	ORDER BY H.NO DESC
-  </select> -->
-  
   
   <!-- 환자 진료내역조회 (혹시몰라 일단 둠) -->
   <select id="getPatientChart" resultType="TmHistoryVo">
@@ -113,7 +95,7 @@
 	    H.NO
 	    ,H.TM_CONTENT
 	    ,H.FEE
-	    ,H.J_DATE
+	    ,H.JI_DATE
 	    ,H.CAUTION
 	    ,H.PAID_YN
 	    ,H.PR_CONTENT
@@ -137,7 +119,172 @@
 	ORDER BY
 	    H.NO DESC
   </select>
+  
+  <!-- 처방전 조회  -->
+  <select id="selectPrescription" resultType="TmHistoryVo">
+	SELECT
+		H.NO
+	    ,H.TM_CONTENT
+	    ,H.FEE
+	    ,H.JI_DATE
+	    ,H.CAUTION
+	    ,H.PAID_YN
+	    ,H.PR_CONTENT
+	    ,TO_CHAR(H.PR_DATE, 'YYYY-MM-DD') AS PR_DATE
+	    ,H.DRUG
+	    ,H.PA_NO
+	    ,H.EM_NO
+	    ,P.NO
+	    ,P.PA_NAME AS PATIENT_NAME
+	    ,P.RRN
+	    ,E.NAME AS EMPLOYEE_NAME
+	    ,D.TITLE AS DEPARTMENT_TITLE
+		FROM
+		    TM_HISTORY H
+		LEFT JOIN
+		    PATIENT P ON H.PA_NO = P.NO
+		LEFT JOIN
+		    EMPLOYEE E ON H.EM_NO = E.NO
+		LEFT JOIN
+		    DEPARTMENT D ON E.DEPT_NO = D.NO
+		WHERE
+		    H.NO = #{no}
+	</select>
+
+	<!-- 진료대기환자목록  -->
+	<select id="getWaitingList" resultType="jinryoVo">
+	  SELECT
+	    j.NO,
+	    j.JI_DAY,
+	    j.JI_TIME,
+	    j.DEPT,
+	    j.SYMPTOM,
+	    j.CXL_YN,
+	    j.PA_NO,
+	    j.RM_NO,
+	    p.PA_NAME,
+	    p.RRN,
+	    CASE
+	      WHEN p.PA_GENDER = 'M' THEN '남'
+	      WHEN p.PA_GENDER = 'F' THEN '여'
+	      ELSE p.PA_GENDER
+	    END AS PA_GENDER,
+	    d.USE_YN,
+	    d.NOTE,
+	    d.EM_NO
+	  FROM JINRYO j
+	  INNER JOIN PATIENT p ON j.PA_NO = p.NO
+	  INNER JOIN D_ROOM d ON j.RM_NO = d.NO
+	  WHERE d.EM_NO = #{emNo}
+	  ORDER BY j.NO ASC
+	</select>
 	
+	<!-- 진료중인 환자 정보 불러오기  -->
+	<select id="selectNowPatient" resultType="jinryoVo">
+	  SELECT
+	    j.NO,
+	    j.JI_DAY,
+	    j.JI_TIME,
+	    j.DEPT,
+	    j.SYMPTOM,
+	    j.CXL_YN,
+	    j.PA_NO,
+	    j.RM_NO,
+	    p.PA_NAME,
+	    p.RRN,
+	    trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(RRN, 8, 1), '1', '19', '2', '19', '20')||substr(p.RRN, 1, 6))))/10000) as "AGE",
+	    CASE
+	      WHEN p.PA_GENDER = 'M' THEN '남'
+	      WHEN p.PA_GENDER = 'F' THEN '여'
+	      ELSE p.PA_GENDER
+	    END AS PA_GENDER
+	  FROM JINRYO j
+	  INNER JOIN PATIENT p ON j.PA_NO = p.NO
+	  WHERE J.PA_NO = '1'
+	</select>
+	
+	<!-- 진료중인환자 과거내역조회 -->
+  <select id="getNowChart" resultType="TmHistoryVo">
+  	SELECT
+	    H.NO
+	    ,H.TM_CONTENT
+	    ,H.FEE
+	    ,H.JI_DATE
+	    ,H.CAUTION
+	    ,H.PAID_YN
+	    ,H.PR_CONTENT
+	    ,TO_CHAR(H.PR_DATE, 'YYYY-MM-DD') AS PR_DATE
+	    ,H.DRUG
+	    ,H.PA_NO
+	    ,H.EM_NO
+	    ,P.NO
+	    ,E.NAME AS EMPLOYEE_NAME
+	    ,D.TITLE AS DEPARTMENT_TITLE
+	FROM
+	    TM_HISTORY H
+	LEFT JOIN
+	    PATIENT P ON H.PA_NO = P.NO
+	LEFT JOIN
+	    EMPLOYEE E ON H.EM_NO = E.NO
+	LEFT JOIN
+	    DEPARTMENT D ON E.DEPT_NO = D.NO
+	WHERE
+	    P.NO = #{chartNo}
+	ORDER BY
+	    H.NO DESC
+  </select>	
+  
+  <!-- 약품리스트  -->
+  <select id="getDrugList" resultType="drugVo">
+  	SELECT
+  		NO
+  		,NAME
+  		,DATAIL
+  	FROM DRUG
+  </select>
+
+  <insert id="insertTm">
+  	INSERT INTO
+  	TM_HISTORY
+  	(
+  		NO
+		,TM_CONTENT
+		,FEE
+		,JI_DATE
+		,CAUTION
+		,PAID_YN
+		,PR_CONTENT
+		,PR_DATE
+		,DRUG
+		,PA_NO
+		,EM_NO
+		,NEEDSTAY
+		,NEEDSURGERY
+  	)
+  	VALUES
+  	(
+  		SEQ_TM_HISTORY_NO.NEXTVAL
+		,#{tmContent}
+		,'10000'
+		,SYSDATE
+		,'ㅋㅋ조심'
+		,'Y'
+		,#{prContent}
+		,SYSDATE
+		,#{medName}
+		,#{paNo}
+		,#{emNo}
+		,<choose>
+	      <when test="checkHospital == 'yes'"> 'Y', </when>
+	      <otherwise> 'N', </otherwise>
+	    </choose>
+	    <choose>
+	      <when test="checkSurgery == 'yes'"> 'Y' </when>
+	      <otherwise> 'N' </otherwise>
+	    </choose>
+  	)
+  </insert>
+  
 	
 
   

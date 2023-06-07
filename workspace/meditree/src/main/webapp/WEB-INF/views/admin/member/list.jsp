@@ -95,7 +95,7 @@
 	               		<table class="table table-hover">  
 	               			<thead class="table-light">
 		                    	<tr> 
-		                            <th>회원번호</th>
+		                            <th>사원번호</th>
 									<th>이름</th>
 									<th>상태</th>
 									<th>입사일</th>

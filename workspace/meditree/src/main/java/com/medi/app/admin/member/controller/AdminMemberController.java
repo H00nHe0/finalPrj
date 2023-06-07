@@ -58,5 +58,26 @@ public class AdminMemberController {
 		return "admin/member/detail";
 	}
 	
+	//회원탈퇴
+	@RequestMapping("quit/{no}")
+	public String quit(HttpSession session , @PathVariable String no , Model model) {
+		
+		
+		//서비스
+		int result = ams.quit(no);
+		System.out.println(no);
+		System.out.println(result);
+		
+		//화면
+		if(result == 1) {
+			model.addAttribute("alertMsg", "퇴사처리 되었습니다");
+			session.invalidate();
+		}else {
+			session.setAttribute("alertMsg", "회원탈퇴 실패...");
+		}
+		return "redirect:/member/main";
+		
+	}
+	
 	
 }

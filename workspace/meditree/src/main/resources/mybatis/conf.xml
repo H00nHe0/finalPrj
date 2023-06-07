@@ -24,6 +24,8 @@
        <typeAlias type="com.medi.app.mySign.vo.MySignVo" alias="mySignVo"/>
        <typeAlias type="com.medi.app.mail.vo.MailVo" alias="mailVo"/>
        <typeAlias type="com.medi.app.schedule.vo.ScheduleVo" alias="scheduleVo"/>
+       <typeAlias type="com.medi.app.jinryo.vo.JinryoVo" alias="jinryoVo"/>
+       <typeAlias type="com.medi.app.treat.vo.DrugVo" alias="drugVo"/>
 
 	</typeAliases>
 

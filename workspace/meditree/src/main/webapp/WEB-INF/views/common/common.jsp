@@ -5,6 +5,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="${root}/resources/css/common/common.css" />
 
 
+<%-- <c:if test="${empty sessionScope.loginMember}">
+    <c:redirect url="redirect:/home"/> <!-- 로그인 페이지로 리다이렉트 -->
+</c:if> --%>
 
 <c:if test="${not empty alertMsg}">
   <script>
@@ -13,9 +16,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 </c:if>
 <c:remove var="alertMsg" scope="session" />
 
-<c:if test="${empty sessionScope.loginMember}">
-    <c:redirect url="redirect:/home"/> <!-- 로그인 페이지로 리다이렉트 -->
-</c:if>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <header>

@@ -36,5 +36,9 @@ public class AdminMemberService {
 	public int getCnt(Map<String, String> searchMap) {
 		return dao.getCnt(sst , searchMap);
 	}
+
+	public int quit(String no) {
+		return dao.quit(sst , no);
+	}
 	
 }

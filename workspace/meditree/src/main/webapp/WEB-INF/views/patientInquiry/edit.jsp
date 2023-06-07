@@ -127,6 +127,7 @@ body h2 {
 
 							<div class="btnwech" >
 								<button type="submit" class="btn btn-primary">수정</button>
+								<button type="button" class="btn btn-primary" onclick="history.back()">뒤로가기</button>
 							</div>
 					</div>
 				</form>

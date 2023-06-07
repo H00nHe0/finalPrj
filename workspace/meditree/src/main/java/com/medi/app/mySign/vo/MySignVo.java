@@ -12,8 +12,8 @@ public class MySignVo {
 	
 	private String no;
 	private String signTitle;
+	private String title;
 	private String content;
-	private String apprTitle;
 	private String enrollDate;
 	private String status;
 	private String delyn;

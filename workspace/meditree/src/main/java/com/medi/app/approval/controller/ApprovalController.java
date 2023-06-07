@@ -77,7 +77,6 @@ public class ApprovalController {
 	public String detail(String num, Model model) {
 		
 		ApprVo vo = as.getAppr(num);
-		
 		if(vo == null) {
 			model.addAttribute("errorMsg", "조회 실패...");
 			return "common/error";

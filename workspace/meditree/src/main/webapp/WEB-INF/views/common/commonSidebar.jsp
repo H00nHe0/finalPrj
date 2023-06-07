@@ -69,8 +69,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <img src="${root}/resources/img/homeImg/sideApproval.png" />전자결재
       </li>
       <ul class="sub-menu">
-        <a href="#"><li>결재 현황</li></a>
-        <a href="#"><li>결재 등록</li></a>
+        <a href="${root}/mySign/list"><li>결재하기</li></a>
       </ul>
       <li class="category">
         <img src="${root}/resources/img/homeImg/calendar.png" />일정
@@ -106,6 +105,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <a href="#"><li>급여입력</li></a>
         <a href="/app/member/join"><li>직원 가입</li></a>
         <a href="/app/admin/member/list"><li>직원 관리</li></a>
+        <a href="${root}/appr/list"><li>결재문서 관리</li>
+        <a href="${root}/adminSign/adminList"><li>결재현황</li></a> <!-- 관리자만 보이게  -->
       </ul>
       
     </ul>

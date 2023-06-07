@@ -14,12 +14,6 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
 	rel="stylesheet">
-
-<!-- fancyTree -->
-<link
-	href="//cdn.jsdelivr.net/npm/jquery.fancytree@2.27/dist/skin-win8/ui.fancytree.min.css"
-	rel="stylesheet">
-
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600&display=swap')
@@ -124,7 +118,6 @@ input:focus, textarea:focus {
 	margin-bottom: 15px;
 }
 
-
 .appr-write-btn:hover { /* 수정하기 버튼 호버 */
 	background: #82CBC4;
 	color: white;
@@ -180,7 +173,7 @@ input:focus, textarea:focus {
 									</tr>
 									<tr>
 										<th>제목</th>
-										<td>${vo.title}</td>
+										<td>${vo.formTitle}</td>
 									</tr>
 									<tr>
 										<th>설명</th>
@@ -231,7 +224,7 @@ input:focus, textarea:focus {
 									
 									<tr>
 										<th>제목</th>
-										<td><input type="text" name="title" value="${ vo.title }"></td>
+										<td><input type="text" name="formTitle" value="${ vo.formTitle }"></td>
 									</tr>
 									<tr>
 										<th>설명</th>
@@ -241,7 +234,8 @@ input:focus, textarea:focus {
 								<div><textarea id="summernote" name="content">${vo.content}</textarea></div>
 							</div>
 							</form>
-							<!-- summernote -->
+							
+				<!-- summernote -->
 				<script src="https://code.jquery.com/jquery-3.5.1.min.js"
 					crossorigin="anonymous"></script>
 				<script

@@ -6,6 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>결재문 작성</title>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <!-- summernote -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -125,8 +129,11 @@ input:focus, textarea:focus {
 	color: rgb(72, 72, 72);
 	border-width: 2px;
 }
+
 #formModal {
 	position: fixed;
+	display: none;
+	
 }
 </style>
 </head>
@@ -147,31 +154,10 @@ input:focus, textarea:focus {
 						<form action="${root}/mySign/write" method="post" enctype="multipart/form-data">
 							<input type="hidden" value="" name="no">
 							<div class="appr-table-wrapper">
-								<button type="button" class="btn appr-write-btn" onclick="postFormSubmit('${root}/mySign/list');">
-									결재요청
-								</button>
-								<button type="button" class="btn btn-outline-success btn-green"
-									data-bs-toggle="modal" data-bs-target="#formModal" style="width: 130px;">
-									결재양식선택
-								</button>
-
-								<script>
-									function postFormSubmit(url) {
-
-										let result;
-										if (url == '${root}/mySign/list') {
-											result = confirm("결재요청 하시겠습니까?");
-										} else {
-											result = confirm("결재 취소 하시겠습니까?");
-										}
-
-										if (result == true) {
-											$(${signvoList})
-													.attr("action", url)
-													.submit();
-										}
-									}
-								</script>
+									<button type="submit" class="btn appr-write-btn">결재요청</button>
+								<button type="button" class="btn btn-green"
+									data-bs-toggle="modal" data-bs-target="#formModal"
+									style="width: 130px;" onclick="selectFormList();">결재양식선택</button>
 
 								<table class="table table-bordered appr-table">
 									<tr>
@@ -180,12 +166,7 @@ input:focus, textarea:focus {
 									</tr>
 									<tr>
 										<th>제목</th>
-										<td><input type="text" name="title"
-											placeholder="제목을 입력해주세요" required></td>
-									</tr>
-									<tr>
-										<th>첨부파일</th>
-										<td><input type="file" name="file"></td>
+										<td><input type="text" name="signTitle" placeholder="제목을 입력해주세요" required></td>
 									</tr>
 								</table>
 								<div>
@@ -198,8 +179,7 @@ input:focus, textarea:focus {
 			</div>
 
 			<!-- summernote -->
-			<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-				crossorigin="anonymous"></script>
+			<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 			<script
 				src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 				integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -237,9 +217,106 @@ input:focus, textarea:focus {
 																	[ 'fullscreen' ] ] 
 																  ]
 													});
-								});
+								})
 			</script>
+			
+		<!-- 결재양식선택 모달창 -->
+		<div class="modal" id="formModal" >
+			 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content" style="background: white;">
+					<div class="modal-header">
+						<h5 class="modal-title" id="formModalLabel">결재양식 선택</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" style="height: 300px;">
+						<div class="input-group appr-search-div" style="float: left; width: 100%"></div>
+						<table class="table table-bordered appr-table" id="appr-comment">
+							<thead>
+								<tr style="border: 2px solid #DFDFDF;">
+									<th id="form-modal-th">&nbsp;결재양식 &nbsp; 
+									<span id="formCount"></span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 결재양식 들어오는 부분 -->
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm"
+							data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-sm"
+							style="background: #82CBC4; color: white;"
+							onclick="selectFormDetail();">선택</button>
+					</div>
+				</div>
+			</div>
 		</div>
+
+		</div>
+
+		
+		<script>
+		// 결재양식선택 리스트 조회용 ajax함수
+		function selectFormList(){ 
+			console.log("함수실행");
+			$.ajax({
+				type: 'post',
+				url: "${root}/mySign/list",
+				async:false,
+				success:function(apvoList){
+					console.log("결재양식선택 리스트 조회용 ajax통신 성공");
+					console.log(apvoList);
+					
+					let value = "";
+					for(let i=0; i<apvoList.length; i++){
+						 value += "<tr>"
+								+ "<td><input type='radio' name='form' value="+"'apvoList[i].no'"+">&nbsp;&nbsp;" 
+								+ apvoList[i].formTitle
+								+ "&nbsp;-&nbsp;" 
+								+ apvoList[i].info + "</td>"
+								+ "</tr>"
+					}
+					
+					$("#appr-comment tbody").html(value);
+					$("#formCount").text( "(" + apvoList.length + ")" );
+					
+					$('input:radio[name=form]').each(function(index, item){ // ajax로 조회해온 데이터에 value값 넣어주기
+						$(item).val(apvoList[index].no);
+					})
+					
+				},
+				error:function(){
+					console.log("결재양식선택 리스트 조회용 ajax통신 실패");
+				}
+			})
+		}
+		
+		// 결재양식 불러오기용 ajax함수
+		function selectFormDetail() {
+			  $.ajax({
+			    url: "${root}/mySign/detail",
+			    type:"post",
+			    async: false,
+			    data: {num: $("input:radio[name=form]:checked").val()},
+			    success: function(f) {
+			      console.log(f);
+			      $('#summernote').summernote('reset');
+			      $('#summernote').summernote('code', f.content); // Set the content in the Summernote editor
+			      
+			      $('#formModal').modal('hide');
+			      $("input[name=num]").attr('value', f.num); // Set the form number to be passed in the form submission
+			    },
+			    error: function() {
+			      console.log("Failed to retrieve the selected form for approval");
+			    }
+			  });
+			}
+		</script>
+
 	</div>
+		
 </body>
 </html>
+

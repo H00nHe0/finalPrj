@@ -88,11 +88,6 @@ body h1 {
 	height: 50px;
 }
 
-#appr-manage-table>thead>tr {
-	border-top: 1px solid lightgray;
-	background-color: #f3f3f4;
-}
-
 #page-area{
     	text-align: center;
     	padding-top: 20px;
@@ -119,7 +114,7 @@ body h1 {
 						<div class="appr-table-wrapper" style="margin-top: 30px;">
 
 							<table class="table table-hover" id="appr-manage-table">
-								<thead align="center">
+								<thead class="table-light" align="center">
 									<tr>
 										<th>번호</th>
 										<th>사용여부</th>
@@ -146,7 +141,7 @@ body h1 {
 															<td>미사용</td>
 														</c:otherwise>
 													</c:choose>
-													<td>${avo.title}</td>
+													<td>${avo.formTitle}</td>
 													<td>${avo.info}</td>
 												</tr>
 											</c:forEach>

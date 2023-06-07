@@ -26,6 +26,10 @@
        <typeAlias type="com.medi.app.schedule.vo.ScheduleVo" alias="scheduleVo"/>
        <typeAlias type="com.medi.app.jinryo.vo.JinryoVo" alias="jinryoVo"/>
        <typeAlias type="com.medi.app.treat.vo.DrugVo" alias="drugVo"/>
+       <typeAlias type="com.medi.app.weeklymenu.vo.WMenuVo" alias="wMenuVo"/>
+		<typeAlias type="com.medi.app.adminSign.vo.AdminSignVo" alias="adminSignVo"/>
+		<typeAlias type="com.medi.app.schedule.vo.ScheduleVo" alias="scheduleVo"/>
+		<typeAlias type="com.medi.app.reservation.vo.ReservationVo" alias="reservationVo"/>
 
 	</typeAliases>
 

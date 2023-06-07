@@ -47,5 +47,154 @@
   			DELETE_YN = 'Y'
   		WHERE TITLE = #{title}
   </update>
-   
+  
+  
+  	<select id="pCalendarList" resultType="scheduleVo">
+	SELECT 
+		NO
+		,TITLE
+		,CONTENT
+		,CAL_START
+		,CAL_END
+		
+		FROM PER_CALENDAR
+		WHERE
+			DELETE_YN = 'N'
+		AND EM_NO = #{emNo}
+
+		
+	</select>
+	
+  	<insert id="insertPEventToDB">
+	INSERT 
+	INTO 
+	PER_CALENDAR
+	(
+	NO
+	,TITLE
+	,CAL_START
+	,CAL_END
+	,DELETE_YN
+	,EM_NO
+	)
+	VALUES
+	(
+	SEQ_PER_CALENDAR_NO.NEXTVAL
+	,#{title}
+	,#{calStart}
+	,#{calEnd}
+	,default
+	,#{emNo}
+	)
+	</insert>
+	
+
+  <update id="deletePEventFromDB">
+  	UPDATE PER_CALENDAR
+  		SET
+  			DELETE_YN = 'Y'
+  		WHERE TITLE = #{title}
+  		AND
+  		EM_NO = #{emNo}
+  </update>
+  
+  
+    <insert id="insertPRSVNEventToDB">
+	INSERT 
+	INTO 
+	PROOM_CALENDAR
+	(
+	NO
+	,TITLE
+	,CAL_START
+	,CAL_END
+	,DELETE_YN
+	,EM_NO
+	)
+	VALUES
+	(
+	SEQ_PROOM_CALENDAR_NO.NEXTVAL
+	,#{title}
+	,#{calStart}
+	,#{calEnd}
+	,default
+	,#{emNo}
+	)
+	</insert>
+	
+	<insert id="sendToCalendar">
+	INSERT 
+	INTO 
+	SROOM_CALENDAR
+	(
+	NO
+	,TITLE
+	,CAL_START
+	,CAL_END
+	,DELETE_YN
+	,EM_NO
+	)
+	VALUES
+	(
+	SEQ_SROOM_CALENDAR_NO.NEXTVAL
+	,#{title}
+	,#{calStart}
+	,#{calEnd}
+	,default
+	,#{emNo}
+	)
+	</insert>
+	
+	<insert id="insertSRSVNEventToDB">
+	INSERT 
+	INTO 
+	SURGERY_SCH
+	(
+	NO
+	,SU_DATE
+	,SU_START
+	,SU_END
+	,DEPT
+	,LIST
+	,DOCTOR
+	,RM_NO
+	,AC_NO
+	)
+	VALUES
+	(
+	SEQ_SROOM_CALENDAR_NO.NEXTVAL
+	,#{suDate}
+	,#{suStart}
+	,#{suEnd}
+	,#{dept}
+	,'NONE'
+	,#{doctor}
+	,#{rmNo}
+	,3
+	)
+	</insert>
+    <select id="selectPRoomCalendarList" resultType="scheduleVo">
+	SELECT 
+		NO
+		,TITLE
+		,CONTENT
+		,CAL_START
+		,CAL_END
+		
+		FROM PROOM_CALENDAR
+		WHERE
+			DELETE_YN = 'N'	
+	</select>
+    <select id="selectSRoomCalendarList" resultType="scheduleVo">
+	SELECT 
+		NO
+		,TITLE
+		,CONTENT
+		,CAL_START
+		,CAL_END
+		
+		FROM SROOM_CALENDAR
+		WHERE
+			DELETE_YN = 'N'	
+	</select>
    </mapper>

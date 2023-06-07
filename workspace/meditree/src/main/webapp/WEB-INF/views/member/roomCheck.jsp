@@ -88,6 +88,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       th, td:not(#except){
         border: 1px solid lightgrey;
         height: 50px;
+        font-weight: 600;
       }
       #tableArea {
       height: 100%;
@@ -103,10 +104,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         box-sizing: border-box;
       }
 
-      .showWeekday {
+      #showWeekday {
       position: fixed;
-      top: 40px; /* 원하는 위치에 맞게 수정 */
       right: 50px;
+      top: 15px;
       width: 200px;
       height: 80px;
       z-index: 99;
@@ -116,6 +117,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       border: 2px solid rgb(29, 92, 99);
       background : white;
     }
+    .bgBeige {
+	background-color: rgb(237, 230, 214) !important;
+}
+
     </style>
   </head>
   <body>
@@ -135,11 +140,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                 </table>
                 <br>
       
-                <form action="room.mj" method="get">
+                <form action="roomCheck" method="get">
                   <div align="center">
-                    <button id="preButton" type="button" class="button">&lt;</button>
+                    <button id="preButton" type="submit" class="button" name="cDate">&lt;</button>
                     <span id="showMonth"></span>
-                    <button id="nextButton" type="button" class="button">&gt;</button>
+                    <button id="nextButton" type="submit" class="button" name="cDate">&gt;</button>
 
                   </div>
                 </form>
@@ -150,103 +155,82 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     <thead>
                       <tr>
                         <th>날짜 / 호</th>
-                        <!-- <c:forEach var="r" items="${ roomList }">
-                          <th>${r.proomNo}호${r.capacity }인실</th>
-                        </c:forEach> -->
-                        <c:forEach var="i" begin="201" end="206" step="1">
-                          <c:choose>
-                            <c:when test="${i < 204}">
-                              <th>${i}호 2인실</th>
-                            </c:when>
-                            <c:otherwise>
-                              <th>${i}호 4인실</th>
-                            </c:otherwise>
-                          </c:choose>
+                        <c:forEach var="r" items="${ roomList }">
+                          <th>${r.no}호 -${r.type }인실</th>
                         </c:forEach>
                       </tr>
                     </thead>
-      
-                      <!-- <c:forEach var="d" items="${ dayList }">
-                        <tr>
-                          <td>
-                          <span date="${d.date}">${ d.date }</span></td>
-                          <td><c:forEach var="b" items="${ bookingList }">
-                              <c:choose>
-                                <c:when test="${ d.date == b.date and b.proomNo == '201' }">
-                                  <span2 count="${b.count }">${ fn:replace(b.nameList, ',', '<br>') }</span2>
-                                </c:when>
-                              </c:choose>
-      
-                            </c:forEach></td>
-      
-                          <td><c:forEach var="b" items="${ bookingList }">
-                              <c:choose>
-                                <c:when test="${ d.date == b.date and b.proomNo == '202' }">
-                                  <span4 count="${b.count }">${ fn:replace(b.nameList, ',', '<br>') }</span4>
-                                </c:when>
-                              </c:choose>
-      
-                            </c:forEach></td>
-      
-                          <td><c:forEach var="b" items="${ bookingList }">
-                              <c:choose>
-                                <c:when test="${ d.date == b.date and b.proomNo == '203' }">
-                                  <span2 count="${b.count }">${ fn:replace(b.nameList, ',', '<br>') }</span2>
-                                </c:when>
-                              </c:choose>
-      
-                            </c:forEach></td>
-      
-                          <td><c:forEach var="b" items="${ bookingList }">
-                              <c:choose>
-                                <c:when test="${ d.date == b.date and b.proomNo == '204' }">
-                                  <span4 count="${b.count }">${ fn:replace(b.nameList, ',', '<br>') }</span4>
-                                </c:when>
-                              </c:choose>
-      
-                            </c:forEach></td>
 
-                            <td><c:forEach var="b" items="${ bookingList }">
-                              <c:choose>
-                                <c:when test="${ d.date == b.date and b.proomNo == '205' }">
-                                  <span4 count="${b.count }">${ fn:replace(b.nameList, ',', '<br>') }</span4>
-                                </c:when>
-                              </c:choose>
-      
-                            </c:forEach></td>
-
-                            <td><c:forEach var="b" items="${ bookingList }">
-                              <c:choose>
-                                <c:when test="${ d.date == b.date and b.proomNo == '206' }">
-                                  <span4 count="${b.count }">${ fn:replace(b.nameList, ',', '<br>') }</span4>
-                                </c:when>
-                              </c:choose>
-      
-                            </c:forEach></td>
-                      </c:forEach> -->
                       <tbody>
-                        <c:forEach var="d" begin="1" end="30" step="1">
+
+                        <c:forEach var="d" items="${ dayList }">
                           <tr>
                             <td>
-                              <span>5월 ${d}일</span>
+                            <span date="${d.workingDay}">${ d.workingDay }</span></td>
+                            <td>
+                              <c:forEach var="b" items="${ bookingList }">
+                              <c:choose>
+                                <c:when test="${ d.workingDay == b.workingDay and b.prNo == '201' }">
+                                  <span2 count="${b.count }">${ fn:replace(b.namelist, ',', '<br>') }</span2>
+                                </c:when>
+                              </c:choose>
+                              </c:forEach>
                             </td>
-                            <td>하훈</td>
-                            <td>김승우<br>이승우</td>
-                            <td>아이돌</td>
-                            <td>가수</td>
-                            <td>개그맨</td>
-                            <td>개그맨</td>
-                          </tr>
+        
+                            <td><c:forEach var="b" items="${ bookingList }">
+                              <c:choose>
+                                <c:when test="${ d.workingDay == b.workingDay and b.prNo == '202' }">
+                                  <span2 count="${b.count }">${ fn:replace(b.namelist, ',', '<br>') }</span2>
+                                </c:when>
+                              </c:choose>
+      
+                            </c:forEach>
+                            </td>
+        
+                            <td><c:forEach var="b" items="${ bookingList }">
+                                <c:choose>
+                                  <c:when test="${ d.workingDay == b.workingDay and b.prNo == '203' }">
+                                    <span2 count="${b.count }">${ fn:replace(b.namelist, ',', '<br>') }</span2>
+                                  </c:when>
+                                </c:choose>
+        
+                              </c:forEach></td>
+        
+                            <td><c:forEach var="b" items="${ bookingList }">
+                              <c:choose>
+                                <c:when test="${ d.workingDay == b.workingDay and b.prNo == '204' }">
+                                  <span4 count="${b.count }">${ fn:replace(b.namelist, ',', '<br>') }</span4>
+                                </c:when>
+                              </c:choose>
+      
+                            </c:forEach></td>
+                              <td><c:forEach var="b" items="${ bookingList }">
+                                <c:choose>
+                                  <c:when test="${ d.workingDay == b.workingDay and b.prNo == '205' }">
+                                    <span4 count="${b.count }">${ fn:replace(b.namelist, ',', '<br>') }</span4>
+                                  </c:when>
+                                </c:choose>
+        
+                              </c:forEach></td>
+                              <td><c:forEach var="b" items="${ bookingList }">
+                                <c:choose>
+                                  <c:when test="${ d.workingDay == b.workingDay and b.prNo == '206' }">
+                                    <span4 count="${b.count }">${ fn:replace(b.namelist, ',', '<br>') }</span4>
+                                  </c:when>
+                                </c:choose>
+        
+                              </c:forEach></td>
+                              </tr>
                         </c:forEach>
+        
                       </tbody>
                   </table>
                   <br><br><br>
 
                 </div>
               </div>
-              <div class="showWeekday">
+              <div class="showWeekday" id="showWeekday">
                 TODAY
-                <div class="showWeekday" id="showWeekday"></div>
               </div>
           </div>
         </div>
@@ -293,4 +277,28 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   // 초기 월, 요일 표시
   displayMonth(currentDate);
   displayWeekday(currentDate);
+
+</script>
+<script>
+$(function() {
+  $("#tableArea span2").each(function() {
+					if ($(this).attr("count") >= 2) {
+						$(this).parent().addClass("bgBeige");
+					}
+				})
+
+				$("#tableArea span4").each(function() {
+					if ($(this).attr("count") >= 4) {
+						$(this).parent().addClass("bgBeige");
+					}
+				})
+  
+  $("#tableArea span").each(function() {
+    if ($(this).attr("date") == "${today2}") {
+      $(this).parent().parent().addClass("textBold");
+    }
+  });
+
+  
+});
 </script>

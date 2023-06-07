@@ -1,8 +1,10 @@
 package com.medi.app.reception.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.Session;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,7 @@ import com.medi.app.member.vo.DeptVo;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.service.PatientService;
 import com.medi.app.reception.patient.vo.PatientVo;
+import com.medi.app.reservation.vo.ReservationVo;
 
 
 
@@ -78,18 +82,13 @@ public class ReceptionController {
 			session.setAttribute("alertMsg", "환자등록 실패");
 			return "common/error";
 		}
-
-	    // 현재 날짜를 구하고 패턴을 변경
-//	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//	    String currentDate = dateFormat.format(new Date());
-	    
-	    // PatientVo 객체의 enrollStatus와 paDate를 설정
-//	    vo.setEnrollStatus("첫 방문");
-//	    vo.setPaDate(currentDate+" (첫 방문)");
-//	    
-//		PatientVo pvo = new PatientVo();
+		List<Map<String, String>> mvoList = ps.getDepartmentList();
+		List<MemberVo> evoList = ps.getDoctorList();
+		model.addAttribute("mvoList", mvoList);
+		model.addAttribute("evoList", evoList);
+		
 		session.setAttribute("alertMsg", "환자등록 성공");
-//		session.setAttribute("pvo", vo);
+		session.setAttribute("pvo", vo);
 		return "/member/reception";
 	}
 	
@@ -117,6 +116,14 @@ public class ReceptionController {
 		return "member/simplePatientCheck";
 		
 	}
+	
+
+	
+	
+	
+	
+	
+	
 	//patient select
 	@PostMapping(value ="selectName", produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -198,6 +205,13 @@ public class ReceptionController {
 			int result = 0;
 			for (int no : changeArray) {
 				result = ps.changePatientStatus(no);
+				PatientVo pv = ps.insertJinryo(no);
+				model.addAttribute("pv", pv);
+				int insert = ps.insertJinryoIng(pv);
+				if(insert != 1) {
+					System.out.println("인서트 안됨");
+				}
+
 			}
 
 			return result > 0 ? "success" : "fail";
@@ -251,25 +265,150 @@ public class ReceptionController {
 		}
 
 	@GetMapping("receiveManage")
-	public void receiveManage() {
-
+	public String receiveManage(@RequestParam(defaultValue = "1") int page ,@RequestParam Map<String , String> searchMap, Model model, String num) {
+		//데이터
+		int listCount = ps.getReceiptCnt(searchMap);
+		int currentPage = page;
+		int pageLimit = 5;
+		int boardLimit = 5;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		//서비스
+		List<PatientVo> receiptList = ps.getreceiptList(pv, searchMap);
+		
+		//화면
+		model.addAttribute("receiptList" , receiptList);
+		System.out.println(receiptList);
+		model.addAttribute("searchMap" , searchMap);
+		model.addAttribute("pv" , pv);
+		System.out.println(pv);
+		return "member/receiveManage";
+	}
+	@GetMapping("receiveDonePage")
+	public String receiveDonePage(@RequestParam(defaultValue = "1") int page ,@RequestParam Map<String , String> searchMap, Model model, String num) {
+		//데이터
+		int listCount = ps.getReceiptDoneCnt(searchMap);
+		int currentPage = page;
+		int pageLimit = 5;
+		int boardLimit = 10;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		//서비스
+		List<MemberVo> payDoneList = ps.payDoneList(pv, searchMap);
+		
+		//화면
+		model.addAttribute("payDoneList" , payDoneList);
+		System.out.println(payDoneList);
+		model.addAttribute("searchMap" , searchMap);
+		model.addAttribute("pv" , pv);
+		System.out.println(pv);
+		return "member/receiveDonePage";
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "changeToReceipt.done")
+	public String changeToReceipt(Model model, @RequestParam("selectedNoArr[]") int[] selectedNoArr){
+		System.out.println("DB로 넘어가는 no:"+selectedNoArr);
+			
+		int result = 0;
+		for (int no : selectedNoArr) {
+			result = ps.changeToReceipt(no);
+			System.out.println(result);
+	}		
+		return result > 0 ? "success" : "fail";
+	}
+	
+	
+	
+	
 	
 	@GetMapping("rsvnWaiting") 
 	public void rsvnWaiting(){
 	 
 	}
 	
+	//입원실 현황페이지
 	@GetMapping("roomCheck")
-	public void roomCheck() {
-		
-	}
-	
-	
-	@GetMapping("rsvnOperatingRm")
-	public void rsvnOperatingRm() {
-		
-	}
+	public void roomCheck(@RequestParam(value = "cDate", defaultValue = "0") String cDate, Model model) throws ParseException {
+		// thead에 들어갈 입원실 목록 조회
+				ArrayList<ReservationVo> roomList = ps.selectPRoomList();
+				model.addAttribute("roomList", roomList);
+				
+				if (cDate.equals("0")) { // 전달받은 cDate가 없으면 현재달로 입원실 현황 조회
 
-}
+					// 오늘 날짜 구해서 String으로 형변환
+					GregorianCalendar cal = new GregorianCalendar();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					String nowDate = sdf.format(cal.getTime());
+		
+					String today2 = sdf.format(cal.getTime()); // 오늘날짜 tr css용
+
+					// 화면에 출력할 현재날짜(yyyy년 mm월)
+					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 MM월");
+					String showDate = sdf2.format(cal.getTime());
+					
+					SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy년 MM월 dd일 (E요일)");
+					String today = sdf3.format(cal.getTime());
+
+					// 전월 날짜 구하기
+					cal.add(GregorianCalendar.MONTH, -1);
+					String preDate = sdf.format(cal.getTime());
+
+					// 다음 날짜 구하기
+					cal.add(GregorianCalendar.MONTH, +2);
+					String nextDate = sdf.format(cal.getTime());
+
+					// String으로 형변환한 오늘 날짜 전달해서 이번달 1일~말일 구하기
+					ArrayList<ReservationVo> dayList = ps.selectDateList(nowDate);
+
+					// 예약중인 환자 리스트 조회
+					ArrayList<ReservationVo> bookingList = ps.selectPRoomBookingList(nowDate);
+
+					model.addAttribute("dayList", dayList);
+					model.addAttribute("showDate", showDate);
+					model.addAttribute("nowDate", nowDate);
+					model.addAttribute("today", today); // fix 용
+					model.addAttribute("today2", today2); // 오늘날짜 tr css용
+					model.addAttribute("preDate", preDate);
+					model.addAttribute("nextDate", nextDate);
+					model.addAttribute("bookingList", bookingList);
+				} else {
+
+					// 오늘 날짜 구해서 String으로 형변환
+					GregorianCalendar cal = new GregorianCalendar();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					String nowDate = cDate;
+					String today2 = sdf.format(cal.getTime()); // 오늘날짜 tr css용
+					
+					// 전달받은 날짜 Date로 변환
+					Date tempt = sdf.parse(cDate);
+					
+					// fix로 보여줄 오늘날짜
+					SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy년 MM월 dd일 (E요일)");
+					String today = sdf3.format(cal.getTime());
+					
+					// 전달받은 날짜 대입
+					cal.setTime(tempt);
+					
+					// 화면에 출력할 현재날짜(yyyy년 mm월)
+					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 MM월");
+					String showDate = sdf2.format(cal.getTime());
+
+
+					
+					// 전월 날짜 구하기
+					cal.add(GregorianCalendar.MONTH, -1);
+					String preDate = sdf.format(cal.getTime());
+
+					// 다음 날짜 구하기
+					cal.add(GregorianCalendar.MONTH, +2);
+					String nextDate = sdf.format(cal.getTime());
+
+					// String으로 형변환한 오늘 날짜 전달해서 이번달 1일~말일 구하기
+					ArrayList<ReservationVo> dayList = ps.selectDateList(nowDate);
+
+					//System.out.println(dayList);
+				
+	}
+	
+	
+
+}}

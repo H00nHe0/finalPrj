@@ -70,9 +70,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             center: "title",
             right: "dayGridMonth,timeGridWeek,timeGridDay",
           },
-          selectable: true,
-          droppable: true,
-          editable: true,
+          //selectable: true,
+          //droppable: true,
+          // editable: true,
           events: data,
           select: function (arg) {
             var title = prompt("일정의 제목을 지정해주세요:");
@@ -156,32 +156,33 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             }
             calendar.unselect();
           },
-          eventClick: function (arg) {
-            //const deleteTitle = arg.val("title");
-            const title = arg.event.title;
-            console.log(title);
-            if (confirm("일정을 삭제 하시겠습니까?")) {
-              $.ajax({
-                url: "deleteEventFromDB",
-                type: "post",
-                data: { title: title },
-                dataType: "text",
-                success: function (data) {
-                  if (data === "success") {
-                    console.log("데이터 삭제성공!");
-                    arg.event.remove();
-                    calendar.render(); // 캘린더를 다시 렌더링하여 화면 새로고침
-                    alert("일정 삭제가 성공하였습니다.");
-                  } else {
-                    console.log("데이터 삭제실패..");
-                  }
-                },
-                error: function () {
-                  console.log("통신 실패");
-                },
-              });
-            }
-          },
+          //관리자만
+          // eventClick: function (arg) {
+          //   //const deleteTitle = arg.val("title");
+          //   const title = arg.event.title;
+          //   console.log(title);
+          //   if (confirm("일정을 삭제 하시겠습니까?")) {
+          //     $.ajax({
+          //       url: "deleteEventFromDB",
+          //       type: "post",
+          //       data: { title: title },
+          //       dataType: "text",
+          //       success: function (data) {
+          //         if (data === "success") {
+          //           console.log("데이터 삭제성공!");
+          //           arg.event.remove();
+          //           calendar.render(); // 캘린더를 다시 렌더링하여 화면 새로고침
+          //           alert("일정 삭제가 성공하였습니다.");
+          //         } else {
+          //           console.log("데이터 삭제실패..");
+          //         }
+          //       },
+          //       error: function () {
+          //         console.log("통신 실패");
+          //       },
+          //     });
+          //   }
+          // },
         });
 
         calendar.render();

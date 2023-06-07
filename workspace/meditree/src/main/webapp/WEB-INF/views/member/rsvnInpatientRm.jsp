@@ -137,6 +137,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       .readOnly {
         text-align: center;
       }
+      .rList {
+        text-align: center;
+      }
+      .fc-event-time {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -160,6 +166,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>차트번호</td>
                           <td>
                             <input
+                              id="pChartNo"
                               type="text"
                               name="chartNo"
                               readonly
@@ -171,6 +178,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>수진자명</td>
                           <td>
                             <input
+                              id="pName"
                               type="text"
                               name="pName"
                               readonly
@@ -183,18 +191,26 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>
                             <label for="sickroom2">2인 병실</label>
                             <select id="sickroom2" name="sickroom">
-                              <option selected>선택안함</option>
-                              <option value="201">201호</option>
-                              <option value="202">202호</option>
-                              <option value="203">203호</option>
+                              <option value="noSelect" selected>
+                                선택안함
+                              </option>
+                              <c:forEach items="${rmList}" var="r">
+                                <option class="rList" value="${r.no}">
+                                  ${r.no}호실
+                                </option>
+                              </c:forEach>
                             </select>
                             &nbsp;
                             <label for="sickroom4">4인 병실</label>
                             <select id="sickroom4" name="sickroom">
-                              <option selected>선택안함</option>
-                              <option value="204">204호</option>
-                              <option value="205">205호</option>
-                              <option value="206">206호</option>
+                              <option value="noSelect" selected>
+                                선택안함
+                              </option>
+                              <c:forEach items="${rmList2}" var="r2">
+                                <option class="rList" value="${r2.no}">
+                                  ${r2.no}호실
+                                </option>
+                              </c:forEach>
                             </select>
                           </td>
                         </tr>
@@ -202,6 +218,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>입원날짜</td>
                           <td>
                             <input
+                              id="inSickRmDate"
                               name="inSickRmDate"
                               type="date"
                               max="2023-12-31"
@@ -214,6 +231,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>퇴원날짜</td>
                           <td>
                             <input
+                              id="outSickRmDate"
                               name="outSickRmDate"
                               type="date"
                               max="2023-12-31"
@@ -229,7 +247,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                               <option value="#" selected>선택</option>
                               <c:forEach items="${evoList}" var="e">
                                 <option class="${e.title}" value="${e.no}">
-                                  ${e.name}(${e.potitle})
+                                  ${e.name}(${e.potitle}) - ${e.title}
                                 </option>
                               </c:forEach>
                             </select>
@@ -250,7 +268,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     </table>
                   </div>
                   <div id="submit-btn">
-                    <button type="button">예약</button>
+                    <button type="button" onclick="f01()">예약</button>
                   </div>
                 </div>
                 <div id="calendar-holder">
@@ -265,104 +283,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </body>
 </html>
 <script src="${root}/resources/js/index.global.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var calendarEl = document.getElementById("calendar");
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: "prev,next today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay",
-      },
-      // initialDate: "2023-01-12",
-      navLinks: true, // can click day/week names to navigate views
-      selectable: true,
-      selectMirror: true,
-      select: function (arg) {
-        var title = prompt("일정의 제목을 지정해주세요:");
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay,
-          });
-        }
-        calendar.unselect();
-      },
-      eventClick: function (arg) {
-        if (confirm("일정을 삭제 하시겠습니까?")) {
-          arg.event.remove();
-        }
-      },
-      editable: true,
-      dayMaxEvents: true, // allow "more" link when too many events
-      events: [
-        {
-          title: "All Day Event",
-          start: "2023-01-01",
-        },
-        {
-          title: "전염성 균질 세미나",
-          start: "2023-04-28",
-          end: "2023-04-30",
-        },
-        {
-          title: "KH주관 등급평가",
-          start: "2023-05-01T09:00:00",
-          end: "2023-05-01T12:00:00",
-        },
-        {
-          title: "병원장과 점심",
-          start: "2023-05-01T13:00:00",
-          end: "2023-05-01T14:00:00",
-        },
-        {
-          title: "외과전공의 협회 저녁식사",
-          start: "2023-05-04T18:00:00",
-          end: "2023-05-04T21:00:00",
-        },
-        {
-          title: "와이프 생일",
-          start: "2023-05-07",
-        },
-        {
-          title: "보건복지부 주관 전공의 대상 컨퍼런스",
-          start: "2023-05-19T10:30:00",
-          end: "2023-05-21T12:30:00",
-        },
-        {
-          title: "Lunch",
-          start: "2023-01-12T12:00:00",
-        },
-        {
-          title: "Meeting",
-          start: "2023-01-12T14:30:00",
-        },
-        {
-          title: "Happy Hour",
-          start: "2023-01-12T17:30:00",
-        },
-        {
-          title: "Dinner",
-          start: "2023-01-12T20:00:00",
-        },
-        {
-          title: "Birthday Party",
-          start: "2023-01-13T07:00:00",
-        },
-        {
-          title: "Click for Google",
-          url: "http://google.com/",
-          start: "2023-01-28",
-        },
-      ],
-    });
-
-    calendar.render();
-  });
-
   // member/rsvnInpatientRm 페이지에서 전달받은 값 가져오기
   $(function () {
     const params = new URLSearchParams(window.location.search);
@@ -400,6 +322,119 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       },
       error: function () {
         console.log("ajax통신 실패");
+      },
+    });
+  });
+  //입원날짜 값, 병실,특이사항
+  function f01() {
+    const pChartNo = document.querySelector("#pChartNo").value;
+    const inDate = document.querySelector("#inSickRmDate").value;
+    const outDate = document.querySelector("#outSickRmDate").value;
+    const emNo = document.querySelector("#selectDoctor").value;
+    const note = document.querySelector("#sickRmMemo").value;
+    const pRoom2 = document.querySelector("#sickroom2").value;
+    const pRoom4 = document.querySelector("#sickroom4").value;
+    if (pRoom2 == "noSelect") {
+      selectedRm = pRoom4;
+    } else {
+      selectedRm = pRoom2;
+    }
+    const title = selectedRm;
+    const calStart = inDate;
+    const calEnd = outDate;
+
+    const newEventData = {
+      title: title,
+      calStart: calStart,
+      calEnd: calEnd,
+      allDay: true,
+      // emNo: hiddenNo,
+    };
+    $.ajax({
+      url: "insertPRSVNEventToDB",
+      type: "post",
+      data: newEventData,
+      dataType: "text",
+      success: function (data) {
+        if (data === "success") {
+          console.log("데이터 삽입성공!");
+          console.log(arg);
+          alert("일정 등록이 성공하였습니다.");
+        } else {
+          console.log("데이터 삽입실패..");
+        }
+      },
+      error: function () {
+        console.log("통신 실패");
+      },
+    });
+    //입력값 서버 전송
+    var rvo = {
+      admStart: inDate,
+      admFinish: outDate,
+      notice: note,
+      paNo: pChartNo,
+      emNo: emNo,
+      prNo: selectedRm,
+    };
+    $.ajax({
+      url: "sentToDB.pRm",
+      type: "post",
+      data: rvo,
+      success: function () {
+        const patientName = document.querySelector('input[name="pName"]').value;
+        alert(patientName + "님 입원실 예약 성공");
+        window.location.href = "/app/member/rsvnWaiting";
+      },
+      error: function () {
+        console.log("입원실 예약정보 전송실패");
+      },
+    });
+  }
+
+  $(function () {
+    $.ajax({
+      url: "list.pRoomCalendar",
+      type: "post",
+      dataType: "json",
+      success: function (list) {
+        console.log(list);
+
+        let data = [];
+        for (let i = 0; i < list.length; i++) {
+          let obj = {
+            title: list[i].title,
+            start: list[i].calStart.substring(0, 10),
+            end: moment(list[i].calEnd.substring(0, 10))
+              .add(1, "days")
+              .format("YYYY-MM-DD"),
+            allDay: true,
+          };
+          console.log(list[i].calStart);
+          console.log(list[i].calEnd);
+          data.push(obj);
+        }
+
+        var initialLocaleCode = "ko";
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          locale: "ko",
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          },
+          selectable: true,
+          droppable: false,
+          editable: false,
+          events: data,
+        });
+
+        calendar.render();
+      },
+      error: function () {
+        console.log("통신 실패");
       },
     });
   });

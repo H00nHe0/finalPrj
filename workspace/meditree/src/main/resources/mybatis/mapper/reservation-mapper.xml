@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="reservation">
+
+	
+	<select id="rsvnScreen" resultType="PatientVo">
+	SELECT
+		R.PA_NO
+		,R.EM_NO
+		,R.DEPT_NO		
+		,R.STATUS
+		,R.PAY
+		,P.PA_NAME
+		,P.RRN
+		,P.PA_GENDER
+		,P.CAREGIVER
+		FROM 
+		RECEIPT R
+	    JOIN PATIENT P ON R.PA_NO = P.NO
+	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
+	    WHERE
+    	TH.NEEDSTAY = 'Y'
+    	AND R.PA_NO = #{paNo}
+    	AND R.STATUS = 'S'
+  		AND R.NO = #{reNo}
+	</select>
+  	<select id="rsvnScreenS" resultType="PatientVo">
+	SELECT
+		R.PA_NO
+		,R.EM_NO
+		,R.DEPT_NO		
+		,R.STATUS
+		,R.PAY
+		,P.PA_NAME
+		,P.RRN
+		,P.PA_GENDER
+		,P.CAREGIVER
+		FROM 
+		RECEIPT R
+	    JOIN PATIENT P ON R.PA_NO = P.NO
+	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
+	    WHERE
+    	TH.NEEDSURGERY = 'Y'
+    	AND R.PA_NO = #{paNo}
+    	AND R.STATUS = 'S'
+    	AND R.NO = #{reNo}
+	</select>
+	
+	<select id="putWaitingPatient" resultType="PatientVo">
+	SELECT
+		R.PA_NO
+		,R.EM_NO
+		,R.DEPT_NO		
+		,R.STATUS
+		,R.PAY
+		,P.PA_NAME
+		,P.RRN
+		,P.PA_GENDER
+		,P.CAREGIVER
+		FROM 
+		RECEIPT R
+	    JOIN PATIENT P ON R.PA_NO = P.NO
+	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
+	    WHERE
+    	TH.NEEDSTAY = 'Y'
+    	AND R.PA_NO = #{paNo}
+	</select>
+	
+	<select id="putWaitingSPatient" resultType="PatientVo">
+	SELECT
+		R.NO AS RE_NO
+		,R.PA_NO
+		,R.EM_NO
+		,R.DEPT_NO		
+		,R.STATUS
+		,R.PAY
+		,P.PA_NAME
+		,P.RRN
+		,P.PA_GENDER
+		,P.CAREGIVER
+        ,DE.TITLE
+		FROM 
+		RECEIPT R
+	    JOIN PATIENT P ON R.PA_NO = P.NO
+	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
+	     JOIN DEPARTMENT DE ON R.DEPT_NO = DE.NO
+	    WHERE
+    	TH.NEEDSURGERY = 'Y'
+    	AND R.NO = #{paNo}
+	</select>
+
+	<select id="getPRmList" resultType="reservationVo">
+	SELECT
+		NO
+		,TYPE
+		,USE_YN
+		,NOTE
+	FROM
+	P_ROOM
+	WHERE TYPE = 2
+	</select>
+	<select id="get2PRmList" resultType="reservationVo">
+	SELECT
+		NO
+		,TYPE
+		,USE_YN
+		,NOTE
+	FROM
+	P_ROOM
+	WHERE TYPE = 4
+	</select>
+	
+	 <insert id="sendInfoToPRm">
+  	INSERT INTO ADM
+  	(
+		NO
+		,ADM_START
+		,ADM_FINISH
+		,NOTICE
+		,PA_NO
+		,EM_NO
+		,PR_NO
+  	)
+  	VALUES
+  	(
+  		SEQ_ADM_NO.NEXTVAL
+		,#{admStart}
+		,#{admFinish}
+		,#{notice}
+		,#{paNo}
+		,#{emNo}
+		,#{prNo}
+  	)
+  </insert> 
+  <!-- 수술실 목록  -->
+  	<select id="getSRmList" resultType="reservationVo">
+	SELECT
+		NO AS SRM_NO
+		,USE_YN
+		,NOTE
+	FROM
+	SURGERY_RM
+	WHERE USE_YN = 'Y'
+	</select>
+  
+  	<update id="changeToFinish">
+	UPDATE 
+	RECEIPT
+	SET
+	STATUS = 'F'
+	WHERE PA_NO = #{paNo}
+	AND STATUS = 'S'
+	</update>
+  
+    <update id="changeSToFinish">
+	UPDATE 
+	RECEIPT
+	SET
+	STATUS = 'F'
+	WHERE NO = #{paNo}
+	AND STATUS = 'S'
+	</update>
+  </mapper>

@@ -339,7 +339,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                             src="${root}/resources/img/orgImg/arrows.png"
                             alt="병원이미지"
                           />
-                          <a id="pRm">일반</a>
+                          <a id="pRm" value="일반">일반실</a>
                         </li>
                       </ul>
                     </li>
@@ -453,7 +453,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +
@@ -503,7 +506,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +
@@ -552,7 +558,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +
@@ -601,7 +610,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +
@@ -652,7 +664,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +
@@ -680,7 +695,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     });
     //간호부--일반
     $("#pRm").click(function (event) {
-      const major = document.querySelector("a[id = pRm]").innerHTML;
+      const major = document.querySelector("a[id = pRm]").getAttribute("value");
 
       $.ajax({
         url: "/app/organization/pRm",
@@ -695,14 +710,17 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           //innerHTML
           let chartValue = "";
           const setTitle = document.querySelector("#setTitle");
-          setTitle.innerHTML = obj[0].title;
+          setTitle.innerHTML = obj[0].title + "실";
           // 명수 보여주기 위한 변수
           let count = 0;
           for (let i = 0; i < obj.length; i++) {
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +
@@ -752,7 +770,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +
@@ -802,7 +823,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             chartValue +=
               "<tr style='height: 100px'><td id = 'profile'>" +
               "<img " +
-              "src='${root}/resources/img/orgImg/manager.jpg'" +
+              "src=" +
+              "'${root}/resources/img/member/" +
+              obj[i].profileName +
+              "'" +
               "alt='kin1'/>" +
               "</td>" +
               "<td>" +

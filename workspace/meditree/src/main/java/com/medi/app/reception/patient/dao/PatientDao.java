@@ -13,6 +13,7 @@ import com.medi.app.common.page.PageVo;
 import com.medi.app.member.vo.DeptVo;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.vo.PatientVo;
+import com.medi.app.reservation.vo.ReservationVo;
 
 @Repository
 public class PatientDao {
@@ -76,6 +77,13 @@ public class PatientDao {
 		return sst.update("patient.changePatientStatus", no);
 	}
 
+	public PatientVo insertJinryo(SqlSessionTemplate sst, int no) {
+		return sst.selectOne("patient.insertJinryo", no);
+	}
+	
+	public int insertJinryoIng(SqlSessionTemplate sst, PatientVo pv) {
+		return sst.insert("patient.insertJinryoIng", pv);
+	}
 
 	public List<MemberVo> wlistSortByDept(SqlSessionTemplate sst, String deptNo) {
 		return sst.selectList("patient.wlistSortByDept", deptNo );
@@ -97,19 +105,60 @@ public class PatientDao {
 	}
 
 
-	public PatientVo rsvnScreen(SqlSessionTemplate sst, String paNo) {
-
-		return sst.selectOne("patient.rsvnScreen", paNo);
-	}
-
-	public PatientVo rsvnScreenS(SqlSessionTemplate sst, String paNo) {
-		// TODO Auto-generated method stub
-		return sst.selectOne("patient.rsvnScreenS", paNo);
-	}
-
 	public PatientVo putWaitingPatient(SqlSessionTemplate sst, String paNo) {
 		return sst.selectOne("patient.putWaitingPatient",paNo);
 	}
+
+
+	public List<PatientVo> getreceiptList(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchMap) {
+		int limit = pv.getBoardLimit();
+		int offset = (pv.getCurrentPage()-1) * limit;
+		RowBounds rb = new RowBounds(offset , limit);
+		return sst.selectList("patient.getreceiptList" , searchMap , rb);
+	}
+
+	
+	public List<MemberVo> payDoneList(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchMap) {
+		int limit = pv.getBoardLimit();
+		int offset = (pv.getCurrentPage()-1) * limit;
+		RowBounds rb = new RowBounds(offset , limit);
+		return sst.selectList("patient.payDoneList" , searchMap , rb);
+	}
+
+	public int getReceiptCnt(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectOne("patient.getReceiptCnt" , searchMap);
+	}
+	
+	public int getReceiptDoneCnt(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectOne("patient.getReceiptDoneCnt" , searchMap);
+	}
+
+
+	public int changeToReceipt(SqlSessionTemplate sst, int no) {
+		return sst.update("patient.changeToReceipt", no);
+	}
+
+
+	public ArrayList<ReservationVo> selectPRoomList(SqlSessionTemplate sst) {
+		return (ArrayList)sst.selectList("patient.selectPRoomList");
+	}
+
+
+	public ArrayList<ReservationVo> selectDateList(SqlSessionTemplate sst, String nowDate) {
+		return (ArrayList)sst.selectList("patient.selectDateList", nowDate);
+	}
+
+
+	public ArrayList<ReservationVo> selectPRoomBookingList(SqlSessionTemplate sst, String nowDate) {
+		return (ArrayList)sst.selectList("patient.selectPRoomBookingList", nowDate);
+	}
+
+
+
+
+
+
+
 
 
 

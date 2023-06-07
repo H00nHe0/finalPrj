@@ -71,10 +71,10 @@
                 </div>
                 <div class="mt-4">
                     <a href="${root}/notice/list" class="btn btn-secondary">목록</a>
-                     <%-- <c:if test="${loginMember.no =='000000'}">  --%>
+                      <c:if test="${loginMember.no =='999999'}">  
 	                    <a href="javascript:void(0);" onclick="toggleActive();" class="btn btn-success">수정</a>
 	                    <a href="${root}/notice/delete?num=${vo.no}" class="btn btn-danger">삭제</a>
-                     <%-- </c:if>  --%>
+                      </c:if>  
                 </div>
                 </div>
             

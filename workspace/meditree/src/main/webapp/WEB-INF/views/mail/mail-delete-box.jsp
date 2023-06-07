@@ -24,7 +24,9 @@
     	margin-right: 20px;
     	margin-bottom: 20px;
     }
-    
+    #page-area{
+    	text-align: center;
+    }
 </style>
 </head>
 <body>
@@ -43,70 +45,57 @@
 					    <a class="nav-link " href="${root}/mail/sendlist">보낸 메일</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link active" href="${root}/mail/delete">휴지통</a>
+					    <a class="nav-link active" href="${root}/mail/delbox">휴지통</a>
 					  </li>
 					</ul>
                 </div>
 					<h2 style="margin-top: 20px;">휴지통</h2>
 						<div id="btn">
-						  <button type="button" class="btn btn-danger" onclick="location.href='${root}/mail/delete'">영구삭제</button>
+							<button type="button" class="btn btn-danger" onclick="fDelCheck();">영구삭제</button>
+							<button type="button" class="btn btn-success" onclick="location.href='${root}/mail/recover'">복구</button>
 						</div>
                     <table class="table table-hover">
                           <thead class="table-success">
                             <tr>
-                                <th><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
-                                <th>작성자</th>
+                                <th><input class="form-check-input" type="checkbox" name="allCheck" id="flexCheckDefault"></th>
+                                <th></th>
                                 <th>제목</th>
+                                <th>보낸 사람</th>
+                                <th>받는 사람</th>
                                 <th>날짜</th>
                                 
                             </tr>
                           </thead>  
                           <tbody>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
-                          	<tr>
-                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                          		<td>user1</td>
-                          		<td>제목1</td>
-                          		<td>23.04.25</td>
-                          	</tr>
+							<c:forEach items="${mvoList}" var="mvo">
+								<tr>
+									<td><input class="form-check-input" type="checkbox" name="RowCheck" id="flexCheckDefault"></td>
+									<td><input type="hidden" name="no" value="${mvo.no}"></td>
+									<td>${mvo.title}</td>
+									<td>${mvo.writerName}</td>
+									<td>${mvo.receiverName}</td>
+									<td>${mvo.enrollDate}</td>
+								</tr>
+							</c:forEach>
+                          	
                         </tbody>    
                     </table>
-                    
+                    <div id="page-area">
+						<c:if test="${pv.currentPage > 1}">
+							<a class = "btn btn-primary btn-sm" href="${root}/mail/delbox?page=${pv.currentPage-1}">이전</a>
+						</c:if>
+						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<a class = "btn btn-primary btn-sm" href="${root}/mail/delbox?page=${i}">${i}</a>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<a class = "btn btn-secondary btn-sm">${i}</a>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pv.currentPage < pv.maxPage}">
+							<a class = "btn btn-primary btn-sm" href="${root}/mail/delbox?page=${pv.currentPage+1}">다음</a>
+						</c:if>
+					</div>
 
             </div>
         </div>
@@ -124,4 +113,40 @@
             
             
         });
+
+		//선택삭제
+		function fDelCheck() {
+		var url = "${root}/mail/chkDel"; //controller로 보내고자 하는 URL
+		var valueArr = new Array();
+		var list = $("input[name='RowCheck']");
+		for(var i = 0; i < list.length; i++) {
+		if(list[i].checked){ // 선택되어 있으면 배열에 값을 저장함
+		valueArr.push(list[i].value);
+		}
+		}
+		if(valueArr.length == 0){
+		alert("선택된 글이 없습니다.");
+		} 
+		else{
+		var chk = confirm("정말 삭제하시겠습니까?");
+		$.ajax({
+		url: url, 	//전송 URL
+		type : 'POST',	//POST 방식
+		traditional: true,
+		data : {
+		valueArr : valueArr	//보내고자 하는 data 변수 설정
+		},
+		success: function (data){
+		if (data = 1) {
+			alert (" 삭제 성공");
+			location.replace("list")
+		}
+		else{
+			alert("삭제 실패");
+		}
+		}
+		});
+	}
+
+	}
     </script>

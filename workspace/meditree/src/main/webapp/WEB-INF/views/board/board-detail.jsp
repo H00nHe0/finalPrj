@@ -95,8 +95,13 @@
               
                   <div class="mt-4">
                             <a href="${root}/board/list" class="btn btn-secondary">목록</a>
-                            <a href="javascript:void(0);" onclick="toggleActive();" class="btn btn-success">수정</a>
-                            <a href="${root}/board/delete?num=${vo.no}" class="btn btn-danger">삭제</a>
+                            <c:if test="${loginMember.no == vo.empNo}">
+						    	<a href="javascript:void(0);" onclick="toggleActive();" class="btn btn-success">수정</a>
+							</c:if>						    	
+                            <c:if test="${loginMember.no == '999999' || loginMember.no == vo.empNo}">
+						    	<a href="${root}/board/delete?num=${vo.no}" class="btn btn-danger">삭제</a>
+							</c:if>
+
                   </div>
                 </div>
               </div>
@@ -118,7 +123,7 @@
                    		
                     <div id="thumbnail-area">
                       <c:forEach items="${vo.attList}" var="fvo">
-                        ${fvo.originName}
+                        ${fvo.originName}<!-- &nbsp;<a href="javascript:attDel('${fvo.no}');">삭제</a> -->
                         <br>
                       </c:forEach>
                    		</div>
@@ -249,7 +254,6 @@ function deleteReply(rno) {
       //    'rno' : rno
       //},
       success : function(data){
-          console.log(data);
           alert("삭제완료");
           loadReply();
       },
@@ -260,6 +264,8 @@ function deleteReply(rno) {
       } 
   });
 }
+
+
 
 
 </script>

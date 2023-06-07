@@ -37,23 +37,30 @@
         <div id="main">
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
             <div id="content">
-                <h1>메일 상세보기</h1>
+                <h1>받은 메일 상세보기</h1>
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title">제목</h5> 
-                    <input type="text" readonly class="form-control" id="floatingInput" value="요청하신 자료 첨부해서 보내드립니다~ ">
+                    <input type="hidden" readonly class="form-control" id="floatingInput" value="${vo.no}">
+                    <input type="text" readonly class="form-control" id="floatingInput" value="${vo.title}">
                     <h5 class="card-title">보낸사람 | 작성일</h5> 
-                    <input type="text" readonly class="form-control" id="floatingInput" value="정문애 | 23.04.26">
+                    <input type="text" readonly class="form-control" id="floatingInput" value="${vo.writerName} | ${vo.enrollDate}">
                     <h5 class="card-title">내용</h5>
-                    	<textarea readonly class="form-control"  id="floatingTextarea2" style="height: 350px">
-                    		요청하신 자료들 정리해서 요약본 보내드립니다~! 참고해주세요
-                    	</textarea>
-                  </div>
+                    <textarea readonly class="form-control"  id="floatingTextarea2" style="height: 350px">${vo.content}</textarea>
+                    <div id="thumbnail-area">
+                        <h5>첨부파일</h5>
+                               <c:forEach items="${vo.attList}" var="fvo">
+                                   <a href="${root}/mail/att/down?ano=${fvo.no}">${fvo.originName}</a>
+                                   <br>
+                               </c:forEach>
+                            
+                        </div>
+                </div>
                 </div>
                 <div class="mt-4">
-                    <a href="#" class="btn btn-secondary">목록</a>
-                    <a href="#" class="btn btn-success">답장</a>
-                    <a href="#" class="btn btn-danger">삭제</a>
+                    <a href="${root}/mail/inlist" class="btn btn-secondary">목록</a>
+                    <a href="${root}/mail/write" class="btn btn-success">답장</a>
+                    <a href="${root}/mail/delete?no=${vo.no}" class="btn btn-danger">삭제</a>
                 </div>
             </div>
         </div>

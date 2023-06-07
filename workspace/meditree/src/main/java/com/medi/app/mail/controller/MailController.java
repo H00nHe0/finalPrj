@@ -3,6 +3,7 @@ package com.medi.app.mail.controller;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.medi.app.common.file.FileUploader;
 import com.medi.app.common.file.FileVo;
@@ -54,131 +56,34 @@ public class MailController {
 		String receiver = loginMember.getNo();
 		vo.setReceiver(receiver);
 		
-
-		int listCount = ms.getCnt();
+		int listCount = ms.getCnt(receiver);
 		int currentPage = page;
 		int pageLimit = 5;
 		int boardLimit = 5;
 		
-		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		
-		Map<String, Object> inListMap = new HashMap<>();
-		inListMap.put("pageVo", pv);
+		PageVo pageVo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+
+		Map<String, Object> inListMap = new HashMap<String, Object>();
+		inListMap.put("pageVo", pageVo);
 		inListMap.put("receiver", receiver);
 
 		List<MailVo> mvoList = ms.getMailList(inListMap);
+		PageVo pv = (PageVo) inListMap.get("pageVo");
+
 		model.addAttribute("pv",pv);
 		model.addAttribute("mvoList",mvoList);
-		System.out.println(pv);
 		return "mail/mail-inlist";
-	}
-	
-	//보낸 메일 목록 보기
-	@GetMapping("sendlist")
-	public String sendMailList(MailVo vo, @RequestParam(defaultValue = "1") int page, Model model, @SessionAttribute MemberVo loginMember) throws Exception {
-		if (loginMember == null) {
-			throw new Exception("로그인 후 이용이 가능합니다.");
-		}
-		String writer = loginMember.getNo();
-		vo.setReceiver(writer);
-		
-		int listCount = ms.getSendMailListCnt();
-		int currentPage = page;
-		int pageLimit = 5;
-		int boardLimit = 5;
-		
-		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		Map<String, Object> sendListMap = new HashMap<>();
-		sendListMap.put("pageVo", pv);
-		sendListMap.put("writer", writer);
-		List<MailVo> mvoList = ms.getSendMailList(sendListMap);
-		
-		model.addAttribute("pv",pv);
-		model.addAttribute("mvoList",mvoList);
-		return "mail/mail-sendlist";
-	}
-		
-	//메일 작성하기(화면)
-	@GetMapping("write")
-	public String write() {
-		return "mail/mail-send";
-	}
-	
-	//메일 작성하기(기능)
-	@PostMapping("write")
-	public String write(HttpServletRequest req, List<MultipartFile> f , MailVo vo, @SessionAttribute MemberVo loginMember, HttpSession session) throws Exception {
-		
-		if (loginMember == null) {
-			throw new Exception("로그인 후 이용이 가능합니다.");
-		}
-		
-		//데이터 준비 (파일)
-		String path = req.getServletContext().getRealPath("/resources/upload/mail/");
-		List<String> changeNameList = FileUploader.upload(f, path);
-		List<String> originNameList = FileUploader.getOriginNameList(f);
-		
-		//데이터 준비 (이름 리스트)
-		List<FileVo> fvoList = new ArrayList<FileVo>();
-		if (changeNameList != null) {
-			int size = changeNameList.size();
-			for (int i = 0; i < size; i++) {
-				FileVo fvo = new FileVo();
-				fvo.setOriginName(originNameList.get(i));
-				fvo.setChangeName(changeNameList.get(i));
-				fvoList.add(fvo);
-		}	
-	}
-		int result = ms.write(vo ,fvoList);
-		if (result <= 0) {
-			throw new Exception("메일 작성 실패");
-		}
-		session.setAttribute("alertMsg", "메일 작성 완료");
-		
-		return "redirect:/mail/inlist";
-	}
-	
-	//메일 삭제하기
-	@GetMapping("delete")
-	public String delete() {
-		return "mail/mail-delete-box";
-	}
-	
-	//삭제한 메일 보기
-	@GetMapping("delbox")
-	public String delBox(@RequestParam(defaultValue = "1") int page, Model model, @SessionAttribute MemberVo loginMember) {
-		if (loginMember == null) {
-			throw new Exception("로그인 후 이용이 가능합니다.");
-		}
-		
-		int listCount = ms.getDelBoxListCnt();
-		int currentPage = page;
-		int pageLimit = 5;
-		int boardLimit = 5;
-		
-		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		List<MailVo> mvoList = ms.getDelBoxList(pv);
-		
-		model.addAttribute("pv",pv);
-		model.addAttribute("mvoList",mvoList);
-		return "mail/mail-delete-box";
 	}
 	
 	//받은 메일 상세보기
 	@GetMapping("indetail")
-	public String inDetail() {
+	public String inDetail(String num , Model model) {
+		MailVo vo = ms.getInMailDetail(num);
+		if(vo == null) {
+			model.addAttribute("errorMsg","조회실패");
+		}
+		model.addAttribute("vo",vo);
 		return "mail/mail-indetail";
-	}
-	
-	//보낸 메일 상세보기
-	@GetMapping("senddetail")
-	public String sendDetail() {
-		return "mail/mail-senddetail";
-	}
-	
-	//메일 영구삭제
-	@GetMapping("fdel")
-	public String fDel() {
-		return "";
 	}
 	
 	//파일 다운로드 (방식2) //ReqponseEntity
@@ -209,4 +114,162 @@ public class MailController {
 		return entity;
 	}
 	
+	//보낸 메일 목록 보기
+	@GetMapping("sendlist")
+	public String sendMailList(MailVo vo, @RequestParam(defaultValue = "1") int page, Model model, @SessionAttribute MemberVo loginMember) throws Exception {
+		if (loginMember == null) {
+			throw new Exception("로그인 후 이용이 가능합니다.");
+		}
+		String writer = loginMember.getNo();
+		vo.setReceiver(writer);
+		
+		int listCount = ms.getSendMailListCnt(writer);
+		int currentPage = page;
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		Map<String, Object> sendListMap = new HashMap<>();
+		sendListMap.put("pageVo", pv);
+		sendListMap.put("writer", writer);
+		List<MailVo> mvoList = ms.getSendMailList(sendListMap);
+		
+		model.addAttribute("pv",pv);
+		model.addAttribute("mvoList",mvoList);
+		return "mail/mail-sendlist";
+	}
+		
+	//보낸 메일 상세보기
+	@GetMapping("senddetail")
+	public String sendDetail(String num , Model model) {
+		MailVo vo = ms.getSendMailDetail(num);
+		if(vo == null) {
+			model.addAttribute("errorMsg","조회실패");
+		}
+		model.addAttribute("vo",vo);
+		return "mail/mail-senddetail";
+	}
+	
+	//메일 작성하기(화면)
+	@GetMapping("write")
+	public String write() {
+		return "mail/mail-send";
+	}
+	
+	//메일 작성하기(기능)
+	@PostMapping("write")
+	public String write(HttpServletRequest req, List<MultipartFile> f , MailVo vo, @SessionAttribute MemberVo loginMember, HttpSession session) throws Exception {
+		
+		if (loginMember == null) {
+			throw new Exception("로그인 후 이용이 가능합니다.");
+		}
+		
+		String writer = loginMember.getNo();
+		vo.setWriter(writer);
+		
+		//데이터 준비 (파일)
+		String path = req.getServletContext().getRealPath("/resources/upload/mail/");
+		List<String> changeNameList = FileUploader.upload(f, path);
+		List<String> originNameList = FileUploader.getOriginNameList(f);
+		
+		//데이터 준비 (이름 리스트)
+		List<FileVo> fvoList = new ArrayList<FileVo>();
+		if (changeNameList != null) {
+			int size = changeNameList.size();
+			for (int i = 0; i < size; i++) {
+				FileVo fvo = new FileVo();
+				fvo.setOriginName(originNameList.get(i));
+				fvo.setChangeName(changeNameList.get(i));
+				fvoList.add(fvo);
+		}	
+	}
+		int result = ms.write(vo ,fvoList);
+		if (result <= 0) {
+			throw new Exception("메일 작성 실패");
+		}
+		session.setAttribute("alertMsg", "메일 작성 완료");
+		
+		return "redirect:/mail/inlist";
+	}
+	
+	//메일 삭제하기(상세보기에서 삭제)
+	@GetMapping("delete")
+	public String delete(String no, HttpSession session,@SessionAttribute MemberVo loginMember) {
+		int result = ms.delete(no);
+		if (result != 1) {
+			throw new IllegalStateException("메일 삭제 실패");
+		}
+		session.setAttribute("alertMsg", "메일 삭제 성공");
+		return "redirect:/mail/inlist";
+	}
+	
+	//메일 선택 삭제하기
+	@PostMapping("chkDel")
+	public String chkDel(MailVo vo ,HttpServletRequest req,@RequestParam List<String> groupList) {
+	   
+		String[] grpCode = groupList.toArray(new String[0]);
+
+		for(int i=0; i < grpCode.length; i++){
+			groupList.add(grpCode[i].toString());
+		}
+	    int result = ms.chkDel(groupList);
+	    
+	    if (result <= 0) {
+			throw new IllegalStateException("메일 삭제 실패");
+		}
+	    return "redirect:/mail/delbox";
+	}
+	//삭제한 메일 보기
+	@GetMapping("delbox")
+	public String delBox(MailVo vo, @RequestParam(defaultValue = "1") int page, Model model, @SessionAttribute MemberVo loginMember) throws Exception {
+		if (loginMember == null) {
+			throw new Exception("로그인 후 이용이 가능합니다.");
+		}
+		String writer = loginMember.getNo();
+		String receiver = loginMember.getNo();
+		vo.setWriter(writer);
+		vo.setReceiver(receiver);
+		
+		int listCount = ms.getDelBoxListCnt(writer,receiver);
+		int currentPage = page;
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		Map<String, Object> memberMap = new HashMap<String, Object>();
+		memberMap.put("writer", writer);
+		memberMap.put("receiver", receiver);
+		memberMap.put("pageVo", pv);
+		List<MailVo> mvoList = ms.getDelBoxList(memberMap);
+		
+		model.addAttribute("pv",pv);
+		model.addAttribute("mvoList",mvoList);
+		return "mail/mail-delete-box";
+	}
+	
+	//메일 영구삭제
+	@GetMapping("fdel")
+	public String fDel(MailVo vo, HttpSession session,@SessionAttribute MemberVo loginMember) {
+		String receiver = loginMember.getNo();
+		vo.setReceiver(receiver);
+		int result = ms.fDel(vo);
+		if (result != 1) {
+			throw new IllegalStateException("메일 영구 삭제 실패");
+		}
+		session.setAttribute("alertMsg", "메일 영구 삭제 성공");
+		return "redirect:/mail/delbox";
+	}
+	
+	//메일 복구하기
+	@PostMapping("recover")
+	public String recover(MailVo vo, RedirectAttributes ra) {
+		int result = ms.recover(vo);
+		if (result != 1) {
+			throw new IllegalStateException("메일 복구 실패");
+		}
+		ra.addFlashAttribute("alertMag","메일 복구 성공");
+		ra.addAttribute("no",vo.getNo());
+		return "redirect:/mail/inlist";
+	}
 }
+	

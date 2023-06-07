@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="mail">
+ 
   <!-- 메일 작성하기  -->
   <insert id="write">
   INSERT INTO MAIL 
@@ -18,8 +19,8 @@
 	  		SEQ_MAIL_NO.NEXTVAL
 	  		, #{title}
 	  		, #{content}
-	  		, 999999
-	  		, 999999
+	  		, #{writer}
+	  		, #{receiver}
 	  	)
   </insert>
 
@@ -73,6 +74,7 @@
       AND STATUS = 'N'
   </select>
   
+  <!-- 보낸 메일 목록 조회  -->
   <select id="getSendMailList" resultType="mailVo">
   	SELECT 
 	    M.NO,
@@ -95,4 +97,135 @@
 	    AND M.STATUS = 'N'
 	ORDER BY M.NO DESC
   </select>
+  
+  <!-- 받은메일 상세보기  -->
+  <select id="getInMailDetail" resultType="mailVo">
+  	SELECT 
+  		 M.NO 
+		,M.TITLE
+		,M.WRITER
+		,M.RECEIVER
+		,M.CONTENT
+		,M.STATUS
+		,M.ENROLL_DATE
+		,E.NAME AS writerName
+  	  FROM MAIL M, EMPLOYEE E
+  		WHERE M.WRITER = E.NO
+	    AND M.NO = #{num}
+  	    AND M.STATUS = 'N'
+  </select>
+  
+  <!-- 보낸메일 상세보기  -->
+  <select id="getSendMailDetail" resultType="mailVo">
+  	SELECT 
+  		 M.NO 
+		,M.TITLE
+		,M.WRITER
+		,M.RECEIVER
+		,M.CONTENT
+		,M.STATUS
+		,M.ENROLL_DATE
+		,E.NAME AS writerName
+  	  FROM MAIL M, EMPLOYEE E
+  		WHERE M.WRITER = E.NO
+	    AND M.NO = #{no}
+  	    AND M.STATUS = 'N'
+  </select>
+  
+  <!-- 받은메일 첨부파일 다운  -->
+  <select id="getAttachment" resultType="fileVo">
+  	SELECT *
+  		FROM M_ATT
+  	WHERE NO = #{ano}
+  	AND STATUS = 'N'
+  </select>
+  
+  	<!-- 메일 선택 삭제 --> 
+	<update id="chkDel">
+	    UPDATE MAIL
+	    SET
+	    STATUS = 'Y'
+     	WHERE 1=1
+       	AND NO IN 
+       		<foreach collection="list" index="index" item="groupList" open="(" close=")" separator=",">
+            	#{groupList}
+            </foreach>
+	</update>
+  
+  <!-- 휴지통 페이징  -->
+  <select id="getDelBoxListCnt" resultType="int">
+  	SELECT COUNT (*)
+  		FROM MAIL M
+  	WHERE (M.RECEIVER = #{receiver} OR M.WRITER = #{writer}) 
+  	AND STATUS = 'Y'
+  		
+  </select>
+  
+  <!-- 휴지통 목록조회  -->
+  <select id="getDelBoxList" resultType="MailVo">
+  SELECT 
+	    M.NO,
+	    M.TITLE,
+	    M.CONTENT,
+	    M.WRITER,
+	    M.RECEIVER,
+	    M.ENROLL_DATE,
+	    M.STATUS,
+	    E.NAME AS writerName,
+	    E2.NAME AS receiverName
+	FROM 
+	    MAIL M
+	JOIN 
+	    EMPLOYEE E ON (M.WRITER = E.NO)
+	JOIN 
+	    EMPLOYEE E2 ON (M.RECEIVER = E2.NO)
+	WHERE 
+	     (M.RECEIVER = #{receiver} OR M.WRITER = #{writer})  
+	    AND M.STATUS = 'Y'
+	ORDER BY M.NO DESC
+  </select>
+  
+  <!-- 메일 삭제  -->
+  <update id="delete">
+  	UPDATE MAIL
+	    SET
+          STATUS = 'Y'
+	    WHERE NO = #{no}
+  </update>
+  
+  <!-- 메일 첨부파일 목록조회   -->
+  <select id="getAttList" resultType="fileVo">
+  	SELECT 
+		NO
+		,MNO
+		,ORIGIN_NAME
+		,CHANGE_NAME
+		,ENROLL_DATE
+		,STATUS 
+	FROM M_ATT
+	WHERE MNO = #{num}
+	AND STATUS = 'N'
+  </select>
+  
+  <!-- 메일 영구 삭제 -->
+  <update id="fDel">
+  	<foreach item="item" collection="mailIds" separator=" ">
+	    UPDATE MAIL
+	    SET
+	    STATUS = 'D'
+	    WHERE NO = #{item}
+	  </foreach>
+  </update>
+  
+  <!-- 메일 복구 -->
+  <update id="recover">
+  	<foreach item="item" collection="mailIds" separator=" ">
+	    UPDATE MAIL
+	    SET
+	    STATUS = 'N'
+	    WHERE NO = #{item}
+	  </foreach>
+  </update>
+  
+  
   </mapper>

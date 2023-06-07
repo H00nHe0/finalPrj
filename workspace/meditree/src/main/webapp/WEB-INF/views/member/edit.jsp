@@ -120,10 +120,11 @@ body h1 {
 									</div>
 								</div>
 								<div class="row mb-3">
-									<label class="col-sm-2 col-form-label">비밀번호</label>
-									<div class="col-sm-10">
-										<input type="text" name="pwd" class="form-control" id="pwd" value="${loginMember.pwd}" required>
-									</div>
+								  <label class="col-sm-2 col-form-label">비밀번호</label>
+								  <div class="col-sm-10">
+								    <input type="password" name="pwd" class="form-control" id="pwd" value="${loginMember.pwd}" required>
+								    <input type="checkbox" id="showPassword" onchange="togglePasswordVisibility()"> 비밀번호 표시
+								  </div>
 								</div>
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">핸드폰번호</label>
@@ -146,11 +147,19 @@ body h1 {
 </html>
 
 <script>
-    // 비밀번호 필드의 값을 별표(*)로 변경
-    document.getElementById("pwd").value = "*".repeat(document.getElementById("pwd").value.length);
-    
-    document.getElementById("no").addEventListener("click", function() {
-        alert("수정할 수 없습니다.");
-    });
-    
+var pwdInput = document.getElementById("pwd");
+pwdInput.value = "*".repeat(pwdInput.value.length);
+
+document.getElementById("no").addEventListener("click", function() {
+  alert("수정할 수 없습니다.");
+});
+
+function togglePasswordVisibility() {
+  var showPasswordCheckbox = document.getElementById("showPassword");
+  if (showPasswordCheckbox.checked) {
+    pwdInput.type = "text";
+  } else {
+    pwdInput.type = "password";
+  }
+}
 </script>

@@ -28,4 +28,7 @@ public class AdminMemberDao {
 		return sst.selectOne("admin.member.getCnt" , searchMap);
 	}
 
+	public int quit(SqlSessionTemplate sst, String no) {
+		return sst.update("admin.member.quit" , no);
+	}
 }

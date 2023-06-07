@@ -61,6 +61,11 @@ public class PatientInquiryService {
 		return dao.getCnt2(sst ,no);
 	}
 
+	//처방전 조회
+	public TmHistoryVo selectPrescription(String no) {
+		return dao.selectPrescription(sst , no);
+	}
+
 
 	
 	

@@ -58,6 +58,11 @@ public class PatientInquiryDao {
 		return sst.selectOne("treat.getCnt2"  , no);
 	}
 
+	//처방전 조회
+	public TmHistoryVo selectPrescription(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("treat.selectPrescription" , no);
+	}
+
 	
 
 

@@ -111,6 +111,18 @@ public class PatientInquiryController {
 
 	}
 	
+	//처방전 조회
+	@GetMapping("prescription")
+	public String InquiryPrescription(String no , Model model) {
+		
+		// 처방전 -> 진료 정보 조회
+		TmHistoryVo vo = ps.selectPrescription(no);
+		
+		model.addAttribute("vo", vo);
+		
+		return "patientInquiry/prescription";
+	}
+	
 
 	
 

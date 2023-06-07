@@ -32,7 +32,7 @@
     }
     .shadow {
       width: 90%;
-      height: 650px;
+      height: 700px;
       margin: auto;
       margin-top: 40px;
     }
@@ -111,9 +111,10 @@
 
                          <br><br><br>
 
-                         <table class="table table-hover">  
+                         <table class="table table-hover" id="chart">  
                             <thead class="table-light">
                              <tr> 
+                               <th>차트번호</th>   
                                <th>내원일</th>   
                                <th>진료과</th>
                                <th>진료의</th>
@@ -127,11 +128,16 @@
 							  <c:when test="${not empty tmvoList}">
 							    <c:forEach items="${tmvoList}" var="tmvo">
 							      <tr>
+							        <td>${tmvo.no}</td>
 							        <td>${tmvo.prDate}</td>
 							        <td>${tmvo.departmentTitle}</td>
 							        <td>${tmvo.employeeName}</td>
 							        <td>${tmvo.tmContent}</td>
-							        <td>${tmvo.paNo}</td>
+							        <td>
+								        <a>
+					                		<button type="button" id="pre-btn" class="btn btn-secondary btn-sm">출력하기</button>	
+					                   	</a>
+							        </td>
 							        <td>${tmvo.paidYn}</td>
 							      </tr>
 							    </c:forEach>
@@ -188,4 +194,14 @@ button.addEventListener("click", function() {
 	  var link = "edit?no=" + no; // 링크 생성
 	  window.location.href = link; // 링크로 이동
 	});
+	
+var buttons = document.querySelectorAll("#chart .btn");
+buttons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    var tdElement = button.closest("tr").querySelector("td:first-child");
+    var no = tdElement.innerText;
+    var link = "prescription?no=" + no;
+    window.location.href = link;
+  });
+});
 </script>

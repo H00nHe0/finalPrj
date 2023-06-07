@@ -69,6 +69,10 @@
     	width: 60%;
     	margin-left: 20%;
     }
+    #quit-btn {
+    float: right;
+    margin-right: 280px;
+    }
 
 
     
@@ -83,25 +87,15 @@
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
             <div id="board">
             
-	            <form action="" method="">
+	            <form action="${root}/admin/member/quit" method="post">
 	               <div class="shadow p-3 mb-5 bg-body rounded">
 	               		<div class="htitle">
 	               			<h1>직원조회</h1>
 	               		</div>
-                        <%-- <div id="search-area">
-                        <select name="searchType">
-							<option value="paName">이름</option>
-							<option value="rrn">생년월일</option>
-							<option value="paTel">전화번호</option>
-						</select>
-                           <input type="text" name="searchValue" value="${searchMap.searchValue}" placeholder="검색할값을 입력하세요">
-                           <input type="submit" value="검색하기">
-                        </div> --%>
-
                         
-	               		<table class="table table-bordered" id="">
+	               		<table class="table table-bordered" id="personal">
 							<tr>
-							  <th >사원번호</th>
+							  <th>사원번호</th>
 							  <td>${vo.no}</td>
 							</tr>
 							<tr>
@@ -121,10 +115,17 @@
 							  <td>${vo.potitle}</td>
 							</tr>
 							<tr>
-							  <th>프로필</th>
-							  <td>${vo.profileName}</td>
-							  </tr>
+							  <th>연락처</th>
+							  <td>${vo.tel}</td>
+							</tr>
+							<tr>
+							  <th>이메일</th>
+							  <td>${vo.email}</td>
+							</tr>
 						</table>
+						<a>
+                			<button type="button" id="quit-btn" class="btn btn-secondary btn-sm">퇴사처리</button>	
+                   		</a>
 
 			            
 	
@@ -136,3 +137,19 @@
   
 </body>
 </html>
+
+<script>
+
+/* var tdElement = document.querySelector("#personal td:nth-child(1)"); // 첫 번째 <td> 요소 가져오기
+var no = tdElement.innerText; // innerText 값 가져오기 */
+var no = "${vo.no}";
+
+var button = document.querySelector("#quit-btn"); // 버튼 요소 가져오기
+
+button.addEventListener("click", function() {
+	  var link = "/app/admin/member/quit/" + no; // 링크 생성
+	  window.location.href = link; // 링크로 이동
+	});
+
+
+</script>

@@ -36,5 +36,17 @@ public List<MemberVo> psychiatry(String major) {
 public List<MemberVo> ent(String major) {
 	return dao.ent(sst,major);
 }
+public List<MemberVo> emer(String major) {
+	return dao.emer(sst,major);
+}
+public List<MemberVo> pRm(String major) {
+	return dao.pRm(sst,major);
+}
+public List<MemberVo> receipt(String major) {
+	return dao.receipt(sst,major);
+}
+public List<MemberVo> management(String major) {
+	return dao.management(sst,major);
+}
 
 }

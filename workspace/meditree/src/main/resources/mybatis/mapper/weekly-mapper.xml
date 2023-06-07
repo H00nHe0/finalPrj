@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="weeklyMenu">
+	
+	<!-- 환자식 조회  -->
+	<select id="getWeeklyPmenu" resultType="wMenuVo">
+		SELECT * 
+		FROM W_MENU
+         WHERE MON_DATE = #{startOfWeek} 
+         AND SAT_DATE =  #{endOfWeek}
+         AND WM_TYPE = 'P'
+	</select>
+	
+	<!-- 직원식 조회  -->
+	<select id="getWeeklyEmenu" resultType="wMenuVo">
+		SELECT * 
+		FROM W_MENU
+         WHERE MON_DATE = #{startOfWeek} 
+         AND SAT_DATE =  #{endOfWeek}
+         AND WM_TYPE = 'E'
+	</select>
+	
+	<!-- 식단표 작성  -->
+	<insert id="write">
+	INSERT INTO W_MENU 
+	(
+		NO
+		,WM_TYPE 
+		,MON_DATE
+		,TUE_DATE
+		,WED_DATE
+		,THU_DATE
+		,FRI_DATE
+		,SAT_DATE 
+		,MON_B
+		,MON_L
+		,MON_D
+		,TUE_B
+		,TUE_L
+		,TUE_D
+		,WED_B
+		,WED_L
+		,WED_D
+		,THU_B
+		,THU_L
+		,THU_D
+		,FRI_B
+		,FRI_L
+		,FRI_D
+		,SAT_B
+		,SAT_L
+		,SAT_D
+	)
+	VALUES 
+	(
+		SEQ_MENU_NO.NEXTVAL 
+		,#{wmType}
+		,#{monDate}
+		,#{tueDate}
+		,#{wedDate}
+		,#{thuDate}
+		,#{friDate}
+		,#{satDate}
+		,#{monB}
+		,#{monL}
+		,#{monD}
+		,#{tueB}
+		,#{tueL}
+		,#{tueD}
+		,#{wedB}
+		,#{wedL}
+		,#{wedD}
+		,#{thuB}
+		,#{thuL}
+		,#{thuD}
+		,#{friB}
+		,#{friL}
+		,#{friD}
+		,#{satB}
+		,#{satL}
+		,#{satD}
+		
+	)
+	</insert>
+	
+	<update id="edit">
+		UPDATE W_MENU
+		  SET
+		  	WM_TYPE = #{wmType},
+		    MON_DATE = #{monDate},
+			TUE_DATE = #{tueDate},
+			WED_DATE = #{wedDate},
+			THU_DATE = #{thuDate},
+			FRI_DATE = #{friDate},
+			SAT_DATE = #{satDate},
+			MON_B =  #{monB},
+			MON_L = #{monL},
+			MON_D = #{monD},
+			TUE_B = #{tueB},
+			TUE_L = #{tueL},
+			TUE_D = #{tueD},
+			WED_B = #{wedB},
+			WED_L = #{wedL},
+			WED_D = #{wedD},
+			THU_B = #{thuB},
+			THU_L = #{thuL},
+			THU_D = #{thuD},
+			FRI_B = #{friB},
+			FRI_L = #{friL},
+			FRI_D = #{friD},
+			SAT_B = #{satB},
+			SAT_L = #{satL},
+			SAT_D =	#{satD}	   
+		  WHERE
+		    NO = #{no}
+	</update>
+	
+</mapper>

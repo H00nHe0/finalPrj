@@ -44,10 +44,10 @@ public List<PatientVo> getSimplePatientList(PageVo pv, Map<String, String> searc
 	return dao.getSimplePatientList(sst, pv , searchMap);
 }
 //목록조회한거 화면으로 옮기기
-public PatientVo getPaInfo(String paName) throws Exception {
+public PatientVo getPaInfo(String paNo) throws Exception {
 
 	System.out.println("noProblem");
-	return dao.getPaInfo(sst , paName);
+	return dao.getPaInfo(sst , paNo);
 	
 }
 public List<Map<String, String>> getDepartmentList() {
@@ -72,6 +72,21 @@ public List<MemberVo> selectIngPatient() {
 public int changePatientStatus(int no) {
 	
 	return dao.changePatientStatus(sst, no);
+}
+public List<MemberVo> wlistSortByDept(String deptNo) {
+
+	return dao.wlistSortByDept(sst, deptNo);
+}
+public List<MemberVo> plistSortByDept(String deptNo) {
+	return dao.plistSortByDept(sst, deptNo);
+}
+public List<MemberVo> surgeryWaitingList() {
+
+	return dao.surgeryWaitingList(sst);
+}
+public List<MemberVo> proomWaitingList() {
+
+	return dao.proomWaitingList(sst);
 }
 
 

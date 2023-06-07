@@ -75,8 +75,9 @@
 							<a class = "btn btn-primary btn-sm" href="${root}/notice/list?page=${pv.currentPage+1}">다음</a>
 						</c:if>
 					</div>
+					<c:if test="${loginMember.no =='999999'}">
                     <button type="button" class="btn btn-success" onclick="location.href='${root}/notice/write'">작성하기</button>
-
+					</c:if>
             </div>
         </div>
     </div>

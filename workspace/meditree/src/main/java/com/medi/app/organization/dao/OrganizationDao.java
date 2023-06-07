@@ -28,5 +28,21 @@ public class OrganizationDao {
 		return sst.selectList("organization.selectSurgery", major);
 	}
 
+	public List<MemberVo> emer(SqlSessionTemplate sst, String major) {
+		return sst.selectList("organization.emer", major);
+	}
+
+	public List<MemberVo> pRm(SqlSessionTemplate sst, String major) {
+		return sst.selectList("organization.pRm", major);
+	}
+
+	public List<MemberVo> receipt(SqlSessionTemplate sst, String major) {
+		return sst.selectList("organization.receipt", major);
+	}
+
+	public List<MemberVo> management(SqlSessionTemplate sst, String major) {
+		return sst.selectList("organization.management", major);
+	}
+
 
 }

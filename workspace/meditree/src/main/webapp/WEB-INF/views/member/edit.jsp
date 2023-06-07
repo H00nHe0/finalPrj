@@ -85,6 +85,10 @@ body h1 {
 	justify-content: center;
 	background-color: #f3f3f4;
 }
+#no {
+	color: red;
+}
+
 </style>
 </head>
 
@@ -97,13 +101,18 @@ body h1 {
 			<div id="board">
 
 				<form action="${root}/member/edit" method="post">
-				<input type="hidden" name="no" value="${loginMember.no}">
 					<div class="shadow p-3 mb-5 bg-body rounded">
 						<div class="htitle">
 							<h1>정보 수정</h1>
 						</div>
 
 							<div class="rec">
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">사번</label>
+									<div class="col-sm-10">
+										<input type="text" name="no" class="form-control" id="no" value="${loginMember.no}" required readonly="readonly">
+									</div>
+								</div>
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">이름</label>
 									<div class="col-sm-10">
@@ -125,25 +134,6 @@ body h1 {
 								</div>
 
 
-
-
-								<!-- <div class="input-group mb-3">
-									<label for="deptNo" class="col-sm-2 col-form-label">소속과</label>
-									<select class="form-select" name="deptNo" aria-label="Default select example" required>
-										<option selected>선택</option>
-										<option value="10">간호부</option>
-										<option value="20">원무부</option>
-										<option value="30">의사</option>
-										<option value="00">경영지원부</option>
-										<option value="5">일반내과</option>
-										<option value="6">정신과</option>
-										<option value="7">이비인후과</option>
-										<option value="8">산부인과</option>
-										<option value="9">수술실</option>
-										<option value="10">일반</option>
-									</select>
-								</div> -->
-
 							<div class="btnwech">
 								<button type="submit" class="btn btn-primary">수정</button>
 							</div>
@@ -154,3 +144,13 @@ body h1 {
 	</div>
 </body>
 </html>
+
+<script>
+    // 비밀번호 필드의 값을 별표(*)로 변경
+    document.getElementById("pwd").value = "*".repeat(document.getElementById("pwd").value.length);
+    
+    document.getElementById("no").addEventListener("click", function() {
+        alert("수정할 수 없습니다.");
+    });
+    
+</script>

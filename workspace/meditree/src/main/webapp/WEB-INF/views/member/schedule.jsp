@@ -24,100 +24,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         height: 75%;
       }
     </style>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var calendarEl = document.getElementById("calendar");
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
-          },
-          // initialDate: "2023-01-12",
-          navLinks: true, // can click day/week names to navigate views
-          selectable: true,
-          selectMirror: true,
-          select: function (arg) {
-            var title = prompt("일정의 제목을 지정해주세요:");
-            if (title) {
-              calendar.addEvent({
-                title: title,
-                start: arg.start,
-                end: arg.end,
-                allDay: arg.allDay,
-              });
-            }
-            calendar.unselect();
-          },
-          eventClick: function (arg) {
-            if (confirm("일정을 삭제 하시겠습니까?")) {
-              arg.event.remove();
-            }
-          },
-          editable: true,
-          dayMaxEvents: true, // allow "more" link when too many events
-          events: [
-            {
-              title: "All Day Event",
-              start: "2023-01-01",
-            },
-            {
-              title: "창업멤버 정기 총회",
-              start: "2023-04-30T22:00:00",
-              end: "2023-04-30T23:30:00",
-            },
-            {
-              title: "어린이날 행사",
-              start: "2023-05-05T12:00:00",
-              end: "2023-05-05T16:00:00",
-            },
-            {
-              title: "어버이날 행사",
-              start: "2023-05-08T10:00:00",
-              end: "2023-05-08T12:00:00",
-            },
-            {
-              title: "보건복지부 관할 세무 감사기간",
-              start: "2023-05-08",
-              end: "2023-05-11",
-            },
-            {
-              title: "간호사의날 행사",
-              start: "2023-05-12T10:30:00",
-              end: "2023-05-12T12:30:00",
-            },
-            {
-              title: "스승의날 행사",
-              start: "2023-05-15T13:00:00",
-            },
-            {
-              title: "병원장과의 대화",
-              start: "2023-05-22T14:30:00",
-            },
-            {
-              title: "Happy Hour",
-              start: "2023-01-12T17:30:00",
-            },
-            {
-              title: "Dinner",
-              start: "2023-01-12T20:00:00",
-            },
-            {
-              title: "Birthday Party",
-              start: "2023-01-13T07:00:00",
-            },
-            {
-              title: "Click for Google",
-              url: "http://google.com/",
-              start: "2023-01-28",
-            },
-          ],
-        });
-
-        calendar.render();
-      });
-    </script>
   </head>
   <body>
     <div id="wrap">
@@ -133,3 +39,156 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </body>
 </html>
 <script src="${root}/resources/js/index.global.js"></script>
+
+<script>
+  $(function () {
+    $.ajax({
+      url: "list.hosCalendar",
+      type: "post",
+      dataType: "json",
+      //data : {no:${c.calendarNo}},
+      success: function (list) {
+        console.log(list);
+
+        let data = [];
+        for (let i = 0; i < list.length; i++) {
+          let obj = {
+            title: list[i].title,
+            start: list[i].calStart,
+            end: list[i].calEnd,
+          };
+          data.push(obj);
+        }
+
+        var initialLocaleCode = "ko";
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          locale: "ko",
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          },
+          selectable: true,
+          droppable: true,
+          editable: true,
+          events: data,
+          select: function (arg) {
+            var title = prompt("일정의 제목을 지정해주세요:");
+            if (title != null) {
+              var startTime = prompt(
+                "일정의 시작 시간을 입력해주세요 (HH:mm):"
+              );
+              var endTime = prompt("일정의 종료 시간을 입력해주세요 (HH:mm):");
+            }
+            if (title) {
+              var startDate = new Date(arg.start);
+              var endDate = new Date(arg.end - 1);
+
+              // 사용자 입력 시간을 적용
+              startDate.setHours(
+                Number(startTime.split(":")[0]),
+                Number(startTime.split(":")[1])
+              );
+              endDate.setHours(
+                Number(endTime.split(":")[0]),
+                Number(endTime.split(":")[1])
+              );
+              // 형식 변환
+              function formatDate(date) {
+                var year = date.getFullYear();
+                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                var day = ("0" + date.getDate()).slice(-2);
+                var hours = ("0" + date.getHours()).slice(-2);
+                var minutes = ("0" + date.getMinutes()).slice(-2);
+                var seconds = ("0" + date.getSeconds()).slice(-2);
+
+                var formattedDate =
+                  year +
+                  "-" +
+                  month +
+                  "-" +
+                  day +
+                  " " +
+                  hours +
+                  ":" +
+                  minutes +
+                  ":" +
+                  seconds;
+
+                return formattedDate;
+              }
+              var formattedStartDate = formatDate(startDate);
+              var formattedEndDate = formatDate(endDate);
+              arg.title = title;
+              arg.start = formattedStartDate;
+              arg.end = formattedEndDate;
+              arg.allDay = false;
+              const newEventData = {
+                title: title,
+                calStart: formattedStartDate,
+                calEnd: formattedEndDate,
+                allDay: false,
+              };
+              console.log(newEventData);
+              $.ajax({
+                url: "insertEventToDB",
+                type: "post",
+                data: newEventData,
+                dataType: "text",
+                success: function (data) {
+                  if (data === "success") {
+                    console.log("데이터 삽입성공!");
+                    console.log(arg);
+                    alert("일정 등록이 성공하였습니다.");
+                  } else {
+                    console.log("데이터 삽입실패..");
+                  }
+                },
+                error: function () {
+                  console.log("통신 실패");
+                },
+              });
+              calendar.addEvent(arg); // 캘린더에 이벤트 추가
+              calendar.addEvent(newEventData); // 캘린더에 이벤트 추가
+              calendar.render(); // 캘린더를 다시 렌더링하여 화면 새로고침
+            }
+            calendar.unselect();
+          },
+          eventClick: function (arg) {
+            //const deleteTitle = arg.val("title");
+            const title = arg.event.title;
+            console.log(title);
+            if (confirm("일정을 삭제 하시겠습니까?")) {
+              $.ajax({
+                url: "deleteEventFromDB",
+                type: "post",
+                data: { title: title },
+                dataType: "text",
+                success: function (data) {
+                  if (data === "success") {
+                    console.log("데이터 삭제성공!");
+                    arg.event.remove();
+                    calendar.render(); // 캘린더를 다시 렌더링하여 화면 새로고침
+                    alert("일정 삭제가 성공하였습니다.");
+                  } else {
+                    console.log("데이터 삭제실패..");
+                  }
+                },
+                error: function () {
+                  console.log("통신 실패");
+                },
+              });
+            }
+          },
+        });
+
+        calendar.render();
+      },
+      error: function () {
+        console.log("통신 실패");
+      },
+    });
+  });
+</script>

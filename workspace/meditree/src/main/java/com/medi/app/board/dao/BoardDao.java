@@ -18,6 +18,8 @@ public class BoardDao {
 		int limit = pv.getBoardLimit();
 		int offset = (pv.getCurrentPage()-1) * limit;
 		RowBounds rb = new RowBounds(offset	, limit);
+		System.out.println(offset);
+		System.out.println(limit);
 		return sst.selectList("board.getBoardList", null ,rb);
 	}
 	
@@ -64,5 +66,6 @@ public class BoardDao {
 	public FileVo getAttachment(SqlSessionTemplate sst, String ano) {
 		return sst.selectOne("board.getAttachment",ano);
 	}
+
 	
 }

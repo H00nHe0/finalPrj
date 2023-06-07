@@ -48,7 +48,7 @@
 					</div>
                     <div class="form-floating">
                     	<h5>내용</h5>
-					  <textarea class="form-control" name="content"></textarea>
+					  <textarea class="form-control" name="content" style="height: 350px"></textarea>
 					</div>
                     <div class="mb-3">
                     

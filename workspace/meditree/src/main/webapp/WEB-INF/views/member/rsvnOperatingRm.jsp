@@ -161,7 +161,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <div id="board">
           <div id="board-inner">
             <div id="rsvn-holder">
-              <div id="title"><h2>차트번호 xxxx 수술실 예약</h2></div>
+              <div id="title"></div>
 
               <div id="list-holder">
                 <div class="rsvn-page" id="rsvn-form">
@@ -176,7 +176,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>
                             <input
                               type="text"
-                              placeholder="EL로받아온번호"
+                              name="chartNo"
                               readonly
                               class="readOnly"
                             />
@@ -187,7 +187,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           <td>
                             <input
                               type="text"
-                              placeholder="EL로받아온이름"
+                              name="pName"
                               readonly
                               class="readOnly"
                             />
@@ -391,5 +391,46 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     dynamic: false,
     dropdown: true,
     scrollbar: true,
+  });
+
+  // member/rsvnInpatientRm 페이지에서 전달받은 값 가져오기
+  $(function () {
+    const params = new URLSearchParams(window.location.search);
+    const gotPaNo = params.get("paNo");
+    console.log("gotPaNo:", gotPaNo);
+    const chartNo = document.querySelector("#title");
+    chartNo.innerHTML = "차트번호 " + gotPaNo + "번 환자 입원실 예약";
+    //오늘 날짜
+    const todayIs = new Date();
+
+    var year = todayIs.getFullYear();
+    var month = ("0" + (todayIs.getMonth() + 1)).slice(-2);
+    var day = ("0" + todayIs.getDate()).slice(-2);
+
+    var dateString = year + "-" + month + "-" + day;
+    const dateBox = document.querySelector("#date-of-today");
+    dateBox.innerHTML = "예약일자 :" + dateString;
+    // 가져온 값을 사용하여 필요한 처리 수행
+    // ...
+
+    $.ajax({
+      url: "putWaitingPatient.st",
+      type: "post",
+      data: {
+        paNo: gotPaNo,
+      },
+      success: function (data) {
+        console.log(data);
+        const parsedData = JSON.parse(data);
+        const chartNo = parsedData.paNo;
+        const name = parsedData.paName;
+        console.log(name);
+        document.querySelector('input[name="chartNo"]').value = chartNo;
+        document.querySelector('input[name="pName"]').value = name;
+      },
+      error: function () {
+        console.log("ajax통신 실패");
+      },
+    });
   });
 </script>

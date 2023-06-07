@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.medi.app.board.reply.vo.ReplyVo;
 import com.medi.app.board.service.BoardService;
 import com.medi.app.board.vo.BoardVo;
 import com.medi.app.common.file.FileUploader;
@@ -114,23 +116,22 @@ public class BoardController {
 
 	//게시판 수정하기
 	@PostMapping("edit")
-	public String edit(BoardVo vo , Model model , HttpSession session) {
-		/*
-//		 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
-//		 * id = ""; if (loginMember != null) { id = loginMember.getId(); }
-//		 * 
-//		 * if (!"999999".equals(no)) { model.addAttribute("errorMsg","잘못된 요청입니다.");
-//		 * return "common/error-page"; }
-//		 */
+	public String edit(BoardVo vo , Model model , HttpSession session, List<MultipartFile> f ,HttpServletRequest req) {
+
+		  MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); 
+		  String no = ""; 
+		  if (loginMember != null) { 
+			  no = loginMember.getNo(); 
+		}
+	  
+		int result = bs.edit(vo);
+		if (result != 1) {
+			model.addAttribute("errorMsg","수정실패");
+			return "common/error-page";
+		}
 			
-			int result = bs.edit(vo);
-			
-			if (result != 1 ) {
-				model.addAttribute("errorMsg","수정실패");
-				return "common/error-page";
-			}
-			session.setAttribute("alertMsg", "수정성공");
-			return "redirect:/board/detail?num=" + vo.getNo();
+		session.setAttribute("alertMsg", "수정성공");
+		return "redirect:/board/detail?num=" + vo.getNo();
 	}
 	
 	//게시판 삭제하기
@@ -172,5 +173,6 @@ public class BoardController {
 		
 		return entity;
 	}
+	
 	
 }

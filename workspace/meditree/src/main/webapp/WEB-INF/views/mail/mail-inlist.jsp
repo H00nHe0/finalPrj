@@ -24,6 +24,9 @@
     	margin-right: 20px;
     	margin-bottom: 20px;
     }
+    #page-area{
+    	text-align: center;
+    }
     
 </style>
 </head>
@@ -43,22 +46,23 @@
 					    <a class="nav-link" href="${root}/mail/sendlist">보낸 메일</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link " href="${root}/mail/delete">휴지통</a>
+					    <a class="nav-link " href="${root}/mail/delbox">휴지통</a>
 					  </li>
 					</ul>
                 </div>
 					<h2 style="margin-top: 20px;">받은 메일</h2>
 						<div id="btn">
-						  <button type="button" class="btn btn-danger" onclick="location.href='${root}/mail/delete'">휴지통</button>
+						  <button type="button" class="btn btn-danger" onclick="delCheck();">선택삭제</button>
 						  <button type="button" class="btn btn-success" onclick="location.href='${root}/mail/write'">메일 작성</button>
 						</div>
                     <table class="table table-hover">
                           <thead class="table-success">
                           
                             <tr>
-                                <th><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
-                                <th>보낸사람</th>
+                                <th><input class="form-check-input" type="checkbox" id="allCheck" ></th>
+                                <th></th>
                                 <th>제목</th>
+                                <th>보낸사람</th>
                                 <th>날짜</th>
                                 
                             </tr>
@@ -66,16 +70,16 @@
                           <tbody>
 							<c:forEach items="${mvoList}" var="mvo">
 	                          	<tr>
-	                          		<td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-	                          		<td>${mvo.writerName}</td>
+	                          		<td><input class="form-check-input RowCheck" type="checkbox"  value="${mvo.no}"></td>
+	                          		<td><input type="hidden" value="${mvo.no}"></td>
 	                          		<td>${mvo.title}</td>
+	                          		<td>${mvo.writerName}</td>
 	                          		<td>${mvo.enrollDate}</td>
 	                          	</tr>
                           	</c:forEach>
                         </tbody>    
                     </table>
                     <div id="page-area">
-                   
 						<c:if test="${pv.currentPage > 1}">
 							<a class = "btn btn-primary btn-sm" href="${root}/mail/inlist?page=${pv.currentPage-1}">이전</a>
 						</c:if>
@@ -99,13 +103,60 @@
 </body>
 </html>
 <script>
-        const arr = document.querySelectorAll("input[type=checkbox]");
-        arr[0].addEventListener("click",(event)=>{
-            const status = event.target.checked;
-            for (let temp of arr) {
-                temp.checked = status;
-            }
-            
-            
-        });
+  //상세보기 이동
+   const table = document.querySelector("table tbody");
+   table.addEventListener("click", (event) => {
+     if (event.target.type != "checkbox") {
+       const hiddenInput = event.target.parentNode.querySelector("input[type=hidden]");
+       const num = hiddenInput.value;
+     
+       location.href = '${root}/mail/indetail?num=' + num;
+     }
+   });
+  //전체선택
+   const arr = document.querySelectorAll("input[type=checkbox]");
+   arr[0].addEventListener("click",(event)=>{
+       const status = event.target.checked;
+       for (let temp of arr) {
+           temp.checked = status;
+       }
+   });
+   
+ 
+   //스크립트 영역입니다 
+
+function delCheck(){
+
+  let groupList = "";
+
+  $(".RowCheck:checked").each(function(idx, item){
+      if(idx == 0){
+          groupList += item.value;
+      } else {
+          groupList += "," + item.value;
+      }
+
+  });
+  console.log(groupList);
+  $.ajax({
+    url: "${root}/mail/chkDel", 	//전송 URL
+    type : 'POST',	//POST 방식
+    traditional: true,
+    data : {
+      groupList : groupList	//보내고자 하는 data 변수 설정
+    },
+    success: function (data){
+      if (data = 1) {
+        alert (" 삭제 성공");
+        window.onload = function() {
+        location.reload(); // 페이지 새로고침
+    }
+      }
+      else{
+        alert("삭제 실패");
+      }
+    }
+    });
+  }
+ 
     </script>

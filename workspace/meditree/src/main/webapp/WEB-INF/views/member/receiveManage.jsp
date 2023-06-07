@@ -120,165 +120,80 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
               </div>
 
               <table id="receipt-table">
-                <tr id="btn-wrap">
-                  <td colspan="2">
-                    <button type="button" class="head-btn">수납대기</button>
-                  </td>
-                  <td colspan="2">
-                    <button type="button" class="head-btn">수납완료</button>
-                  </td>
-                  <td colspan="5">
-                    <button type="button" class="head-btn">수납처리</button>
-                  </td>
-                </tr>
-                <tr id="tabletitle">
-                  <th>전체 <input type="checkbox" /></th>
-                  <th>수납번호</th>
-                  <th>이름</th>
-                  <th>성별</th>
-                  <th>주민등록번호</th>
-                  <th>진료과</th>
-                  <th>진료의</th>
-                  <th>처방전</th>
-                  <th>수납</th>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>265</td>
-                  <td>저그</td>
-                  <td>남</td>
-                  <td>111111-1******</td>
-                  <td>흉부외과</td>
-                  <td>해처리</td>
-                  <td>
-                    <button type="button" class="print-btn1">출력</button>
-                  </td>
-                  <td>
-                    <button type="button" class="print-btn2">출력</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>259</td>
-                  <td>테란</td>
-                  <td>여</td>
-                  <td>222222-2******</td>
-                  <td>정신과</td>
-                  <td>커맨드</td>
-                  <td>
-                    <button type="button" class="print-btn1">출력</button>
-                  </td>
-                  <td>
-                    <button type="button" class="print-btn2">출력</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>250</td>
-                  <td>프로토스</td>
-                  <td>중성</td>
-                  <td>333333-3******</td>
-                  <td>통증의학과</td>
-                  <td>넥서스</td>
-                  <td>
-                    <button type="button" class="print-btn1">출력</button>
-                  </td>
-                  <td>
-                    <button type="button" class="print-btn2">출력</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>265</td>
-                  <td>저그</td>
-                  <td>남</td>
-                  <td>111111-1******</td>
-                  <td>흉부외과</td>
-                  <td>해처리</td>
-                  <td>
-                    <button type="button" class="print-btn1">출력</button>
-                  </td>
-                  <td>
-                    <button type="button" class="print-btn2">출력</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>259</td>
-                  <td>테란</td>
-                  <td>여</td>
-                  <td>222222-2******</td>
-                  <td>정신과</td>
-                  <td>커맨드</td>
-                  <td>
-                    <button type="button" class="print-btn1">출력</button>
-                  </td>
-                  <td>
-                    <button type="button" class="print-btn2">출력</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>250</td>
-                  <td>프로토스</td>
-                  <td>중성</td>
-                  <td>333333-3******</td>
-                  <td>통증의학과</td>
-                  <td>넥서스</td>
-                  <td><button class="print-btn1">출력</button></td>
-                  <td><button class="print-btn2">출력</button></td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>265</td>
-                  <td>저그</td>
-                  <td>남</td>
-                  <td>111111-1******</td>
-                  <td>흉부외과</td>
-                  <td>해처리</td>
-                  <td><button class="print-btn1">출력</button></td>
-                  <td><button class="print-btn2">출력</button></td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>259</td>
-                  <td>테란</td>
-                  <td>여</td>
-                  <td>222222-2******</td>
-                  <td>정신과</td>
-                  <td>커맨드</td>
-                  <td><button class="print-btn1">출력</button></td>
-                  <td><button class="print-btn2">출력</button></td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>250</td>
-                  <td>프로토스</td>
-                  <td>중성</td>
-                  <td>333333-3******</td>
-                  <td>통증의학과</td>
-                  <td>넥서스</td>
-                  <td><button class="print-btn1">출력</button></td>
-                  <td><button class="print-btn2">출력</button></td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>259</td>
-                  <td>테란</td>
-                  <td>여</td>
-                  <td>222222-2******</td>
-                  <td>정신과</td>
-                  <td>커맨드</td>
-                  <td><button class="print-btn1">출력</button></td>
-                  <td><button class="print-btn2">출력</button></td>
-                </tr>
+                <thead id="btn-wrap">
+                  <tr>
+                    <td colspan="2">
+                      <button
+                        type="button"
+                        class="head-btn"
+                        id="receipt-waitCheck-btn"
+                      >
+                        수납대기
+                      </button>
+                    </td>
+                    <td colspan="2">
+                      <a href="${root}/member/receiveDonePage"><button
+                        type="button"
+                        class="head-btn"
+                        id="receipt-doneCheck-btn"
+                        onclick="checkReceiptDone()"
+                      >
+                        수납완료
+                      </button>
+                    </td>
+                    <td colspan="5">
+                      <button
+                        type="button"
+                        class="head-btn"
+                        id="receipt-done-btn"
+                      >
+                        수납처리
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="tabletitle">
+                    <th>전체 <input type="checkbox" /></th>
+                    <th>수납번호</th>
+                    <th>이름</th>
+                    <th>성별</th>
+                    <th>주민등록번호</th>
+                    <th>진료과</th>
+                    <th>진료의</th>
+                    <th>처방전</th>
+                    <th>수납</th>
+                  </tr>
+                </thead>
+                <tbody id="list-area">
+                  <c:forEach items="${receiptList}" var="r">
+                    <tr class="receipt-row">
+                      <td>
+                        <input
+                          type="checkbox"
+                          name="change"
+                          value="${r.reNo}"
+                        />
+                      </td>
+                      <td id="receiptNo">${r.reNo}</td>
+                      <td>${r.paName}</td>
+                      <td>${r.paGender}</td>
+                      <td id="paRRN">${r.rrn}</td>
+                      <td id="changeToName">${r.deptNo}</td>
+                      <td>${r.name}</td>
+                      <td>
+                        <button type="button" class="print-btn1">출력</button>
+                      </td>
+                      <td>
+                        <button type="button" class="print-btn2">출력</button>
+                      </td>
+                    </tr>
+                  </c:forEach>
+                </tbody>
               </table>
-              <div id="page-area">이전 1 2 3 4 5 다음</div>
-              <!-- <div id="page-area">
+              <div id="page-area">
                 <c:if test="${pv.currentPage > 1}">
                   <a
-                    class="btn btn-primary btn-sm"
-                    href="${root}/notice/list?page=${pv.currentPage-1}"
+                    href="${root}/member/receiveManage?page=${pv.currentPage-1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
+                    class="pagingLine"
                     >이전</a
                   >
                 </c:if>
@@ -289,24 +204,30 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   var="i"
                 >
                   <c:if test="${pv.currentPage != i}">
-                    <a
-                      class="btn btn-primary btn-sm"
-                      href="${root}/notice/list?page=${i}"
+                    <a href="${root}/member/receiveManage?page=${i}"
                       >${i}</a
                     >
                   </c:if>
                   <c:if test="${pv.currentPage == i}">
-                    <a class="btn btn-secondary btn-sm">${i}</a>
+                    <a
+                      style="
+                        font-size: 23px;
+                        background-color: lightgrey;
+                        width: 13%;
+                        border-radius: 10px;
+                      "
+                      >${i}</a
+                    >
                   </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">
                   <a
-                    class="btn btn-primary btn-sm"
-                    href="${root}/notice/list?page=${pv.currentPage+1}"
+                    href="${root}/member/receiveManage?page=${pv.currentPage+1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
+                    class="pagingLine"
                     >다음</a
                   >
                 </c:if>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -315,6 +236,44 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </body>
 </html>
 <script>
+  $(document).ready(function () {
+    const receiptRows = document.querySelectorAll(".receipt-row");
+
+    receiptRows.forEach((row, index) => {
+      const receiptNoElement = row.querySelector("#receiptNo");
+      const receiptNoValue = parseInt(receiptNoElement.textContent);
+
+      receiptNoElement.textContent = receiptNoValue;
+    });
+    // 주민등록번호 가리기
+    let paRRNElements = document.querySelectorAll("#paRRN");
+    paRRNElements.forEach((element) => {
+      let paRRN = element.innerHTML;
+      const maskedRrn = paRRN.slice(0, -6) + "******";
+      element.innerHTML = maskedRrn;
+    });
+    let changeToName = document.querySelectorAll("#changeToName");
+    let deptName = " ";
+    changeToName.forEach((element) => {
+      let deptNo = element.innerHTML;
+      if (deptNo === "40") {
+        deptName = "일반내과";
+      } else if (deptNo === "50") {
+        deptName = "정신과";
+      } else if (deptNo === "60") {
+        deptName = "이비인후과";
+      } else if (deptNo === "70") {
+        deptName = "산부인과";
+      }
+      element.innerHTML = deptName;
+    });
+
+    $("#receipt-table tr").click(function () {
+      var checkbox = $(this).find('input[type="checkbox"]');
+      checkbox.prop("checked", !checkbox.prop("checked"));
+    });
+  });
+  //처방전,수납서류 출력
   const printPrescription = document.querySelector(".print-btn1");
   const printReceipt = document.querySelector(".print-btn2");
 
@@ -359,10 +318,31 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     };
   });
 
-  $(document).ready(function () {
-    $("#receipt-table tr").click(function () {
-      var checkbox = $(this).find('input[type="checkbox"]');
-      checkbox.prop("checked", !checkbox.prop("checked"));
+  //수납완료 처리
+  const receiptDoneButton = document.querySelector("#receipt-done-btn");
+  receiptDoneButton.addEventListener("click", function () {
+    // 선택한 행에서 receiptNo 값을 찾습니다.
+
+    let selectedNoArr = new Array();
+    $("input:checkbox[name=change]:checked").each(function () {
+      selectedNoArr.push(this.value);
+    });
+
+    $.ajax({
+      url: "changeToReceipt.done",
+      type: "post",
+      data: { selectedNoArr: selectedNoArr },
+      success: function (data) {
+        if (data === "success") {
+          alert("수납처리완료!!");
+          window.location.reload(); // 페이지 리로드
+        } else {
+          console.log("수납처리실패..!!");
+        }
+      },
+      error: function () {
+        console.log("통신 실패");
+      },
     });
   });
 </script>

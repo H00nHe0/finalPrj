@@ -12,6 +12,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -28,6 +29,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -43,6 +45,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -58,6 +61,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -75,6 +79,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -91,6 +96,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -107,6 +113,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -125,6 +132,7 @@
 	    ,E.NAME
 	    ,E.TEL
 	    ,E.EMAIL
+	    ,E.PROFILE AS PROFILE_NAME
 	    ,D.TITLE
 	    ,P.POTITLE
    	FROM
@@ -132,6 +140,6 @@
 	    JOIN  POSITION P ON P.NO = E.POSITION_NO
         JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
    WHERE E.QUIT_YN = 'N'
-        AND D.TITLE = '${major}'
+        AND E.DEPT_NO= 99
   </select>
   </mapper>

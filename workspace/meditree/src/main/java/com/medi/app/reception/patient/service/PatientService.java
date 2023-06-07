@@ -15,6 +15,7 @@ import com.medi.app.member.vo.DeptVo;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.dao.PatientDao;
 import com.medi.app.reception.patient.vo.PatientVo;
+import com.medi.app.reservation.vo.ReservationVo;
 
 
 
@@ -61,6 +62,10 @@ public List<MemberVo> getDoctorList() {
 public int insertTreatment(PatientVo pvo) {
 	return dao.insertTreatment(sst, pvo);
 }
+public int insertJinryoIng(PatientVo pv) {
+	return dao.insertJinryoIng(sst, pv);
+	
+}
 public List<MemberVo> selectWaitingPatient() {
 
 	return dao.selectWaitingPatient(sst);
@@ -72,6 +77,10 @@ public List<MemberVo> selectIngPatient() {
 public int changePatientStatus(int no) {
 	
 	return dao.changePatientStatus(sst, no);
+}
+public PatientVo insertJinryo(int no) {
+	return dao.insertJinryo(sst, no);
+	
 }
 public List<MemberVo> wlistSortByDept(String deptNo) {
 
@@ -88,7 +97,33 @@ public List<MemberVo> proomWaitingList() {
 
 	return dao.proomWaitingList(sst);
 }
+public List<PatientVo> getreceiptList(PageVo pv, Map<String, String> searchMap) {
+	return dao.getreceiptList(sst, pv , searchMap);
+}
+public List<MemberVo> payDoneList(PageVo pv, Map<String, String> searchMap) {
+	return dao.payDoneList(sst, pv , searchMap);
+}
+public int getReceiptCnt(Map<String, String> searchMap) {
+	return dao.getReceiptCnt(sst , searchMap);
+}
+public int getReceiptDoneCnt(Map<String, String> searchMap) {
+	
+	return dao.getReceiptDoneCnt(sst , searchMap);
+}
 
 
+public int changeToReceipt(int no) {
+	return dao.changeToReceipt(sst, no);
+}
+public ArrayList<ReservationVo> selectPRoomList() {
+	return dao.selectPRoomList(sst);
+}
+public ArrayList<ReservationVo> selectDateList(String nowDate) {
+	return dao.selectDateList(sst, nowDate);
+}
+public ArrayList<ReservationVo> selectPRoomBookingList(String nowDate) {
+	return dao.selectPRoomBookingList(sst, nowDate);
 
 }
+}
+

@@ -24,9 +24,16 @@ public class PatientVo {
 	private String symptom;
 	private String status;
 	private String paNo;
-	private String empNo;
+	private String emNo;
 	private String deptNo;
+	private String name;
+	private String deptName;
+	private String title;
 	private int age;
+	
+	//수납할때 접수번호 순으로 작업위한 변수
+	private String reNo;
+	private String jiDate;
 	
 
 

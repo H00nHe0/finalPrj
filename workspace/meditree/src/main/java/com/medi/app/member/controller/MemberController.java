@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.medi.app.common.file.FileUploader;
 import com.medi.app.member.service.MemberService;
 import com.medi.app.member.vo.MemberVo;
+import com.medi.app.schedule.controller.ScheduleController;
+import com.medi.app.schedule.service.ScheduleService;
 
 @Controller
 @RequestMapping("member")
@@ -116,7 +118,12 @@ public class MemberController {
 		
 		//화면
 		session.setAttribute("loginMember", loginMember);
+
+		// ScheduleController 객체 생성 및 멤버 변수 전달 byHoon
+	    ScheduleController calendar = new ScheduleController(loginMember);
+
 		session.setAttribute("alertMsg", "로그인되었습니다.");
+
 		return "redirect:/member/main";
 	}
 	

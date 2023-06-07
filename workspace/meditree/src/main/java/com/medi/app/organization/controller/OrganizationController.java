@@ -34,7 +34,7 @@ public class OrganizationController {
 
 	}
 
-	// 내과
+	// 일반외과
 	@PostMapping(value = "surgery", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String surgery(Model model, String major) {

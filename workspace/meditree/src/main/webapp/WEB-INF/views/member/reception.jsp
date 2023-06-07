@@ -345,7 +345,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     </tr>
                     <tr>
                       <td>주소</td>
-                      <td><input type="text" name="address" /></td>
+                      <td>
+                        <input type="text" name="address" id="address_kakao" />
+                      </td>
                     </tr>
                     <tr>
                       <td>메모</td>
@@ -543,8 +545,22 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
   </body>
 </html>
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+  window.onload = function () {
+    document
+      .getElementById("address_kakao")
+      .addEventListener("click", function () {
+        //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+          oncomplete: function (data) {
+            //선택시 입력값 세팅
+            document.getElementById("address_kakao").value = data.address; // 주소 넣기
+          },
+        }).open();
+      });
+  };
   // const popUpList = document.querySelector("#registed-patients-btn");
   const modalOn = document.querySelector("#register-patient-btn");
   const modal = document.querySelector("#modal-container");
@@ -721,7 +737,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       data: {
         paNo: $("#paNo").html(),
         deptNo: $("#deptNo").val(),
-        empNo: $("#empNo").val(),
+        emNo: $("#empNo").val(),
         symptom: $("#symptom").val(),
         fee: 15000,
       },

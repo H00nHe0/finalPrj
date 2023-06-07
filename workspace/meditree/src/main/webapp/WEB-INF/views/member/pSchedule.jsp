@@ -18,110 +18,15 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         height: 100%;
         box-sizing: border-box;
       }
-      #calendar {
+      #pCalendar {
         margin: 0 auto;
         width: 75%;
         height: 75%;
       }
+      #hiddenNo {
+        display: none;
+      }
     </style>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var calendarEl = document.getElementById("calendar");
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
-          },
-          // initialDate: "2023-01-12",
-          navLinks: true, // can click day/week names to navigate views
-          selectable: true,
-          selectMirror: true,
-          select: function (arg) {
-            var title = prompt("일정의 제목을 지정해주세요:");
-            if (title) {
-              calendar.addEvent({
-                title: title,
-                start: arg.start,
-                end: arg.end,
-                allDay: arg.allDay,
-              });
-            }
-            calendar.unselect();
-          },
-          eventClick: function (arg) {
-            if (confirm("일정을 삭제 하시겠습니까?")) {
-              arg.event.remove();
-            }
-          },
-          editable: true,
-          dayMaxEvents: true, // allow "more" link when too many events
-          events: [
-            {
-              title: "All Day Event",
-              start: "2023-01-01",
-            },
-            {
-              title: "전염성 균질 세미나",
-              start: "2023-04-28",
-              end: "2023-04-30",
-            },
-            {
-              title: "KH주관 등급평가",
-              start: "2023-05-01T09:00:00",
-              end: "2023-05-01T12:00:00",
-            },
-            {
-              title: "병원장과 점심",
-              start: "2023-05-01T13:00:00",
-              end: "2023-05-01T14:00:00",
-            },
-            {
-              title: "외과전공의 협회 저녁식사",
-              start: "2023-05-04T18:00:00",
-              end: "2023-05-04T21:00:00",
-            },
-            {
-              title: "와이프 생일",
-              start: "2023-05-07",
-            },
-            {
-              title: "보건복지부 주관 전공의 대상 컨퍼런스",
-              start: "2023-05-19T10:30:00",
-              end: "2023-05-21T12:30:00",
-            },
-            {
-              title: "Lunch",
-              start: "2023-01-12T12:00:00",
-            },
-            {
-              title: "Meeting",
-              start: "2023-01-12T14:30:00",
-            },
-            {
-              title: "Happy Hour",
-              start: "2023-01-12T17:30:00",
-            },
-            {
-              title: "Dinner",
-              start: "2023-01-12T20:00:00",
-            },
-            {
-              title: "Birthday Party",
-              start: "2023-01-13T07:00:00",
-            },
-            {
-              title: "Click for Google",
-              url: "http://google.com/",
-              start: "2023-01-28",
-            },
-          ],
-        });
-
-        calendar.render();
-      });
-    </script>
   </head>
   <body>
     <div id="wrap">
@@ -130,10 +35,165 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       <div id="main">
         <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
         <div id="board">
-          <div id="calendar"></div>
+          <div id="pCalendar"></div>
+          <div id="hiddenNo">${loginMember.no}</div>
         </div>
       </div>
     </div>
   </body>
 </html>
 <script src="${root}/resources/js/index.global.js"></script>
+<script>
+  $(function () {
+    const hiddenNo = document.querySelector("#hiddenNo").innerHTML;
+    $.ajax({
+      url: "list.pCalendar",
+      type: "post",
+      dataType: "json",
+      data: { emNo: hiddenNo },
+      success: function (list) {
+        console.log(list);
+
+        let data = [];
+        for (let i = 0; i < list.length; i++) {
+          let obj = {
+            title: list[i].title,
+            start: list[i].calStart,
+            end: list[i].calEnd,
+          };
+          data.push(obj);
+        }
+
+        var initialLocaleCode = "ko";
+        var calendarEl = document.getElementById("pCalendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          locale: "ko",
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          },
+          selectable: true,
+          droppable: true,
+          editable: true,
+          events: data,
+          select: function (arg) {
+            var title = prompt("일정의 제목을 지정해주세요:");
+            if (title != null) {
+              var startTime = prompt(
+                "일정의 시작 시간을 입력해주세요 (HH:mm):"
+              );
+              var endTime = prompt("일정의 종료 시간을 입력해주세요 (HH:mm):");
+            }
+            if (title) {
+              var startDate = new Date(arg.start);
+              var endDate = new Date(arg.end - 1);
+
+              // 사용자 입력 시간을 적용
+              startDate.setHours(
+                Number(startTime.split(":")[0]),
+                Number(startTime.split(":")[1])
+              );
+              endDate.setHours(
+                Number(endTime.split(":")[0]),
+                Number(endTime.split(":")[1])
+              );
+              // 형식 변환
+              function formatDate(date) {
+                var year = date.getFullYear();
+                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                var day = ("0" + date.getDate()).slice(-2);
+                var hours = ("0" + date.getHours()).slice(-2);
+                var minutes = ("0" + date.getMinutes()).slice(-2);
+                var seconds = ("0" + date.getSeconds()).slice(-2);
+
+                var formattedDate =
+                  year +
+                  "-" +
+                  month +
+                  "-" +
+                  day +
+                  " " +
+                  hours +
+                  ":" +
+                  minutes +
+                  ":" +
+                  seconds;
+
+                return formattedDate;
+              }
+              var formattedStartDate = formatDate(startDate);
+              var formattedEndDate = formatDate(endDate);
+              arg.title = title;
+              arg.start = formattedStartDate;
+              arg.end = formattedEndDate;
+              arg.allDay = false;
+              const newEventData = {
+                title: title,
+                calStart: formattedStartDate,
+                calEnd: formattedEndDate,
+                allDay: false,
+                emNo: hiddenNo,
+              };
+              console.log(newEventData);
+              $.ajax({
+                url: "insertPEventToDB",
+                type: "post",
+                data: newEventData,
+                dataType: "text",
+                success: function (data) {
+                  if (data === "success") {
+                    console.log("데이터 삽입성공!");
+                    console.log(arg);
+                    alert("일정 등록이 성공하였습니다.");
+                  } else {
+                    console.log("데이터 삽입실패..");
+                  }
+                },
+                error: function () {
+                  console.log("통신 실패");
+                },
+              });
+              calendar.addEvent(arg); // 캘린더에 이벤트 추가
+              calendar.addEvent(newEventData); // 캘린더에 이벤트 추가
+              calendar.render(); // 캘린더를 다시 렌더링하여 화면 새로고침
+            }
+            calendar.unselect();
+          },
+          eventClick: function (arg) {
+            //const deleteTitle = arg.val("title");
+            const title = arg.event.title;
+            console.log(title);
+            if (confirm("일정을 삭제 하시겠습니까?")) {
+              $.ajax({
+                url: "deletePEventFromDB",
+                type: "post",
+                data: { title: title },
+                dataType: "text",
+                success: function (data) {
+                  if (data === "success") {
+                    console.log("데이터 삭제성공!");
+                    arg.event.remove();
+                    calendar.render(); // 캘린더를 다시 렌더링하여 화면 새로고침
+                    alert("일정 삭제가 성공하였습니다.");
+                  } else {
+                    console.log("데이터 삭제실패..");
+                  }
+                },
+                error: function () {
+                  console.log("통신 실패");
+                },
+              });
+            }
+          },
+        });
+
+        calendar.render();
+      },
+      error: function () {
+        console.log("통신 실패");
+      },
+    });
+  });
+</script>

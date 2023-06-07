@@ -32,6 +32,9 @@
   <select id="getCnt" resultType="int">
   	SELECT COUNT (NO)
   	FROM PATIENT
+  	<if test="searchType == 'paName'">
+	WHERE PA_NAME LIKE '%${searchValue}%'
+	</if>
   </select>
   
   <select id="getSimplePatientList" resultType="PatientVo">
@@ -47,6 +50,9 @@
 	,PA_DATE
 	,MEMO
 	FROM PATIENT
+	<if test="searchType == 'paName'">
+	WHERE PA_NAME LIKE '%${searchValue}%'
+	</if>
 	ORDER BY NO DESC
   </select>
   
@@ -89,6 +95,7 @@
 	WHERE
 	    E.QUIT_YN = 'N'
 		AND (P.NO = 2 OR P.NO = 3)   
+		ORDER BY E.DEPT_NO, E.POSITION_NO
 	</select>
   
 	<insert id="insertTreatment">
@@ -100,7 +107,7 @@
 	,PAY
 	,PA_NO
 	,SYMPTOM
-	,EMP_NO
+	,EM_NO
 	,DEPT_NO
 	)
 	VALUES
@@ -110,31 +117,39 @@
 	,'N'
 	,#{paNo}
 	,#{symptom}
-	,#{empNo}
+	,#{emNo}
 	,#{deptNo}
 	)
 	
 	</insert>  
-	
 	<select id="selectWaitingPatient" resultType="PatientVo">
-	SELECT 
-	 R.NO
-	 ,P.PA_NAME
-	 ,P.PA_GENDER
-	 ,R.DEPT_NO
-	 ,R.SYMPTOM
-	 ,R.EMP_NO
-	,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(P.RRN, 8, 1), '1', '19', '2', '19', '20')||substr(P.RRN, 1, 6))))/10000) as "AGE"
-	FROM
-	    PATIENT P
-	    JOIN  RECEIPT R ON P.NO = R.PA_NO
-        WHERE R.STATUS = 'W'
+    SELECT 
+        R.NO,
+        P.PA_NAME,
+        CASE 
+            WHEN P.PA_GENDER = 'M' THEN '남'
+            WHEN P.PA_GENDER = 'F' THEN '여'
+            ELSE NULL
+        END AS PA_GENDER,
+        R.DEPT_NO,
+        R.SYMPTOM,
+        R.EM_NO,
+        trunc((to_number(to_char(sysdate, 'YYYYMMDD')) - to_number(to_char(decode(substr(P.RRN, 8, 1), '1', '19', '2', '19', '20') || substr(P.RRN, 1, 6)))) / 10000) as "AGE"
+    FROM
+        PATIENT P
+        JOIN RECEIPT R ON P.NO = R.PA_NO
+    WHERE R.STATUS = 'W'
 	</select>
+
 	<select id="selectIngPatient" resultType="PatientVo">
 	SELECT 
 	 R.NO
 	 ,P.PA_NAME
-	 ,P.PA_GENDER
+     ,CASE 
+         WHEN P.PA_GENDER = 'M' THEN '남'
+         WHEN P.PA_GENDER = 'F' THEN '여'
+         ELSE NULL
+     END AS PA_GENDER
 	 ,R.DEPT_NO
 	 ,R.SYMPTOM
 	,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(P.RRN, 8, 1), '1', '19', '2', '19', '20')||substr(P.RRN, 1, 6))))/10000) as "AGE"
@@ -147,10 +162,14 @@
 		SELECT 
 			 R.NO
 			 ,P.PA_NAME
-			 ,P.PA_GENDER
+		     ,CASE 
+		         WHEN P.PA_GENDER = 'M' THEN '남'
+		         WHEN P.PA_GENDER = 'F' THEN '여'
+		         ELSE NULL
+		     END AS PA_GENDER
 			 ,R.DEPT_NO
 			 ,R.SYMPTOM
-			 ,R.EMP_NO
+			 ,R.EM_NO
 			,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(P.RRN, 8, 1), '1', '19', '2', '19', '20')||substr(P.RRN, 1, 6))))/10000) as "AGE"
 		FROM
 			    PATIENT P
@@ -172,10 +191,14 @@
 		SELECT 
 			 R.NO
 			 ,P.PA_NAME
-			 ,P.PA_GENDER
+		     ,CASE 
+		         WHEN P.PA_GENDER = 'M' THEN '남'
+		         WHEN P.PA_GENDER = 'F' THEN '여'
+		         ELSE NULL
+		     END AS PA_GENDER
 			 ,R.DEPT_NO
 			 ,R.SYMPTOM
-			 ,R.EMP_NO
+			 ,R.EM_NO
 			,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(P.RRN, 8, 1), '1', '19', '2', '19', '20')||substr(P.RRN, 1, 6))))/10000) as "AGE"
 		FROM
 		    PATIENT P
@@ -202,12 +225,42 @@
 	WHERE NO = #{no}
 	AND STATUS = 'W'
 	</update>
+	<select id="insertJinryo" resultType="PatientVo">
+	SELECT 
+		NO
+		,STATUS
+		,PAY
+		,PA_NO
+		,SYMPTOM
+		,DEPT_NO
+		,EM_NO
+	FROM RECEIPT
+	WHERE NO = #{no}
+	</select>
 	
+	<insert id="insertJinryoIng">
+	INSERT INTO JINRYO (NO, JI_DAY, JI_TIME, DEPT, SYMPTOM, CXL_YN, PA_NO, RM_NO)
+	VALUES (
+	  SEQ_JINRYO_NO.NEXTVAL,
+	  TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+	  TO_CHAR(SYSDATE, 'HH24:MI'),
+	  #{deptNo},
+	  #{symptom},
+	  DEFAULT,
+	  #{paNo},
+	  (
+	    SELECT NO
+	    FROM D_ROOM
+	    WHERE EM_NO = #{emNo}
+	  )
+	)
+	</insert>
 	
 	<select id="surgeryWaitingList" resultType="PatientVo">
     SELECT
+    	R.NO AS RE_NO,
 	    R.SYMPTOM,
-	    R.EMP_NO,
+	    R.EM_NO,
 	    R.DEPT_NO,
 	    P.PA_NAME,
 	    P.RRN,
@@ -219,12 +272,14 @@
 	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
 	WHERE
     	TH.NEEDSURGERY = 'Y'
+    	AND R.STATUS = 'S'
 	</select>
 	
 		<select id="proomWaitingList" resultType="PatientVo">
     SELECT
+    	R.NO AS RE_NO,
 	    R.SYMPTOM,
-	    R.EMP_NO,
+	    R.EM_NO,
 	    R.DEPT_NO,
 	    P.PA_NAME,
 	    P.RRN,
@@ -236,67 +291,138 @@
 	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
 	WHERE
     	TH.NEEDSTAY = 'Y'
+    AND R.STATUS = 'S'
 	</select>
+	
 
-	<select id="rsvnScreen" resultType="PatientVo">
-	SELECT
-		R.PA_NO
-		,R.EMP_NO
-		,R.DEPT_NO		
-		,R.STATUS
-		,R.PAY
+	
+  <select id="getreceiptList" resultType="PatientVo">
+  	SELECT 
+	  	P.NO
 		,P.PA_NAME
 		,P.RRN
-		,P.PA_GENDER
-		,P.CAREGIVER
-		FROM 
-		RECEIPT R
+	     ,CASE 
+	         WHEN P.PA_GENDER = 'M' THEN '남'
+	         WHEN P.PA_GENDER = 'F' THEN '여'
+	         ELSE NULL
+	     END AS PA_GENDER
+		,P.ADDRESS
+		,P.PA_DATE
+		,R.EM_NO
+		,R.NO AS RE_NO
+		,E.DEPT_NO
+		,E.NAME
+	FROM
+	    RECEIPT R
+	    JOIN PATIENT P ON R.PA_NO = P.NO
+	    JOIN EMPLOYEE E ON R.EM_NO = E.NO
+    WHERE R.STATUS = 'F'
+    AND R.PAY = 'N'
+	ORDER BY R.NO
+  </select>
+  
+	<!-- 수납완료 조회 -->
+	<select id="payDoneList" resultType="PatientVo">
+    SELECT
+	    R.NO,
+	    P.PA_NAME,
+     CASE 
+         WHEN P.PA_GENDER = 'M' THEN '남'
+         WHEN P.PA_GENDER = 'F' THEN '여'
+         ELSE NULL
+     END AS PA_GENDER,
+		TO_CHAR(TH.JI_DATE, 'YYYY-MM-DD') AS JI_DATE,
+	    R.DEPT_NO,
+	    R.EM_NO,
+	    P.RRN,
+	    R.PA_NO,
+	    E.NAME
+	FROM
+	    RECEIPT R
 	    JOIN PATIENT P ON R.PA_NO = P.NO
 	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
-	    WHERE
-    	TH.NEEDSTAY = 'Y'
-    	AND R.PA_NO = #{paNo}
-    	AND R.STATUS = 'S'
+	    JOIN EMPLOYEE E ON R.EM_NO = E.NO
+	WHERE
+    	R.STATUS = 'F'
+    	AND R.PAY = 'Y' 
+    	ORDER BY TH.JI_DATE DESC
 	</select>
-		<select id="rsvnScreenS" resultType="PatientVo">
+	
+  <select id="getReceiptCnt" resultType="int">
+  	SELECT COUNT (NO)
+  	FROM RECEIPT
+  	WHERE
+  	STATUS = 'F'
+  	AND
+  	PAY ='N'
+  </select>
+  
+    <select id="getReceiptDoneCnt" resultType="int">
+  	SELECT COUNT (NO)
+  	FROM RECEIPT
+  	WHERE
+  	STATUS = 'F'
+  	AND
+  	PAY ='Y'
+  </select>
+  
+  		<!-- 수납완료로 상태 변경 -->	
+	<update id="changeToReceipt">
+	UPDATE 
+	RECEIPT
+	SET
+	PAY = 'Y'
+	WHERE NO = #{no}
+	AND STATUS = 'F'
+	</update>
+	
+	<!-- 입원실 출력용 입원실 리스트 조회 -->   
+   <select id="selectPRoomList" resultType="ReservationVo">    
 	SELECT
-		R.PA_NO
-		,R.EMP_NO
-		,R.DEPT_NO		
-		,R.STATUS
-		,R.PAY
-		,P.PA_NAME
-		,P.RRN
-		,P.PA_GENDER
-		,P.CAREGIVER
-		FROM 
-		RECEIPT R
-	    JOIN PATIENT P ON R.PA_NO = P.NO
-	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
-	    WHERE
-    	TH.NEEDSURGERY = 'Y'
-    	AND R.PA_NO = #{paNo}
-    	AND R.STATUS = 'S'
-	</select>
-
-		<select id="putWaitingPatient" resultType="PatientVo">
-	SELECT
-		R.PA_NO
-		,R.EMP_NO
-		,R.DEPT_NO		
-		,R.STATUS
-		,R.PAY
-		,P.PA_NAME
-		,P.RRN
-		,P.PA_GENDER
-		,P.CAREGIVER
-		FROM 
-		RECEIPT R
-	    JOIN PATIENT P ON R.PA_NO = P.NO
-	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
-	    WHERE
-    	TH.NEEDSTAY = 'Y'
-    	AND R.PA_NO = #{paNo}
+	NO
+	,TYPE
+	,NOTE
+	FROM
+	P_ROOM
+	ORDER BY NO ASC
+   </select> 
+   <!-- 입원실 출력용 날짜 조회 -->    
+   <select id="selectDateList" resultType="ReservationVo"> 
+         SELECT TO_CHAR(TRUNC(to_date(#{nowDate}), 'MM') + LEVEL - 1, 'YYYY-MM-DD') AS WORKING_DAY
+		FROM DUAL
+		CONNECT BY LEVEL <![CDATA[ <= ]]> EXTRACT(DAY FROM LAST_DAY(to_date(#{nowDate})))
+   </select>
+   
+      <!-- 입원실 출력용 입원실 예약 리스트 조회 -->
+	<select id="selectPRoomBookingList" resultType="ReservationVo">
+		    SELECT 
+		   M.WORKING_DAY, 
+		   PB.NO, 
+		   PB.PR_NO, 
+		   LISTAGG(P.PA_NAME, ',') WITHIN GROUP(ORDER BY P.PA_NAME) as "namelist", 
+		   COUNT(*) as "count"
+		FROM ADM PB
+		JOIN 
+		(
+		    SELECT 
+		    WORKING_DAY, 
+		    NO, 
+		    PR_NO
+		    FROM (
+	         SELECT TO_CHAR(TRUNC(to_date(#{nowDate}), 'MM') + LEVEL - 1, 'YYYY-MM-DD') AS WORKING_DAY
+			FROM DUAL
+			CONNECT BY LEVEL <![CDATA[ <= ]]> EXTRACT(DAY FROM LAST_DAY(to_date(#{nowDate})))
+		    ), 
+		    ( 
+		        SELECT 
+		        NO, 
+		        PR_NO 
+		        FROM ADM
+		    )
+		) M ON ( (M.WORKING_DAY BETWEEN PB.ADM_START AND PB.ADM_FINISH) AND M.NO = PB.NO)
+		LEFT JOIN PATIENT P ON(PB.PA_NO = P.NO)
+		GROUP BY M.WORKING_DAY, PB.PR_NO, PB.NO
+		ORDER BY M.WORKING_DAY, PR_NO
 	</select>
 	
 	<!-- 부서조회 -->

@@ -204,8 +204,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
             deptName = "산부인과";
           }
           surgeryValue +=
-            "<tr><td id = 'paNoS'>" +
-            slist[i].paNo +
+            "<tr><td id = 'reNo'>" +
+            slist[i].reNo +
             "</td>" +
             "<td>" +
             slist[i].paName +
@@ -238,6 +238,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           } else if (plist[i].deptNo === "70") {
             deptName = "산부인과";
           }
+          //수술실 따라해서 paNo아닌 reNo로 바꾸기
           pRoomValue +=
             "<tr><td id = 'paNo'>" +
             plist[i].paNo +
@@ -271,7 +272,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   }
   // 버튼 클릭 이벤트 핸들러-입원실
   $(document).on("click", "button[name='rsvPRoom']", function () {
-    alert("클릭!!");
+    //alert("클릭!!");
     const gotPaNo = $(this).closest("tr").find("td#paNo").text();
     const gotPaDept = $(this).closest("tr").find("td#deptName").text();
     // ... 기존 코드 내용 ...
@@ -309,8 +310,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   });
   // 버튼 클릭 이벤트 핸들러-수술실
   $(document).on("click", "button[name='rsvSRoom']", function () {
-    alert("클릭!!");
-    const gotPaNoS = $(this).closest("tr").find("td#paNoS").text();
+    const gotPaNoS = $(this).closest("tr").find("td#reNo").text();
     // ... 기존 코드 내용 ...
     $.ajax({
       url: "rsvnScreenS.sRm",
@@ -331,7 +331,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         const input = document.createElement("input");
         input.type = "hidden";
         input.name = "paNo";
-        input.value = gotPaNo;
+        input.value = gotPaNoS;
         form.appendChild(input);
 
         // form을 body에 추가하고 submit

@@ -181,6 +181,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       .hiddenNo {
         display: none;
       }
+      #hiddenSelect {
+        display: none;
+      }
     </style>
     <!-- 부트스트랩 -->
 
@@ -193,91 +196,104 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <body>
     <div id="board">
       <div id="simple-patient-check-form">
-        <div>
-          <div id="title">
-            <h2>환자 조회</h2>
-          </div>
-
-          <div class="wave-group">
-            <input required="" type="text" class="input" />
-            <span class="bar"></span>
-            <label class="label">
-              <span class="label-char" style="--index: 0">환</span>
-              <span class="label-char" style="--index: 1">자</span>
-              &nbsp;
-              <span class="label-char" style="--index: 2">이</span>
-              <span class="label-char" style="--index: 3">름</span>
-            </label>
-          </div>
-
+        <form action="simplePatientCheck" method="get">
           <div>
-            <table id="simpleTable">
-              <tr id="tabletitle">
-                <th>선택</th>
-                <th>이름</th>
-                <th>주민등록번호</th>
-              </tr>
-              <c:forEach items="${pvoList}" var="p">
-                <tr onclick="selectRadio(this)">
-                  <td>
-                    <input
-                      type="radio"
-                      name="paRadio"
-                      onclick="uncheckOtherRadioButtons(this)"
-                    />
-                  </td>
-                  <td class="nameBox">${p.paName}</td>
-                  <td>${p.rrn}</td>
-                  <td class="hiddenNo">${p.no}</td>
-                </tr>
-              </c:forEach>
-            </table>
-            <div id="page-area">
-              <c:if test="${pv.currentPage > 1}">
-                <a
-                  href="${root}/app/member/simplePatientCheck?page=${pv.currentPage-1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
-                  class="pagingLine"
-                  >이전</a
-                >
-              </c:if>
-              <c:forEach
-                begin="${pv.startPage}"
-                end="${pv.endPage}"
-                step="1"
-                var="i"
-              >
-                <c:if test="${pv.currentPage != i}">
-                  <a href="${root}/app/member/simplePatientCheck?page=${i}"
-                    >${i}</a
-                  >
-                </c:if>
-                <c:if test="${pv.currentPage == i}">
-                  <a
-                    style="
-                      font-size: 23px;
-                      background-color: lightgrey;
-                      width: 13%;
-                      border-radius: 10px;
-                    "
-                    >${i}</a
-                  >
-                </c:if>
-              </c:forEach>
-              <c:if test="${pv.currentPage < pv.maxPage}">
-                <a
-                  href="${root}/app/member/simplePatientCheck?page=${pv.currentPage+1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
-                  class="pagingLine"
-                  >다음</a
-                >
-              </c:if>
+            <div id="title">
+              <h2>환자 조회</h2>
             </div>
-            <button onclick="sendSelectedInfo();">환자 선택완료</button>
+            <select name="searchType" id="hiddenSelect">
+              <option value="paName" selected>이름</option>
+              <option value="rrn">생년월일</option>
+              <option value="paTel">전화번호</option>
+            </select>
+            <div class="wave-group">
+              <input
+                required=""
+                type="text"
+                class="input"
+                name="searchValue"
+                value="${searchMap.searchValue}"
+              />
+              <span class="bar"></span>
+              <label class="label">
+                <span class="label-char" style="--index: 0">환</span>
+                <span class="label-char" style="--index: 1">자</span>
+                &nbsp;
+                <span class="label-char" style="--index: 2">이</span>
+                <span class="label-char" style="--index: 3">름</span>
+              </label>
+            </div>
+
+            <div>
+              <table id="simpleTable">
+                <tr id="tabletitle">
+                  <th>선택</th>
+                  <th>이름</th>
+                  <th>주민등록번호</th>
+                </tr>
+                <c:forEach items="${pvoList}" var="p">
+                  <tr onclick="selectRadio(this)">
+                    <td>
+                      <input
+                        type="radio"
+                        name="paRadio"
+                        onclick="uncheckOtherRadioButtons(this)"
+                      />
+                    </td>
+                    <td class="nameBox">${p.paName}</td>
+                    <td>${p.rrn}</td>
+                    <td class="hiddenNo">${p.no}</td>
+                  </tr>
+                </c:forEach>
+              </table>
+              <div id="page-area">
+                <c:if test="${pv.currentPage > 1}">
+                  <a
+                    href="${root}/app/member/simplePatientCheck?page=${pv.currentPage-1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
+                    class="pagingLine"
+                    >이전</a
+                  >
+                </c:if>
+                <c:forEach
+                  begin="${pv.startPage}"
+                  end="${pv.endPage}"
+                  step="1"
+                  var="i"
+                >
+                  <c:if test="${pv.currentPage != i}">
+                    <a href="${root}/app/member/simplePatientCheck?page=${i}"
+                      >${i}</a
+                    >
+                  </c:if>
+                  <c:if test="${pv.currentPage == i}">
+                    <a
+                      style="
+                        font-size: 23px;
+                        background-color: lightgrey;
+                        width: 13%;
+                        border-radius: 10px;
+                      "
+                      >${i}</a
+                    >
+                  </c:if>
+                </c:forEach>
+                <c:if test="${pv.currentPage < pv.maxPage}">
+                  <a
+                    href="${root}/app/member/simplePatientCheck?page=${pv.currentPage+1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
+                    class="pagingLine"
+                    >다음</a
+                  >
+                </c:if>
+              </div>
+            </div>
           </div>
-        </div>
+        </form>
+        <button onclick="sendSelectedInfo();">환자 선택완료</button>
       </div>
     </div>
   </body>
 </html>
+
 <script>
   // 선택한 환자 번호을 저장할 전역 변수
   var selectedPatientName = "";

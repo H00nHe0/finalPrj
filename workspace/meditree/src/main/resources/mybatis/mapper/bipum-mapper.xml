@@ -67,10 +67,30 @@
 	<insert id="insertAttachment">
 		INSERT ALL
 		<foreach collection="list" item="x" separator=" ">
-	        INTO F_ATT (NO , ORIGIN_NAME , CHANGE_NAME) VALUES ((SELECT GET_F_ATT_SEQ FROM DUAL) ,#{x.originName} , #{x.changeName})
+	        INTO F_ATT (NO, BNO, ORIGIN_NAME, CHANGE_NAME) VALUES ((SELECT GET_F_ATT_SEQ FROM DUAL), SEQ_FITMENT_NO.CURRVAL, #{x.originName}, #{x.changeName})
 		</foreach>
 		SELECT 1 FROM DUAL
 	</insert>
+	
+	<select id="getAttachmentList" resultType="fileVo">
+  		SELECT 
+  			NO
+			,BNO
+			,ORIGIN_NAME
+			,CHANGE_NAME
+			,ENROLL_DATE
+			,STATUS 
+		FROM F_ATT
+		WHERE BNO = #{bno}
+		AND STATUS = 'N'
+  	</select>
+  	
+  	<select id="getAttachment" resultType="fileVo">
+  		SELECT *
+  		FROM F_ATT
+  		WHERE NO = #{ano}
+  		AND STATUS = 'N'
+  	</select>
 	
 </mapper>
 

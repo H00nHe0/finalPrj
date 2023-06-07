@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="appr">
+
+	<select id="getApprList" resultType="apprVo">
+		SELECT *
+		FROM APPR_FORM
+		WHERE DELYN = 'N'
+		ORDER BY NO DESC
+	</select>
+	
+	<insert id="write">
+		INSERT INTO APPR_FORM
+		(
+		      NO
+			   , FORM_TITLE
+			   , CONTENT
+			   , INFO
+			   , STATUS
+						)
+		VALUES
+		(
+		      SEQ_APPR_FORM_NO.NEXTVAL
+		       , #{formTitle}
+		       , #{content} 
+		       , #{info} 
+		       , #{status}       
+		)
+	</insert>
+	
+	<select id="getAppr" resultType="apprVo">
+		SELECT 
+	      NO
+	       , FORM_TITLE
+	       , CONTENT
+	       , INFO
+	       , ENROLL_DATE
+	       , STATUS
+	       , DELYN
+		FROM APPR_FORM
+		WHERE NO = ${num}
+		AND   DELYN = 'N'
+	</select>
+	
+	<select id="getApprListCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM APPR_FORM
+		WHERE DELYN = 'N'
+	</select>
+	
+	<update id="edit">
+		UPDATE APPR_FORM
+	    SET
+	        FORM_TITLE = #{formTitle}
+	        , CONTENT = #{content}
+	        , INFO = #{info}
+	        , STATUS = #{status}
+	    WHERE NO = #{no}
+	</update>
+	
+	<update id="delete">
+		UPDATE APPR_FORM
+			SET 
+				DELYN = 'Y'
+		WHERE NO = ${num}
+	</update>
+	
+	
+</mapper>

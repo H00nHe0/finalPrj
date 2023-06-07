@@ -16,6 +16,7 @@ public class BoardVo {
 	private String content;
 	private String hit;
 	private String status;
+	private String writerName;
 	private String modifyDate;
 	private List<FileVo> attList;
 }

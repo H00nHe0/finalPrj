@@ -19,6 +19,13 @@
        <typeAlias type="com.medi.app.member.vo.DeptVo" alias="deptVo"/>
        <typeAlias type="com.medi.app.board.reply.vo.ReplyVo" alias="replyVo"/>
        <typeAlias type="com.medi.app.bipum.vo.BipumVo" alias="bipumVo"/>
+       <typeAlias type="com.medi.app.tmHistory.vo.TmHistoryVo" alias="TmHistoryVo"/>
+       <typeAlias type="com.medi.app.approval.vo.ApprVo" alias="apprVo"/>
+       <typeAlias type="com.medi.app.mySign.vo.MySignVo" alias="mySignVo"/>
+       <typeAlias type="com.medi.app.mail.vo.MailVo" alias="mailVo"/>
+       <typeAlias type="com.medi.app.schedule.vo.ScheduleVo" alias="scheduleVo"/>
+       <typeAlias type="com.medi.app.jinryo.vo.JinryoVo" alias="jinryoVo"/>
+       <typeAlias type="com.medi.app.treat.vo.DrugVo" alias="drugVo"/>
 
 	</typeAliases>
 

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="admin.member">
+
+	<select id="getCnt" resultType="int">
+		SELECT COUNT (NO)
+	 	FROM EMPLOYEE
+	 	WHERE QUIT_YN = 'N' 
+	 </select>
+
+	<select id="getMemberList" resultType="memberVo">
+		SELECT
+			E.NO
+            ,E.PWD
+            ,E.NAME
+            ,TO_CHAR(E.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE
+            ,E.TEL
+            ,E.EMAIL
+            ,E.ADDRESS
+            ,PROFILE AS profileName
+            ,E.QUIT_YN
+            ,E.LEAVE_REMAIN
+            ,E.USE_REMAIN
+            ,E.BIRTH
+            ,E.GENDER
+            ,E.PROFILE
+            ,E.SIGN_YN
+            ,E.DEPT_NO
+            ,D.TITLE
+            ,D.NO AS DE_NO
+            ,P.NO AS PO_NO
+            ,P.POTITLE
+		FROM EMPLOYEE E
+        LEFT JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+        LEFT JOIN POSITION P ON (E.POSITION_NO = P.NO)
+        WHERE E.QUIT_YN = 'N'
+        <if test="searchType == 'name'">
+			AND E.NAME LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'title'">
+			AND D.TITLE LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'potitle'">
+			AND P.POTITLE = #{searchValue}
+		</if>
+		ORDER BY NO DESC
+	</select>
+	
+	
+	<select id="getMemberByNo" resultType="memberVo">
+		SELECT
+            E.NO
+            ,E.PWD
+            ,E.NAME
+            ,TO_CHAR(E.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE
+            ,E.TEL
+            ,E.EMAIL
+            ,E.ADDRESS
+            ,PROFILE AS profileName
+            ,E.QUIT_YN
+            ,E.LEAVE_REMAIN
+            ,E.USE_REMAIN
+            ,E.BIRTH
+            ,E.GENDER
+            ,E.PROFILE
+            ,E.SIGN_YN
+            ,E.DEPT_NO
+            ,D.TITLE
+            ,D.NO AS DE_NO
+            ,P.NO AS PO_NO
+            ,P.POTITLE
+		FROM EMPLOYEE E
+        LEFT JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+        LEFT JOIN POSITION P ON (E.POSITION_NO = P.NO)
+		WHERE E.NO = #{no}
+	</select>
+	
+	<update id="quit">
+  	UPDATE EMPLOYEE
+  		SET
+  			QUIT_YN = 'Y'
+  		WHERE NO = #{no}
+  </update>
+
+</mapper>
+
+

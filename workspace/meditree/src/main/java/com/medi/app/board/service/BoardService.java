@@ -44,6 +44,7 @@ public class BoardService {
 	//게시판 수정하기
 	public int edit(BoardVo vo) {
 		return dao.edit(sst,vo);
+		
 	}
 
 	//게시판 삭제하기
@@ -72,6 +73,9 @@ public class BoardService {
 	public FileVo getAttachment(String ano) {
 		return dao.getAttachment(sst,ano);
 	}
+
+
+	
 
 	
 

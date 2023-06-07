@@ -4,6 +4,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="root" value="${pageContext.request.contextPath}" scope="page" />
 <link rel="stylesheet" href="${root}/resources/css/common/common.css" />
 
+
+<%-- <c:if test="${empty sessionScope.loginMember}">
+    <c:redirect url="redirect:/home"/> <!-- 로그인 페이지로 리다이렉트 -->
+</c:if> --%>
+
 <c:if test="${not empty alertMsg}">
   <script>
     alert("${sessionScope.alertMsg}");
@@ -41,13 +46,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         src="${root}/resources/img/homeImg/chat.svg"
         alt="채팅이미지"
     /></a>
-    <a href="${root}/mail/list"
+    <a href="${root}/mail/inlist"
       ><img
         id="alert"
         src="${root}/resources/img/homeImg/mail.svg"
         alt="메일이미지"
     /></a>
-    <a href="#"
+    <a href="${root}/member/logout"
       ><img
         id="logout"
         src="${root}/resources/img/homeImg/logout.svg"

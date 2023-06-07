@@ -118,15 +118,20 @@ public class MemberController {
 		
 		//화면
 		session.setAttribute("loginMember", loginMember);
-	
+
 		// ScheduleController 객체 생성 및 멤버 변수 전달 byHoon
 	    ScheduleController calendar = new ScheduleController(loginMember);
+
+		session.setAttribute("alertMsg", "로그인되었습니다.");
+
 		return "redirect:/member/main";
 	}
 	
 	//로그아웃
 	@RequestMapping("logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session , Model model) {
+		model.addAttribute("alertMsg", "로그아웃 되었습니다.");
+		session.setAttribute("alertMsg", "로그아웃 되었습니다.");
 		session.invalidate();
 		return "redirect:/home";
 	}
@@ -155,11 +160,6 @@ public class MemberController {
 		session.setAttribute("alertMsg", "정보수정성공~~~");
 		return "redirect:/member/main";
 		
-	}
-	
-	@RequestMapping("quit")
-	public String quit() {
-		return "redirect:/member/main";
 	}
 	
 

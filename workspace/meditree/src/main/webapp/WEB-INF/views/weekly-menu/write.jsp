@@ -23,8 +23,11 @@
     	text-align: center;
     	margin-top: 20px; 
     }
+	.table{
+		width: 80%;
+	}
     textarea{
-    	width: 100%;
+    	
     	border: 0;
     	resize: none;
     }
@@ -40,212 +43,51 @@
         <div id="main">
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
                 <div id="content">
+				<h1 style="margin-top: 20px;">식단표 작성</h1>
                 <form action="${root}/weekly/write" method="post">
-                	<select class="form-select">
-                	<option>환자식</option>
-                	<option>직원식</option>
+                <select class="form-select" name="wmType">
+                	<option value="P">환자식</option>
+                	<option value="E">직원식</option>
                 </select>
 					<table class="table">
 						<thead>
 							<tr class="table-success">
 								<th></th>
-								<th>월</th>
-								<th>화</th>
-								<th>수</th>
-								<th>목</th>
-								<th>금</th>
-								<th>토</th>
+								<th><input style="width: 165px;" type="text" name="monDate" placeholder="yyyy-mm-dd"></th>
+								<th><input style="width: 165px;" type="text" name="tueDate" placeholder="yyyy-mm-dd"></th>
+								<th><input style="width: 165px;" type="text" name="wedDate" placeholder="yyyy-mm-dd"></th>
+								<th><input style="width: 165px;" type="text" name="thuDate" placeholder="yyyy-mm-dd"></th>
+								<th><input style="width: 165px;" type="text" name="friDate" placeholder="yyyy-mm-dd"></th>
+								<th><input style="width: 165px;" type="text" name="satDate" placeholder="yyyy-mm-dd"></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<th class="table-success">조식</th>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
+								<td><textarea style="width:117px; height: 160px;" name="monB"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="tueB"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="wedB"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="thuB"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="friB"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="satB"></textarea></td>
 							</tr>
 							<tr>
 								<th class="table-success">중식</th>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
+								<td><textarea style="width:117px; height: 160px;" name="monL"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="tueL"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="wedL"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="thuL"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="friL"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="satL"></textarea></td>
 							</tr>
 							<tr>
 								<th class="table-success">석식</th>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
-								<td>
-									<textarea style="width:117px; height: 160px;">
-										쌀밥
-										미역국
-										시금치무침
-										배추김치
-										계란찜
-										가지조림
-									</textarea>
-								</td>
+								<td><textarea style="width:117px; height: 160px;" name="monD"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="tueD"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="wedD"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="thuD"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="friD"></textarea></td>
+								<td><textarea style="width:117px; height: 160px;" name="satD"></textarea></td>
 							</tr>
 						</tbody>
 					</table>

@@ -116,10 +116,7 @@
 									
 								</tr>
 							</c:forEach>
-			                
-
-			                  
-			                 </tbody> 
+			                </tbody> 
 			             </table>
 			             <div id="page-area">
 		                     <c:if test="${pv.currentPage > 1}">

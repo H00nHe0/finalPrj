@@ -51,9 +51,15 @@
     .last-child{
     	width: 30%;
     }
+    #page-area{
+       text-align: center;
+       padding-top: 20px;
+    }
 
     
   </style>
+  
+  
 </head>
 <body>
 
@@ -72,80 +78,26 @@
 	               		<table class="table table-hover">  
 	               			<thead class="table-light">
 			                    <tr> 
-			                      <th>차트번호</th>   
 			                      <th class="second-child">대기순번</th>
+			                      <th>환자번호</th>   
 			                      <th>이름</th>
 			                      <th>성별</th>
 			                      <th class="last-child">주민등록번호</th>
 			                    </tr> 
 	                  		</thead>
 			                <tbody>
-			                 <tr>
-			                    <td>000001</td>
-			                    <td>1</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                 </tr>
-							 <tr>
-			                    <td>000001</td>
-			                    <td>2</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>
-			                  <tr>
-			                    <td>000001</td>
-			                    <td>3</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>
-			                  <tr>
-			                    <td>000001</td>
-			                    <td>4</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>
-			                  <tr>
-			                    <td>000001</td>
-			                    <td>5</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>
-			                   <tr>
-			                    <td>000001</td>
-			                    <td>6</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>
-			                   <tr>
-			                    <td>000001</td>
-			                    <td>7</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>
-			                   <tr>
-			                    <td>000001</td>
-			                    <td>8</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>
-			                   <tr>
-			                    <td>000001</td>
-			                    <td>9</td>
-			                    <td>김승우</td>
-			                    <td>남</td>
-			                    <td>980430-1******</td>
-			                  </tr>	
-			                  
+			                 	<c:forEach items="${jvoList}" var="jvo" varStatus="status" end="${8}">
+								<tr>
+									<td>${status.index + 1}</td>
+									<td>${jvo.no}</td>
+									<td>${jvo.paName}</td>
+									<td>${jvo.paGender}</td>
+									<td>${jvo.rrn}</td>
+								</tr>
+							</c:forEach>
 			                 </tbody> 
 			             </table>
+
 	
 	                </div>
 	            </form>

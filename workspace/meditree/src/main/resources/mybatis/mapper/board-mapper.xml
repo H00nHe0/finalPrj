@@ -7,16 +7,18 @@
 	
 	<select id="getBoardList" resultType="boardVo">
 		SELECT 
-			NO
-			,ENROLL_DATE
-			,TITLE
-			,CONTENT
-			,HIT
-			,EMP_NO
-			,MODIFY_DATE
-			,STATUS 
-		FROM BOARD
-		WHERE STATUS = 'N'
+		    B.NO
+		    ,B.TITLE
+		    ,B.CONTENT
+		    ,B.EMP_NO
+		    ,B.ENROLL_DATE
+		    ,B.STATUS
+		    ,B.MODIFY_DATE
+		    ,B.HIT
+            ,E.NAME AS WRITER_NAME
+		FROM BOARD B
+        JOIN EMPLOYEE E ON (B.EMP_NO = E.NO)
+		WHERE B.STATUS ='N'
 		ORDER BY NO DESC
 	  </select>
 	  
@@ -33,7 +35,7 @@
 	  		SEQ_BOARD_NO.NEXTVAL
 	  		, #{title}
 	  		, #{content}
-	  		,999999
+	  		, #{empNo}
 	  	)
 	  </insert>
 	
@@ -100,7 +102,6 @@
   		WHERE NO = #{ano}
   		AND STATUS = 'N'
   	</select>
-	
 	
 	
 	

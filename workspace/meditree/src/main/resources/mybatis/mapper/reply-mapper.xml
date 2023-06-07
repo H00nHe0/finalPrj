@@ -17,7 +17,7 @@
  			SEQ_REPLY_NO.NEXTVAL
  			, #{bno}
  			, #{content}
- 			, 999999<!-- #{writerNo} -->
+ 			, #{writerNo} 
  		)
  	</insert>
  
@@ -29,7 +29,7 @@
 	    ,R.WRITER_NO
 	    ,R.ENROLL_DATE
 	    ,R.STATUS
-	    ,E.NAME		AS writerName
+	    ,E.NAME 	AS writerName
 	FROM REPLY  R
 	JOIN EMPLOYEE E ON (R.WRITER_NO = E.NO)
 	WHERE R.BNO = #{bno}
@@ -39,7 +39,7 @@
  
  <update id="delete">
  	UPDATE REPLY
-	    SET STATUS = 'X'
+	    SET STATUS = 'Y'
 	WHERE NO = #{no}
 	AND (WRITER_NO = #{writerNo}
 	OR ${writerNo} = 999999)

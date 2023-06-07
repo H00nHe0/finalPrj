@@ -129,8 +129,8 @@ body h1 {
 						</div>
 						
 							<!-- 관리자일 때만 등록하기 버튼 보이게 -->
-						<c:if test="${loginMember.id == 'ADMIN' }">
-						</c:if>
+						<%-- <c:if test="${loginMember.id == 'ADMIN' }"> 
+						</c:if>--%>
 						<div class="btnfloat">
 							<a href="${root}/mediDevice/write" class="btn btn-secondary">등록하기</a>
 						</div>

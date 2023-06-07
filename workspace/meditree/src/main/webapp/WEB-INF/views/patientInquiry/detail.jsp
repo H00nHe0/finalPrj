@@ -32,7 +32,7 @@
     }
     .shadow {
       width: 90%;
-      height: 600px;
+      height: 700px;
       margin: auto;
       margin-top: 40px;
     }
@@ -45,6 +45,18 @@
         align-items: center;
         justify-content: center;
         background-color: #f3f3f4;
+    }
+    #edit-btn{
+        float: right;
+        margin-bottom: 20px;
+    }
+    #back-btn{
+    	float: right;
+        margin-bottom: 50px;
+    }
+    #page-area{
+       text-align: center;
+       padding-top: 20px;
     }
 
 
@@ -61,13 +73,13 @@
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
             <div id="board">
             
-	            <form action="">
+	            <form action="" method="">
 	               <div class="shadow p-3 mb-5 bg-body rounded">
 	               		<div class="htitle">
 	               			<h1>환자조회</h1>
 	               		</div>
 
-	               		<table class="table table-hover">  
+	               		<table class="table table-hover" id="personal">  
 	               			<thead class="table-light">
 			                    <tr> 
 			                      <th>차트번호</th>   
@@ -85,7 +97,7 @@
 				                    <td>${vo.no}</td>
 				                    <td>${vo.paName}</td>
 				                    <td>${vo.paGender}</td>
-				                    <td>${vo.rrn}</td>
+				                    <td>${vo.age}</td>
 				                    <td>${vo.rrn}</td>
 				                    <td>${vo.paTel}</td>
 				                    <td>${vo.paTel}</td>
@@ -93,15 +105,16 @@
 			                 	</tr>
 			                 </tbody> 
 			             </table>
-						<a href="edit">
-                		   <button type="button" class="btn btn-secondary btn-sm">수정하기</button>	
-                   		</a>
+						 <a>
+                		 	<button type="button" id="edit-btn" class="btn btn-secondary btn-sm">수정하기</button>	
+                   		 </a>
 
                          <br><br><br>
 
-                         <table class="table table-hover">  
+                         <table class="table table-hover" id="chart">  
                             <thead class="table-light">
                              <tr> 
+                               <th>차트번호</th>   
                                <th>내원일</th>   
                                <th>진료과</th>
                                <th>진료의</th>
@@ -111,52 +124,52 @@
                              </tr> 
                            </thead>
                          <tbody>
-                          <tr>
-                             <td>2023-02-17</td>
-                             <td>정형외과</td>
-                             <td>김강토</td>
-                             <td>타박상</td>
-                             <td>조회버튼</td>
-                             <td>미납</td>
-                          </tr>
-                          <tr>
-                            <td>2023-02-17</td>
-                            <td>정형외과</td>
-                            <td>김강토</td>
-                            <td>타박상</td>
-                            <td>조회버튼</td>
-                            <td>미납</td>
-                         </tr>
-                         <tr>
-                            <td>2023-02-17</td>
-                            <td>정형외과</td>
-                            <td>김강토</td>
-                            <td>타박상</td>
-                            <td>조회버튼</td>
-                            <td>미납</td>
-                         </tr>
-                         <tr>
-                            <td>2023-02-17</td>
-                            <td>정형외과</td>
-                            <td>김강토</td>
-                            <td>타박상</td>
-                            <td>조회버튼</td>
-                            <td>미납</td>
-                         </tr>
-                         <tr>
-                            <td>2023-02-17</td>
-                            <td>정형외과</td>
-                            <td>김강토</td>
-                            <td>타박상</td>
-                            <td>조회버튼</td>
-                            <td>미납</td>
-                         </tr>
+                         	<c:choose>
+							  <c:when test="${not empty tmvoList}">
+							    <c:forEach items="${tmvoList}" var="tmvo">
+							      <tr>
+							        <td>${tmvo.no}</td>
+							        <td>${tmvo.prDate}</td>
+							        <td>${tmvo.departmentTitle}</td>
+							        <td>${tmvo.employeeName}</td>
+							        <td>${tmvo.tmContent}</td>
+							        <td>
+								        <a>
+					                		<button type="button" id="pre-btn" class="btn btn-secondary btn-sm">출력하기</button>	
+					                   	</a>
+							        </td>
+							        <td>${tmvo.paidYn}</td>
+							      </tr>
+							    </c:forEach>
+							  </c:when>
+							  <c:otherwise>
+							    <tr>
+							      <td colspan="6">과거 진료 내역이 없습니다.</td>
+							    </tr>
+							  </c:otherwise>
+							</c:choose>
 
-
-
-                           
                           </tbody> 
                       </table>
+                      <div id="page-area">
+		                     <c:if test="${pv.currentPage > 1}">
+		                        <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/detail?no=${vo.no}&page=${pv.currentPage-1}">이전</a>
+		                     </c:if>
+		                     <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+		                     <c:if test="${pv.currentPage != i}">
+		                        <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/detail?no=${vo.no}&page=${i}">${i}</a>
+		                     </c:if>
+		                     <c:if test="${pv.currentPage == i}">
+		                        <a class = "btn btn-secondary btn-sm">${i}</a>
+		                     </c:if>
+		                     </c:forEach>
+		                     <c:if test="${pv.currentPage < pv.maxPage}">
+		                     <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/detail?no=${vo.no}&page=${pv.currentPage+1}">다음</a>
+		                     </c:if>
+		                  </div>
+		                  
+		                  <a href="${root}/patientInquiry/list" class="btn btn-secondary btn-sm" id="back-btn">뒤로가기</a>
+                      
 	
 	                </div>
 	            </form>
@@ -166,3 +179,29 @@
   
 </body>
 </html>
+
+
+<script>
+
+
+
+var tdElement = document.querySelector("#personal td:nth-child(1)"); // 첫 번째 <td> 요소 가져오기
+var no = tdElement.innerText; // innerText 값 가져오기
+
+var button = document.querySelector("#edit-btn"); // 버튼 요소 가져오기
+
+button.addEventListener("click", function() {
+	  var link = "edit?no=" + no; // 링크 생성
+	  window.location.href = link; // 링크로 이동
+	});
+	
+var buttons = document.querySelectorAll("#chart .btn");
+buttons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    var tdElement = button.closest("tr").querySelector("td:first-child");
+    var no = tdElement.innerText;
+    var link = "prescription?no=" + no;
+    window.location.href = link;
+  });
+});
+</script>

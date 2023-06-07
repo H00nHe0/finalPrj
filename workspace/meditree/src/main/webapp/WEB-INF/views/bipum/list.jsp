@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>bipumList</title>
 <!-- CSS only -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -68,9 +68,36 @@ body h1 {
 	background-color: #f3f3f4;
 }
 #page-area{
-    	text-align: center;
-    	padding-top: 20px;
-    }
+    text-align: center;
+    padding-top: 20px;
+}
+    
+.appr-write-btn { /* 등록하기 버튼 */
+	float: right;
+	margin-bottom: 20px;
+	background: #82CBC4;
+	color: white;
+	justify-content: center;
+	margin-right: 45px;
+	border-color: #82CBC4;
+}
+
+.appr-write-btn:hover {
+	background: #82CBC4;
+	color: white;
+}
+
+.btn-outline-success {/* 상세보기 버튼 */
+	justify-content: center;
+	color: #82CBC4;
+	border-color: #82CBC4;
+}
+
+.btn-outline-success:hover {
+	background: #82CBC4;
+	border-color: #82CBC4;
+	color: white;
+}
 </style>
 </head>
 <body>
@@ -105,7 +132,7 @@ body h1 {
 										<td>${bvo.content}</td>
 										<td>${bvo.enrollDate}</td>
 										<td>${bvo.amount}</td>
-										<td><a class="btn btn-outline-secondary btn-sm" href="${root}/bipum/detail?num=${bvo.no}">상세보기</a></td>
+										<td><a class="btn btn-outline-success btn-sm" href="${root}/bipum/detail?num=${bvo.no}">상세보기</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -133,7 +160,7 @@ body h1 {
 						<%-- <c:if test="${loginMember.id == 'ADMIN' }">
 						</c:if> --%>
 						<div class="btnfloat">
-							<a href="${root}/bipum/write" class="btn btn-secondary">등록하기</a>
+							<a href="${root}/bipum/write" class="btn appr-write-btn">등록하기</a>
 						</div>
 					</div>
 			</div>

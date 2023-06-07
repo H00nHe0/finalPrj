@@ -127,7 +127,7 @@ body h1 {
 									<label class="col-sm-2 col-form-label">주소</label>
 									<div class="col-sm-10">
 										<input type="text" name="address" class="form-control"
-											id="address" placeholder="주소" >
+											 id="address_kakao" placeholder="주소" readonly="readonly">
 									</div>
 								</div>
 								<div class="row mb-3">
@@ -145,7 +145,7 @@ body h1 {
 										<option value="10">간호부</option>
 										<option value="20">원무부</option>
 										<option value="30">의사</option>
-										<option value="00">경영지원부</option>
+										<option value="99">경영지원부</option>
 										<option value="40">일반내과</option>
 										<option value="50">정신과</option>
 										<option value="60">이비인후과</option>
@@ -191,6 +191,7 @@ body h1 {
 </body>
 </html>
 
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
 const telRegex = /^\d{3}-\d{3,4}-\d{4}$/;
@@ -201,7 +202,7 @@ telInput.addEventListener('blur', function() {
   const tel = telInput.value;
 
   if (!telRegex.test(tel)) {
-    alert('잘못된 전화번호 형식입니다.');
+    alert('000-0000-0000 형식으로 입력해주세요.');
     telInput.value = ''; // 입력값 초기화
   }
 });
@@ -214,7 +215,7 @@ rNoInput.addEventListener('blur', function() {
   const rNo = rNoInput.value;
 
   if (!rNoRegex.test(rNo)) {
-    alert('잘못된 생년월일 형식입니다.');
+    alert('생년월일 6자리를 입력해주세요.');
     rNoInput.value = ''; // 입력값 초기화
   }
 });
@@ -229,5 +230,16 @@ form.addEventListener('submit', function(event) {
     event.preventDefault();
   }
 });
+
+window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+            }
+        }).open();
+    });
+}
 
 </script>

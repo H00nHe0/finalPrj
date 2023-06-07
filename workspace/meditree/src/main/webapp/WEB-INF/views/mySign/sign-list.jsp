@@ -45,19 +45,12 @@ body h1 {
 }
 
 .allApp {
-	margin-top: 30px;
+	margin-top: 80px;
 	margin-bottom: 30px;
 }
 
 .btnfloat {
 	float: right;
-	padding-right: 30px;
-}
-
-#search-area {
-	display: flex;
-	float: right;
-	margin-bottom: 20px;
 	padding-right: 30px;
 }
 
@@ -95,7 +88,7 @@ body h1 {
 	display: flex;
 	justify-content: center;
 	border-color: #82CBC4;
-	margin-right: 30px;
+	margin-right: 65px;
 }
 
 .btn-green:hover {
@@ -119,49 +112,51 @@ body h1 {
 						<br>
 						<div class="approve">
 							<h2>
-								전자결재 | <b>전체 문서함</b>
+								전자결재 | <b>나의 전체 문서함</b>
 							</h2>
 							<hr>
-							<div class="allApp">
-								<div id="search-area">
-									<select name="searchType">
-										<option>제목</option>
-										<option>결재양식</option>
-									</select> 
-									<input type="text" class="form-control" placeholder="검색어를 입력해주세요">
-									<input type="submit" class="btn appr-write-btn btn-sm" value="검색">
-								</div>
-							</div>
+							<div class="allApp"></div>
 
-							<table class="table table-hover">
+							<table class="table table-hover" id="appr-manage-table">
 								<thead class="table-light" align="center">
 									<tr>
 										<th>번호</th>
 										<th>기안일</th>
-										<th>결재양식</th>
 										<th>제목</th>
 										<th>결재상태</th>
 									</tr>
 								</thead>
 								<tbody align="center">
-								<c:choose>
-									<c:when test="${empty signvoList}">
-										<tr>
-											<td colspan="5">기안한 문서가 없습니다.</td>
-										<tr>
-									</c:when>
-									<c:otherwise>
-										<c:forEach var="=svo" items="${signvoList}">
+									<c:choose>
+										<c:when test="${empty signvoList}">
 											<tr>
-												<td class="no">${svo.no}</td>
-												<td>${svo.enrollDate}</td>
-												<td>${svo.formTitle}</td>
-												<td>${svo.signTitle}</td>
-												<td>${svo.status}</td>
-											</tr>
-										</c:forEach>
-									</c:otherwise>
-							    </c:choose>
+												<td colspan="4">기안한 문서가 없습니다.</td>
+											<tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach var="svo" items="${ signvoList }">
+												<tr>
+													<td>${svo.no}</td>
+													<td>${svo.enrollDate}</td>
+													<td>${svo.signTitle}</td>
+													<%-- <td>${svo.status}</td> --%>
+													<td>
+													<c:choose>
+														<c:when test="${ svo.status eq 'H' || svo.status eq 'I' }">
+															<span class="badge" style="background:RGB(65, 125, 122); border:none;">진행중</span>
+														</c:when>
+														<c:when test="${ svo.status eq 'X' }">
+															<span class="badge" style="background:crimson; border:none;">반려</span>
+														</c:when>
+														<c:otherwise>
+															<span class="badge" style="background:#82CBC4; border:none;">완료</span>
+														</c:otherwise>
+													</c:choose>
+												</td>
+												</tr>
+											</c:forEach>
+										</c:otherwise>
+								    </c:choose>
 								</tbody>
 							</table>
 						</div>
@@ -192,6 +187,16 @@ body h1 {
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>
+
+<script>
+
+	// 테이블안에 tbody 눌렀을 때 상세보기
+	const table = document.querySelector("#appr-manage-table tbody");
+	table.addEventListener("click",(event)=>{
+	   const num = event.target.parentNode.children[0].innerText; 
+	   location.href = '${root}/mySign/signDetail?num=' + num;
+	});
+
+</script>

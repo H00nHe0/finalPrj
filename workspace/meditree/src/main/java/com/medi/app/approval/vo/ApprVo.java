@@ -10,7 +10,7 @@ import lombok.Data;
 public class ApprVo {
 	
 	private String no;
-	private String title;
+	private String formTitle;
 	private String content;
 	private String info;
 	private String enrollDate;

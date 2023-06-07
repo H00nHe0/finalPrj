@@ -19,6 +19,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
 	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
 @import
@@ -49,18 +50,6 @@ body h1 {
 	margin-bottom: 30px;
 }
 
-.btnfloat {
-	float: right;
-	padding-right: 30px;
-}
-
-#search-area {
-	display: flex;
-	float: right;
-	margin-bottom: 20px;
-	padding-right: 30px;
-}
-
 #main {
 	display: grid;
 	grid-template-columns: 1fr 8fr;
@@ -73,6 +62,8 @@ body h1 {
 }
 
 .appr-write-btn { /* 일괄결재 버튼 */
+	float: right;
+	margin-bottom: 20px;
 	background: #82CBC4;
 	color: white;
 	justify-content: center;
@@ -102,59 +93,27 @@ body h1 {
 					<br>
 					<div class="approve">
 						<h2>
-							전자결재 | <b>결재대기 문서함</b>
+							전자결재 | <b>관리자 결재대기 문서함</b>
 						</h2>
 						<hr>
 						<div class="allApp">
 
 							<button type="button" class="btn appr-write-btn"
-								onclick="allApprove('allApprove.si');">일괄결재</button>
-
-							<div id="search-area">
-								<select name="searchType">
-									<option>제목</option>
-									<option>결재양식</option>
-								</select> <input type="text" class="form-control"
-									placeholder="검색어를 입력해주세요">
-							</div>
+								onclick="allApprove('allApprove');">결재하기</button>
 						</div>
 
-						<table class="table table-hover">
+						<table class="table table-hover" id="appr-manage-table">
 							<thead class="table-light">
 								<tr>
-									<th>선택</th>
-									<th>문서번호</th>
-									<th>결재양식</th>
+									<!-- <th>선택</th> -->
+									<th>넘버</th>
 									<th>제목</th>
-									<th>기안자</th>
 									<th>기안일</th>
+									<th>상태</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:choose>
-									<c:when test="${ empty list }">
-										<tr>
-											<td colspan="6" align="center">결재대기 문서가 없습니다.</td>
-										</tr>
-									</c:when>
-									<c:otherwise>
-										<c:forEach var="a" items="${ list }">
-											<tr>
-												<td class="check"><input type="checkbox" value="1"></td>
-												<td class="apprNo">${ a.apprNo }</td>
-												<td>${ a.formTitle }</td>
-												<td>${ a.apprTitle }&nbsp;<c:if
-														test="${ not empty a.originName }">
-														<i class="mdi mdi-paperclip" style="color: gray;"></i>
-														<span style="color: gray;">1</span>
-													</c:if>
-												</td>
-												<td>${ a.empName }</td>
-												<td>${ a.enrollDate }</td>
-											</tr>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
+								<!-- 결재양식 리스트 조회용 ajax 스크립트 들어가는 자리 -->
 							</tbody>
 						</table>
 					</div>
@@ -162,52 +121,73 @@ body h1 {
 					<!-- 페이징 처리 -->
 						<div id="page-area">
 							<c:if test="${pv.currentPage > 1}">
-								<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${pv.currentPage-1}">이전</a>
+								<a class = "btn btn-primary btn-sm" href="${root}/adminSign/adminList?page=${pv.currentPage-1}">이전</a>
 							</c:if>
 							<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 							<c:if test="${pv.currentPage != i}">
-								<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${i}">${i}</a>
+								<a class = "btn btn-primary btn-sm" href="${root}/adminSign/adminList?page=${i}">${i}</a>
 							</c:if>
 							<c:if test="${pv.currentPage == i}">
 								<a class = "btn btn-secondary btn-sm">${i}</a>
 							</c:if>
 							</c:forEach>
 							<c:if test="${pv.currentPage < pv.maxPage}">
-							<a class = "btn btn-primary btn-sm" href="${root}/bipum/list?page=${pv.currentPage+1}">다음</a>
+							<a class = "btn btn-primary btn-sm" href="${root}/adminSign/adminList?page=${pv.currentPage+1}">다음</a>
 							</c:if>
 						</div>
 				</div>
 			</div>
 		</div>
+
 	</div>
 </body>
 </html>
+ <script>
+    // 결재양식 리스트 조회용 ajax함수
+    $(document).ready(function() {
+        console.log("함수실행");
+        $.ajax({
+            type: 'get',
+            async: false,
+            //url: "${root}/adminSign/adminList",
+            url: "list",
+            success:function(signvoList){
+                console.log("결재대기 리스트 조회용 ajax통신 성공");
+                console.log(signvoList);
+                
+                let tableBody = $('#appr-manage-table tbody');
+                tableBody.empty(); // 테이블 내용 초기화
 
-<script>
-	$(function() { // 상세페이지
-		$(".appr-standby-tb>tbody").on(
-				'click',
-				'tr td:not(:first-child)',
-				function(e) {
-					location.href = 'apprStandbyDetail.si?apprNo='
-							+ $(e.target).siblings(".apprNo").text();
-				})
-	})
-
-	function allApprove(url) { // 일괄결재
-
-		$('input[type=checkbox]:checked').each(
-				function(index, item) {
-					$("#allApprove").append(
-							"<input type='hidden' value='"
-									+ $(item).parent().siblings('.apprNo')
-											.text() + "' name='lineList["
-									+ index + "].apprNo'>")
-				})
-
-		let result = confirm("일괄결재 하시겠습니까? 일괄결재 시 결재의견은 '승인합니다'로 통일됩니다.");
-		if (result == true) {
-			$("#allApprove").attr("action", url).submit();
-		}
-	}
+                if (signvoList.length > 0) {
+                    for (let i = 0; i < signvoList.length; i++) {
+                        let row = '<tr>' +
+                        	/* '<td>' + '<input type="checkbox" name="form">' + '</td>' + */
+                            '<td>' + signvoList[i].no + '</td>' +
+                            '<td>' + signvoList[i].signTitle + '</td>' +
+                            '<td>' + signvoList[i].enrollDate + '</td>' +
+                            '<td>' + signvoList[i].status + '</td>' +
+                            '</tr>';
+                        tableBody.append(row);
+                    }
+                } else {
+                    let emptyRow = '<tr>' +
+                        '<td colspan="3" align="center">결재대기 문서가 없습니다.</td>' +
+                        '</tr>';
+                    tableBody.append(emptyRow);
+                }
+            },
+            error:function(){
+                console.log("결재대기 리스트 조회용 ajax통신 실패");
+                
+            }
+        });
+    });
+    
+  // 기안문서 상세페이지 조회하기
+  const table = document.querySelector("#appr-manage-table tbody");
+    	table.addEventListener("click",(event)=>{
+        const num = event.target.parentNode.children[0].innerText; 
+        location.href = '${root}/mySign/signDetail?num=' + num; 
+  }); 
 </script>
+

@@ -159,7 +159,7 @@ input:focus, textarea:focus {
 									</tr>
 									<tr>
 										<th>제목</th>
-										<td><input type="text" placeholder="제목을 입력해주세요" name="title"></td>
+										<td><input type="text" placeholder="제목을 입력해주세요" name="formTitle"></td>
 									</tr>
 									<tr>
 										<th>설명</th>

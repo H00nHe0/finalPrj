@@ -16,5 +16,6 @@ public class BipumVo {
 	private String delyn;
 	private String amount;
 	private List<FileVo> attList;
+	
 
 }

@@ -1,7 +1,13 @@
 package com.medi.app.board.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +37,6 @@ import com.medi.app.common.file.FileUploader;
 import com.medi.app.common.file.FileVo;
 import com.medi.app.common.page.PageVo;
 import com.medi.app.member.vo.MemberVo;
-import com.medi.app.notice.vo.NoticeVo;
 
 @Controller
 @RequestMapping("board")
@@ -105,7 +110,7 @@ public class BoardController {
 		
 		if (vo == null) {
 			model.addAttribute("errorMsg","조회실패");
-			return "common/error-page";
+			return "common/error";
 		}
 		
 		vo.setWriterName(writerName);
@@ -123,16 +128,86 @@ public class BoardController {
 		  if (loginMember != null) { 
 			  no = loginMember.getNo(); 
 		}
-	  
-		int result = bs.edit(vo);
-		if (result != 1) {
+		  String path = req.getServletContext().getRealPath("/resources/upload/board/");
+		  List<String> changeNameList = FileUploader.upload(f, path);
+		  List<String> originNameList = FileUploader.getOriginNameList(f);
+		  
+		//데이터 준비 (이름 리스트)
+			List<FileVo> fvoList = new ArrayList<FileVo>();
+			if (changeNameList != null) {
+				int size = changeNameList.size();
+				for (int i = 0; i < size; i++) {
+					FileVo fvo = new FileVo();
+					fvo.setOriginName(originNameList.get(i));
+					fvo.setChangeName(changeNameList.get(i));
+					fvoList.add(fvo);
+			}
+		}
+		// 이전 첨부파일 목록 조회
+		  List<FileVo> oldAttachments = bs.getAttachmentList(vo);
+
+		  // 첨부파일이 변경된 경우에만 처리
+		  if (hasFileChanges(f, oldAttachments)) {
+		    // 1. 첨부파일 삭제
+		    bs.deleteAttachments(oldAttachments); // 첨부파일 삭제 메서드 호출
+
+		  }
+		  
+		int result = bs.edit(vo ,fvoList);
+		if (result <= 0) {
 			model.addAttribute("errorMsg","수정실패");
-			return "common/error-page";
+			return "common/error";
 		}
 			
 		session.setAttribute("alertMsg", "수정성공");
 		return "redirect:/board/detail?num=" + vo.getNo();
 	}
+	
+	private boolean hasFileChanges(List<MultipartFile> newAttachments, List<FileVo> oldAttachments) {
+		  if (newAttachments.size() != oldAttachments.size()) {
+		    return true; // 첨부파일 개수가 다르면 변경사항으로 간주
+		  }
+
+		  try {
+		    MessageDigest md = MessageDigest.getInstance("MD5");
+
+		    // 새로운 첨부파일과 이전 첨부파일 비교
+		    for (int i = 0; i < newAttachments.size(); i++) {
+		      MultipartFile newFile = newAttachments.get(i);
+		      FileVo oldFile = oldAttachments.get(i);
+
+		      // 파일 크기가 다르면 변경사항으로 간주
+		      if (newFile.getSize() != oldFile.getSize()) {
+		        return true;
+		      }
+
+		      // 파일 내용 비교
+		      byte[] newFileBytes = newFile.getBytes();
+		      byte[] oldFileBytes = readBytesFromFile(oldFile.getFilePath()); // 파일 경로에서 바이트 배열 읽어오는 메서드 호출
+
+		      byte[] newHash = md.digest(newFileBytes);
+		      byte[] oldHash = md.digest(oldFileBytes);
+
+		      // 파일 내용이 다르면 변경사항으로 간주
+		      if (!MessageDigest.isEqual(newHash, oldHash)) {
+		        return true;
+		      }
+		    }
+		  } catch (IOException e) {
+		    // 파일 읽기 오류 처리
+		    e.printStackTrace();
+		  } catch (NoSuchAlgorithmException e) {
+		    // 지원하지 않는 알고리즘 예외 처리
+		    e.printStackTrace();
+		  }
+
+		  return false; // 변경사항이 없음
+		}
+
+	private byte[] readBytesFromFile(String filePath) throws IOException {
+		  Path path = Paths.get(filePath);
+		  return Files.readAllBytes(path);
+		}
 	
 	//게시판 삭제하기
 	@GetMapping("delete")
@@ -175,4 +250,8 @@ public class BoardController {
 	}
 	
 	
-}
+	
+		
+	}
+	
+

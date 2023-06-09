@@ -64,6 +64,11 @@ public class ScheduleController {
 		
 	}
 	
+	@GetMapping("manageSchedule")
+	public void manageSchedule() {
+		
+	}
+	
 
 	@PostMapping(value ="list.pCalendar", produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -86,7 +91,9 @@ public class ScheduleController {
 	
 	@PostMapping(value = "insertEventToDB", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String insertEventToDB(ScheduleVo svo, Model model) {
+	public String insertEventToDB(ScheduleVo svo, Model model, HttpSession session) {
+	    MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+	    System.out.println(loginMember);
 		model.addAttribute("svo",svo);
 		//System.out.println(svo);
 		int result =ss.insertEventToDB(svo);
@@ -96,9 +103,12 @@ public class ScheduleController {
 	
 	@PostMapping(value = "deleteEventFromDB", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String deleteEventFromDB(String title) {
+	public String deleteEventFromDB(String title, HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		System.out.println(title);
-		int result = ss.deleteEventFromDB(title);
+		 int emNo = Integer.parseInt(loginMember.getNo()); // 문자열을 정수로 변환
+		 int result = ss.deleteEventFromDB(title, emNo);// 변환된 정수 값을 매퍼 메서드에 전달
+
 		//System.out.println(result);
 		return result > 0 ? "success" : "fail";
 	}

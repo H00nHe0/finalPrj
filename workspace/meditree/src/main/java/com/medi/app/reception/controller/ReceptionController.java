@@ -51,7 +51,9 @@ public class ReceptionController {
 	//접수 화면
 	@GetMapping("reception")
 	public String reception(Model model,MemberVo mvo) {
-		
+		String version = org.springframework.core.SpringVersion.getVersion();
+
+		System.out.println("Spring Framework Version : " + version);
 		//진료과 조회
 		System.out.println("겟메핑으로 진료과 조회서비스시작");
 		List<Map<String, String>> mvoList = ps.getDepartmentList();
@@ -91,7 +93,6 @@ public class ReceptionController {
 		session.setAttribute("pvo", vo);
 		return "/member/reception";
 	}
-	
 	
 	//간편 환자조회
 	@GetMapping("simplePatientCheck")
@@ -407,8 +408,92 @@ public class ReceptionController {
 
 					//System.out.println(dayList);
 				
-	}
+	}}
+				//수술실 현황페이지
+				@GetMapping("sRoomCheck")
+				public void sRoomCheck(@RequestParam(value = "cDate", defaultValue = "0") String cDate, Model model) throws ParseException {
+					// thead에 들어갈 입원실 목록 조회
+							ArrayList<ReservationVo> sRoomList = ps.selectSRoomList();
+							model.addAttribute("sRoomList", sRoomList);
+							
+							if (cDate.equals("0")) { // 전달받은 cDate가 없으면 현재달로 입원실 현황 조회
+
+								// 오늘 날짜 구해서 String으로 형변환
+								GregorianCalendar cal = new GregorianCalendar();
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								String nowDate = sdf.format(cal.getTime());
+					
+								String today2 = sdf.format(cal.getTime()); // 오늘날짜 tr css용
+
+								// 화면에 출력할 현재날짜(yyyy년 mm월)
+								SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 MM월");
+								String showDate = sdf2.format(cal.getTime());
+								
+								SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy년 MM월 dd일 (E요일)");
+								String today = sdf3.format(cal.getTime());
+
+								// 전월 날짜 구하기
+								cal.add(GregorianCalendar.MONTH, -1);
+								String preDate = sdf.format(cal.getTime());
+
+								// 다음 날짜 구하기
+								cal.add(GregorianCalendar.MONTH, +2);
+								String nextDate = sdf.format(cal.getTime());
+
+								// String으로 형변환한 오늘 날짜 전달해서 이번달 1일~말일 구하기
+								ArrayList<ReservationVo> dayList = ps.selectDateList(nowDate);
+
+								// 예약중인 환자 리스트 조회
+								ArrayList<ReservationVo> sBookingList = ps.selectSRoomBookingList(nowDate);
+								System.out.println(sBookingList);
+								model.addAttribute("dayList", dayList);
+								model.addAttribute("showDate", showDate);
+								model.addAttribute("nowDate", nowDate);
+								model.addAttribute("today", today); // fix 용
+								model.addAttribute("today2", today2); // 오늘날짜 tr css용
+								model.addAttribute("preDate", preDate);
+								model.addAttribute("nextDate", nextDate);
+								model.addAttribute("sBookingList", sBookingList);
+							} else {
+
+								// 오늘 날짜 구해서 String으로 형변환
+								GregorianCalendar cal = new GregorianCalendar();
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								String nowDate = cDate;
+								String today2 = sdf.format(cal.getTime()); // 오늘날짜 tr css용
+								
+								// 전달받은 날짜 Date로 변환
+								Date tempt = sdf.parse(cDate);
+								
+								// fix로 보여줄 오늘날짜
+								SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy년 MM월 dd일 (E요일)");
+								String today = sdf3.format(cal.getTime());
+								
+								// 전달받은 날짜 대입
+								cal.setTime(tempt);
+								
+								// 화면에 출력할 현재날짜(yyyy년 mm월)
+								SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 MM월");
+								String showDate = sdf2.format(cal.getTime());
+
+
+								
+								// 전월 날짜 구하기
+								cal.add(GregorianCalendar.MONTH, -1);
+								String preDate = sdf.format(cal.getTime());
+
+								// 다음 날짜 구하기
+								cal.add(GregorianCalendar.MONTH, +2);
+								String nextDate = sdf.format(cal.getTime());
+
+								// String으로 형변환한 오늘 날짜 전달해서 이번달 1일~말일 구하기
+								ArrayList<ReservationVo> dayList = ps.selectDateList(nowDate);
+
+								//System.out.println(dayList);
+							
+				}
 	
 	
 
-}}
+}
+				}

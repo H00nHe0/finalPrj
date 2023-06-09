@@ -261,7 +261,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                   var="i"
                 >
                   <c:if test="${pv.currentPage != i}">
-                    <a href="${root}/app/member/simplePatientCheck?page=${i}"
+                    <a
+                      href="${root}/app/member/simplePatientCheck?page=${i}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
                       >${i}</a
                     >
                   </c:if>

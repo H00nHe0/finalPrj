@@ -4,10 +4,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="root" value="${pageContext.request.contextPath}" scope="page" />
 <link rel="stylesheet" href="${root}/resources/css/common/common.css" />
 
-
-<%-- <c:if test="${empty sessionScope.loginMember}">
-    <c:redirect url="redirect:/home"/> <!-- 로그인 페이지로 리다이렉트 -->
-</c:if> --%>
+<%--
+<c:if test="${empty sessionScope.loginMember}">
+  <c:redirect url="redirect:/home" />
+  <!-- 로그인 페이지로 리다이렉트 -->
+</c:if>
+--%>
 
 <c:if test="${not empty alertMsg}">
   <script>
@@ -42,18 +44,33 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <div id="etc-area">
     <a href="javascript:void(0)" onclick="listUp();"
       ><img
+        style="
+          padding-left: 30px !important;
+          height: 40px !important;
+          width: 70px !important;
+        "
         id="chat"
         src="${root}/resources/img/homeImg/chat.svg"
         alt="채팅이미지"
     /></a>
     <a href="${root}/mail/inlist"
       ><img
+        style="
+          padding-left: 30px !important;
+          height: 40px !important;
+          width: 70px !important;
+        "
         id="alert"
         src="${root}/resources/img/homeImg/mail.svg"
         alt="메일이미지"
     /></a>
     <a href="${root}/member/logout"
       ><img
+        style="
+          padding-left: 30px !important;
+          height: 40px !important;
+          width: 80px !important;
+        "
         id="logout"
         src="${root}/resources/img/homeImg/logout.svg"
         alt="로그아웃이미지"
@@ -62,8 +79,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 </header>
 
 <script>
-
-        function listUp() {
-            window.open("${root}/chatting/list","팝업창","width = 500, height = 600 ,top=0, left = 0");
-        }
-    </script>
+  function listUp() {
+    window.open(
+      "${root}/chatting/list",
+      "팝업창",
+      "width = 500, height = 600 ,top=0, left = 0"
+    );
+  }
+</script>

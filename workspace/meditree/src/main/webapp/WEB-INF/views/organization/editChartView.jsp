@@ -253,7 +253,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
         <div id="board">
           <div class="wrap11" id="att-area">
-            <h2><b>조직도 조회</b></h2>
+            <h2><b>조직도 수정</b></h2>
             <hr />
             <br />
             <div class="row">
@@ -274,6 +274,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                         />메디병원</b
                       >
                     </a>
+                    <span style="margin-left: 30px"
+                      ><i
+                        class="mdi mdi-plus"
+                        data-bs-toggle="modal"
+                        data-bs-target="#insertDeptModal"
+                      ></i
+                    ></span>
                   </h4>
                   <ul id="chartArea">
                     <li>

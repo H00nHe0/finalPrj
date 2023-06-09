@@ -51,9 +51,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <!-- <a href="#"><li>환자 진료내역</li></a> -->
         <a href="/app/member/rsvnWaiting"><li>병실 예약 대기</li></a>
         <a href="/app/member/receiveManage"><li>수납</li></a>
-        <a href="/app/member/roomCheck"><li>병실 현황</li></a>
-        <a href="#"><li>입원실 현황</li></a>
-        <a href="#"><li>수술실 현황</li></a>
+        <a href="/app/member/roomCheck"><li>입원실 현황</li></a>
+        <a href="/app/member/sRoomCheck"><li>수술실 현황</li></a>
       </ul>
       <li class="category">
         <img src="${root}/resources/img/homeImg/sideCommute.png" />근태관리
@@ -91,23 +90,26 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <a href="${root}/notice/list"><li>공지 사항</li></a>
         <a href="${root}/board/list"><li>사내 게시판</li></a>
       </ul>
+      <c:if test="${loginMember.no == '999999'}">
       <li class="category">
-        <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자(히든)
+        <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자 젼용
       </li>
-      <ul class="sub-menu">
-        <a href="#"><li>사원근태 관리</li></a>
-        <a href="#"><li>사원휴가 관리</li></a>
-        <a href="${root}/mediDevice/list"><li>의료기기 관리</li></a>
-        <a href="${root}/bipum/list"><li>비품 관리</li></a>
-        <a href="#"><li>매출 관리</li></a>
-        <a href="#"><li>급여 관리</li></a>
-        <a href="#"><li>식단 관리</li></a>
-        <a href="#"><li>급여입력</li></a>
-        <a href="/app/member/join"><li>직원 가입</li></a>
-        <a href="/app/admin/member/list"><li>직원 관리</li></a>
-        <a href="${root}/appr/list"><li>결재문서 관리</li>
-        <a href="${root}/adminSign/adminList"><li>결재현황</li></a> <!-- 관리자만 보이게  -->
-      </ul>
+        <ul class="sub-menu">
+          <a href="#"><li>사원근태 관리</li></a>
+          <a href="#"><li>사원휴가 관리</li></a>
+          <a href="${root}/mediDevice/list"><li>의료기기 관리</li></a>
+          <a href="${root}/bipum/list"><li>비품 관리</li></a>
+          <a href="/app/member/manageSchedule"><li>병원일정 관리</li></a>
+          <a href="/app/organization/editChartView"><li>조직도 수정</li></a>
+          <a href="#"><li>급여 관리</li></a>
+          <a href="#"><li>식단 관리</li></a>
+          <a href="#"><li>급여입력</li></a>
+          <a href="/app/member/join"><li>직원 가입</li></a>
+          <a href="/app/admin/member/list"><li>직원 관리</li></a>
+          <a href="${root}/appr/list"><li>결재문서 관리</li>
+          <a href="${root}/adminSign/adminList"><li>결재현황</li></a> <!-- 관리자만 보이게  -->
+        </ul>
+      </c:if>
       
     </ul>
   </nav>

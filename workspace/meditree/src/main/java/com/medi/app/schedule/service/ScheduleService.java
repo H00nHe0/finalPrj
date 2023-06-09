@@ -39,8 +39,8 @@ public class ScheduleService {
 		
 	}
 
-	public int deleteEventFromDB(String title) {
-		return sDao.deleteEventFromDB(sst, title);
+	public int deleteEventFromDB(String title, int emNo) {
+		return sDao.deleteEventFromDB(sst, title, emNo);
 	}
 	
 	public int insertPEventToDB(ScheduleVo svo) {

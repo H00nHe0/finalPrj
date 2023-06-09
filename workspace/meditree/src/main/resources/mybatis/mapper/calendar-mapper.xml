@@ -29,6 +29,7 @@
 	,CAL_START
 	,CAL_END
 	,DELETE_YN
+	,EM_NO
 	)
 	VALUES
 	(
@@ -37,8 +38,8 @@
 	,#{calStart}
 	,#{calEnd}
 	,default
+	,#{emNo}
 	)
-	
 	</insert>
 
   <update id="deleteEventFromDB">

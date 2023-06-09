@@ -142,6 +142,9 @@ public class PatientDao {
 	public ArrayList<ReservationVo> selectPRoomList(SqlSessionTemplate sst) {
 		return (ArrayList)sst.selectList("patient.selectPRoomList");
 	}
+	public ArrayList<ReservationVo> selectSRoomList(SqlSessionTemplate sst) {
+		return (ArrayList)sst.selectList("patient.selectSRoomList");
+	}
 
 
 	public ArrayList<ReservationVo> selectDateList(SqlSessionTemplate sst, String nowDate) {
@@ -152,6 +155,13 @@ public class PatientDao {
 	public ArrayList<ReservationVo> selectPRoomBookingList(SqlSessionTemplate sst, String nowDate) {
 		return (ArrayList)sst.selectList("patient.selectPRoomBookingList", nowDate);
 	}
+
+
+	public ArrayList<ReservationVo> selectSRoomBookingList(SqlSessionTemplate sst, String nowDate) {
+		return (ArrayList)sst.selectList("patient.selectSRoomBookingList", nowDate);
+	}
+
+
 
 
 

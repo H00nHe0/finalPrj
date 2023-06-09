@@ -314,7 +314,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       success: function (data) {
         console.log(data);
         const parsedData = JSON.parse(data);
-        const chartNo = parsedData.paNo;
+        const chartNo = parsedData.reNo;
         const name = parsedData.paName;
         console.log(name);
         document.querySelector('input[name="chartNo"]').value = chartNo;

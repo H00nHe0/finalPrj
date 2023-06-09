@@ -205,7 +205,7 @@ public class MailController {
    
    //메일 선택 삭제하기
    @PostMapping("chkDel")
-   public String chkDel(MailVo vo ,HttpServletRequest req,@RequestParam List<String> groupList) {
+   public String chkDel(MailVo vo ,HttpServletRequest req,@RequestParam List<String> groupList,HttpSession session) {
       
       String[] grpCode = groupList.toArray(new String[0]);
 
@@ -217,7 +217,8 @@ public class MailController {
        if (result <= 0) {
          throw new IllegalStateException("메일 삭제 실패");
       }
-       return "redirect:/mail/delbox";
+       session.setAttribute("alertMsg", "메일 삭제 성공");
+       return "redirect:/mail/inlist";
    }
    //삭제한 메일 보기
    @GetMapping("delbox")
@@ -249,26 +250,37 @@ public class MailController {
    
    //메일 영구삭제
    @GetMapping("fdel")
-   public String fDel(MailVo vo, HttpSession session,@SessionAttribute MemberVo loginMember) {
-      String receiver = loginMember.getNo();
-      vo.setReceiver(receiver);
-      int result = ms.fDel(vo);
-      if (result != 1) {
-         throw new IllegalStateException("메일 영구 삭제 실패");
-      }
-      session.setAttribute("alertMsg", "메일 영구 삭제 성공");
+   public String fDel(MailVo vo ,HttpServletRequest req,@RequestParam List<String> fDelList,HttpSession session) {
+	   String[] grpCode = fDelList.toArray(new String[0]);
+
+	      for(int i=0; i < grpCode.length; i++){
+	    	  fDelList.add(grpCode[i].toString());
+	      }
+	       int result = ms.fDel(fDelList);
+	       
+	       if (result <= 0) {
+	         throw new IllegalStateException("메일 영구삭제 실패");
+	      }
+	       session.setAttribute("alertMsg", "메일 영구삭제 성공");
+      
       return "redirect:/mail/delbox";
    }
    
    //메일 복구하기
    @PostMapping("recover")
-   public String recover(MailVo vo, RedirectAttributes ra) {
-      int result = ms.recover(vo);
-      if (result != 1) {
-         throw new IllegalStateException("메일 복구 실패");
-      }
-      ra.addFlashAttribute("alertMag","메일 복구 성공");
-      ra.addAttribute("no",vo.getNo());
+   public String recover(MailVo vo ,HttpServletRequest req,@RequestParam List<String> recoverList,HttpSession session) {
+     
+	   String[] grpCode = recoverList.toArray(new String[0]);
+	      for(int i=0; i < grpCode.length; i++){
+	    	  recoverList.add(grpCode[i].toString());
+	      }
+	       int result = ms.recover(recoverList);
+	       
+	       if (result <= 0) {
+	         throw new IllegalStateException("메일 복구 실패");
+	      }
+	       session.setAttribute("alertMsg", "메일 복구 성공");
+	   
       return "redirect:/mail/inlist";
    }
 }

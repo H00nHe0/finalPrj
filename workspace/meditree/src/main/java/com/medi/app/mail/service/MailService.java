@@ -100,13 +100,13 @@ public class MailService {
 	}
 
 	//메일 영구 삭제
-	public int fDel(MailVo vo) {
-		return dao.fDel(sst,vo);
+	public int fDel(List<String> fDelList) {
+		return dao.fDel(sst,fDelList);
 	}
 	
 	//메일 복구
-	public int recover(MailVo vo) {
-		return dao.recover(sst,vo);
+	public int recover(List<String> recoverList) {
+		return dao.recover(sst,recoverList);
 	}
 	
 	

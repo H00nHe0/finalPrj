@@ -67,6 +67,14 @@ public class NoticeDao {
 		return sst.selectOne("notice.getAttachment",ano);
 	}
 
+	public int editAttachment(SqlSessionTemplate sst, List<FileVo> fvoList) {
+		return sst.insert("notice.editAttachment", fvoList);
+	}
+
+	public Object fileDel(SqlSessionTemplate sst, List<FileVo> oldAttachments) {
+		return sst.update("notice.fileDel",oldAttachments);
+	}
+
 	
 	
 	

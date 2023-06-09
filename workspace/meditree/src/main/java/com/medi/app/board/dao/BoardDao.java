@@ -67,5 +67,15 @@ public class BoardDao {
 		return sst.selectOne("board.getAttachment",ano);
 	}
 
+	//파일 삭제
+	public Object fileDel(SqlSessionTemplate sst, List<FileVo> oldAttachments) {
+		return sst.update("board.fileDel",oldAttachments);
+	}
+
+	//파일 수정 첨부
+	public int editAttachment(SqlSessionTemplate sst, List<FileVo> fvoList) {
+		return sst.insert("board.editAttachment", fvoList);
+	}
+
 	
 }

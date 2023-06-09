@@ -102,13 +102,13 @@ public class MailDao {
 	}
 
 	//메일 영구 삭제
-	public int fDel(SqlSessionTemplate sst, MailVo vo) {
-		return sst.update("mail.fDel",vo);
+	public int fDel(SqlSessionTemplate sst, List<String> fDelList) {
+		return sst.update("mail.fDel",fDelList);
 	}
 
 	//메일 복구
-	public int recover(SqlSessionTemplate sst, MailVo vo) {
-		return sst.update("mail.recover",vo);
+	public int recover(SqlSessionTemplate sst, List<String> recoverList) {
+		return sst.update("mail.recover",recoverList);
 	}
 
 	

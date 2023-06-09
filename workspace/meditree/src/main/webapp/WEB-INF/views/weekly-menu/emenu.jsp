@@ -10,7 +10,7 @@
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <style>
-    #main{
+   #main{
         display: grid;
         grid-template-columns: 1fr 8fr;
     }
@@ -30,6 +30,11 @@
     button {
 	float: right;
 }
+
+	textarea{
+    	border: 0;
+    	resize: none;
+    }
 .view-area{display: none;}
 .form-area{display: none;}
 
@@ -61,7 +66,7 @@
 					<table class="table">
 						<thead>
 							<tr class="table-success">
-								<th></th>
+								<th><input style="width: 165px;" type="hidden" name="no" value="${eMenu.no}"></th>
 								<th>${eMenu.monDate}(월)</th>
 								<th>${eMenu.tueDate}(화)</th>
 								<th>${eMenu.wedDate}(수)</th>
@@ -91,12 +96,12 @@
 							</tr>
 							<tr>
 								<th class="table-success">석식</th>
-								<td>${pMenu.monD}</td>
-								<td>${pMenu.tueD}</td>
-								<td>${pMenu.wedD}</td>
-								<td>${pMenu.thuD}</td>
-								<td>${pMenu.friD}</td>
-								<td>${pMenu.satD}</td>
+								<td>${eMenu.monD}</td>
+								<td>${eMenu.tueD}</td>
+								<td>${eMenu.wedD}</td>
+								<td>${eMenu.thuD}</td>
+								<td>${eMenu.friD}</td>
+								<td>${eMenu.satD}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -117,42 +122,42 @@
 							<table class="table">
 								<thead>
 									<tr class="table-success">
-										<th><input type="hidden" name="no" value="${vo.no}"></th>
-										<th><input style="width: 165px;" value="${vo.monDate}" type="text" name="monDate" placeholder="yyyy-mm-dd"></th>
-										<th><input style="width: 165px;" value="${vo.tueDate}" type="text" name="tueDate" placeholder="yyyy-mm-dd"></th>
-										<th><input style="width: 165px;" value="${vo.wedDate}" type="text" name="wedDate" placeholder="yyyy-mm-dd"></th>
-										<th><input style="width: 165px;" value="${vo.thuDate}" type="text" name="thuDate" placeholder="yyyy-mm-dd"></th>
-										<th><input style="width: 165px;" value="${vo.friDate}" type="text" name="friDate" placeholder="yyyy-mm-dd"></th>
-										<th><input style="width: 165px;" value="${vo.satDate}" type="text" name="satDate" placeholder="yyyy-mm-dd"></th>
+										<th><input type="hidden" name="no" value="${eMenu.no}"></th>
+										<th><input style="width: 165px;" value="${eMenu.monDate}" type="text" name="monDate" placeholder="yyyy-mm-dd"></th>
+										<th><input style="width: 165px;" value="${eMenu.tueDate}" type="text" name="tueDate" placeholder="yyyy-mm-dd"></th>
+										<th><input style="width: 165px;" value="${eMenu.wedDate}" type="text" name="wedDate" placeholder="yyyy-mm-dd"></th>
+										<th><input style="width: 165px;" value="${eMenu.thuDate}" type="text" name="thuDate" placeholder="yyyy-mm-dd"></th>
+										<th><input style="width: 165px;" value="${eMenu.friDate}" type="text" name="friDate" placeholder="yyyy-mm-dd"></th>
+										<th><input style="width: 165px;" value="${eMenu.satDate}" type="text" name="satDate" placeholder="yyyy-mm-dd"></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<th class="table-success">조식</th>
-										<td><textarea style="width:117px; height: 160px;" name="monB">${vo.monB}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="tueB">${vo.tueB}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="wedB">${vo.wedB}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="thuB">${vo.thuB}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="friB">${vo.friB}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="satB">${vo.satB}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="monB">${eMenu.monB}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="tueB">${eMenu.tueB}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="wedB">${eMenu.wedB}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="thuB">${eMenu.thuB}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="friB">${eMenu.friB}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="satB">${eMenu.satB}</textarea></td>
 									</tr>
 									<tr>
 										<th class="table-success">중식</th>
-										<td><textarea style="width:117px; height: 160px;" name="monL">${vo.monL}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="tueL">${vo.tueL}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="wedL">${vo.wedL}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="thuL">${vo.thuL}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="friL">${vo.friL}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="satL">${vo.satL}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="monL">${eMenu.monL}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="tueL">${eMenu.tueL}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="wedL">${eMenu.wedL}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="thuL">${eMenu.thuL}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="friL">${eMenu.friL}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="satL">${eMenu.satL}</textarea></td>
 									</tr>
 									<tr>
 										<th class="table-success">석식</th>
-										<td><textarea style="width:117px; height: 160px;" name="monD">${vo.monD}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="tueD">${vo.tueD}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="wedD">${vo.wedD}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="thuD">${vo.thuD}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="friD">${vo.friD}</textarea></td>
-										<td><textarea style="width:117px; height: 160px;" name="satD">${vo.satD}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="monD">${eMenu.monD}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="tueD">${eMenu.tueD}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="wedD">${eMenu.wedD}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="thuD">${eMenu.thuD}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="friD">${eMenu.friD}</textarea></td>
+										<td><textarea style="width:117px; height: 160px;" name="satD">${eMenu.satD}</textarea></td>
 									</tr>
 								</tbody>
 							</table>
@@ -175,6 +180,8 @@
       viewArea.classList.remove('active');
       formArea.classList.add('active');
 
-      
   }
+
+  
+
 </script>

@@ -117,7 +117,7 @@ textarea{
 <body>
     <div class="container">
         <div class="chat-header">
-            <h1>채팅방</h1>
+            <img alt="뒤로가기" src="${root}/resources/img/test/arrowleft.png" onclick="history.back();">  <h1>채팅방</h1>
         </div>
         <div class="chat-messages">
             <div class="message-row">
@@ -146,10 +146,44 @@ textarea{
             </div>
         </div>
       <div class="chat-input">
-            <textarea placeholder="메시지를 입력하세요." style="width: 485px; height: 160px; margin-top: 10px;"></textarea>
+            <input type="text" placeholder="메시지를 입력하세요." name="msg" style="width: 485px; height: 160px; margin-top: 10px;">
         </div>
-            <button type="button" class="btn btn-success">전송</button> 
+            <button type="button" onclick="sendMsg();" class="btn btn-success">전송</button> 
         
     </div>
 </body>
 </html>
+
+<script>
+
+	
+        const socket = new WebSocket("ws://127.0.0.1:8888/app/server");
+        // 현재 시간을 얻기 위해 Date 객체 생성
+        const currentDate = new Date();
+
+        // 시, 분, 초 정보를 얻기
+        const hours = currentDate.getHours();
+        const minutes = currentDate.getMinutes();
+        
+        socket.onopen = function(){
+            console.log("웹소켓 연결됨");
+        }
+        socket.onclose = function () {
+            console.log("웹소켓 끊김");
+        }
+        socket.onerror = function () {
+            console.log("웹소켓 연결 실패");
+        }
+        socket.onmessage = function (e) {
+
+            const msgArea = document.querySelector('.chat-messages');
+            msgArea.innerHTML += e.data + "<br>";
+        }
+        
+        function sendMsg(){
+            const str = document.querySelector("input[name=msg]").value;
+            socket.send(str);
+        }
+
+
+    </script>

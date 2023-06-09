@@ -57,36 +57,75 @@ img#chatImg {
 	<div class="chat-list">
   <h1>채팅목록</h1>
   <table class="user-list">
+  	
   	<tr class="user">
-  		<td><img id="user" src="${root}/resources/img/test/cat2.png" alt="User 1"></td>
-  		<td>고양이 1</td>
-  		<td><a href="javascript:void(0)" onclick="popUp();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_28.jpg" alt="프로필 사진"></td>
+  		<td>차정숙</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
   	</tr>
-  	<tr class="user">
-  		<td><img id="user" src="${root}/resources/img/test/cat.png" alt="User 2"></td>
-  		<td>고양이 2</td>
-		<td><a href="${root}/chatting/window"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_22.jpg" alt="프로필 사진"></td>
+  		<td>장겨울</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
   	</tr>
-  	<tr class="user">
-  		<td><img id="user" src="${root}/resources/img/test/cat2.png" alt="User 1"></td>
-  		<td>고양이 3</td>
-  		<td><a href="${root}/chatting/window"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_13.jpg" alt="프로필 사진"></td>
+  		<td>서인호</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
   	</tr>
-  	<tr class="user">
-		<td><img id="user" src="${root}/resources/img/test/cat.png" alt="User 2"></td>
-  		<td>고양이 4</td>
-  		<td><a href="${root}/chatting/window"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_05.jpg" alt="프로필 사진"></td>
+  		<td>권순정</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
   	</tr>
-  	<tr class="user">
-  		<td><img id="user" src="${root}/resources/img/test/cat2.png" alt="User 1"></td>
-  		<td>고양이 5</td>
-  		<td><a href="${root}/chatting/window"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_17.jpg" alt="프로필 사진"></td>
+  		<td>엄현정</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
   	</tr>
-  	<tr class="user">
-		<td><img id="user" src="${root}/resources/img/test/cat.png" alt="User 2"></td>
-  		<td>고양이 6</td>
-  		<td><a href="${root}/chatting/window"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_16.jpg" alt="프로필 사진"></td>
+  		<td>양석형</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
   	</tr>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_15.jpg" alt="프로필 사진"></td>
+  		<td>안정원</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  	</tr>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/${vo.profile}" alt="프로필 사진"></td>
+  		<td>이영하</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  	</tr>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_15.jpg" alt="프로필 사진"></td>
+  		<td>차은재</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  	</tr>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_15.jpg" alt="프로필 사진"></td>
+  		<td>이름</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  	</tr>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/$KakaoTalk_20230608_190429355_15.jpg" alt="프로필 사진"></td>
+  		<td>이름</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  	</tr>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_15.jpg" alt="프로필 사진"></td>
+  		<td>이름</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  	</tr>
+    <tr class="user">
+  		<td><img id="user" src="${root}/resources/img/test/KakaoTalk_20230608_190429355_15.jpg" alt="프로필 사진"></td>
+  		<td>이름</td>
+  		<td><a href="javascript:void(0)" onclick="popUp2();"><img id="chatImg" alt="" src="${root}/resources/img/test/chatimg.png"></a></td>
+  	</tr>
+
+  
+  	
   </table>
     
 </div>
@@ -97,7 +136,7 @@ img#chatImg {
 
 <script>
 
-        function popUp() {
+        function popUp2() {
             window.open("${root}/chatting/window","팝업창","width = 500, height = 600 ,top=0, left = 600");
         }
     </script>

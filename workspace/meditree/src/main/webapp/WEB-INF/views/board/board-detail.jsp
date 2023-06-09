@@ -54,6 +54,9 @@
 #delBtn{
 	padding-right: 20px;
 }
+.noVisible {
+    display: none;
+  }
 </style>
 </head>
 <body>
@@ -121,12 +124,15 @@
                  	  <h5>첨부파일</h5>
                  	  <input class="form-control" type="file" name="f" id="formFileMultiple" multiple>
                    		
-                    <div id="thumbnail-area">
-                      <c:forEach items="${vo.attList}" var="fvo">
-                        ${fvo.originName}<!-- &nbsp;<a href="javascript:attDel('${fvo.no}');">삭제</a> -->
-                        <br>
+                     <div id="thumbnail-area">
+                      <c:forEach items="${vo.attList}" var="fvo" varStatus="status">
+                        <div class="row" style="display: inline;">
+                         ${fvo.originName}<a href="javascript:void(0)" onclick="f01(this);">삭제</a>
+                          <br>
+                        </div>
                       </c:forEach>
-                   		</div>
+                    </div>
+                    
 						
                     </div>
                   </div>
@@ -187,7 +193,7 @@
               }
           },
           error : function (){
-              alert('bad');
+              alert('댓글 작성 실패');
           }
 
       })
@@ -263,7 +269,13 @@ function deleteReply(rno) {
 
       } 
   });
-}
+}                       
+function f01(button) {
+    var row = button.parentNode;
+    var rows = document.getElementsByClassName("row");
+    var index = Array.prototype.indexOf.call(rows, row);
+    rows[index].style.display = "none";
+  };
 
 
 

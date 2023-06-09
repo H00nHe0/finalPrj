@@ -59,20 +59,7 @@ public class BipumController {
 	//비품 등록하기 화면
 	@GetMapping("write")
 	public String write(HttpSession session, Model model) {
-		//(관리자만 로그인했을 때 작성/로그인멤버 생성하고 실행하기)
-		//MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		//if(loginMember == null) { //로그인 멤버가 null이면 에러발생
-		//	model.addAttribute("errorMsg","잘못된 접근입니다."); 
-		//	return "common/error-page"; 
-		//}
-		//String id = loginMember.getId(); 
-		//boolean isAdmin = "ADMIN".equals(id);
-		 
-		//if(!isAdmin) { 
-		//	model.addAttribute("errorMsg","잘못된 접근입니다."); 
-		//	return "common/error-page"; 
-		//}
-		 
+	
 		return "bipum/write";
 	}
 	
@@ -125,18 +112,6 @@ public class BipumController {
 	//비품 수정하기(관리자만)
 	@PostMapping("edit")
 	public String edit(BipumVo vo, Model model, HttpSession session) {
-//		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-//		String id = null;
-//		if(loginMember != null) { //로그인멤버가 NULL이 아닐때만 꺼내오는 조건 
-//			id = loginMember.getId();
-//		}
-		//String id = loginMember.getId();
-		
-		//ADMIN이 아닐 때 
-//		if(!"ADMIN".equals (id)) {
-//			model.addAttribute("errorMsg", "잘못된 요청입니다 ...");
-//			return "common/error";
-//		}
 		
 		int result = bs.edit(vo);
 		

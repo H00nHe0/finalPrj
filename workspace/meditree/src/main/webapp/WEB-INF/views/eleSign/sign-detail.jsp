@@ -53,7 +53,7 @@ tbody tr td {
 
 .shadow {
 	width: 80%;
-	height: 1050px;
+	height: 1150px;
 	margin: auto;
 	margin-top: 40px;
 	background-color: white;
@@ -181,7 +181,7 @@ input:focus, textarea:focus {
 								</c:if>
 							<div class="si-1">
 								<c:if test="${loginMember.no == '999999'}">
-									<a href="" class="btn appr-write-btn">승인하기</a>
+									<a href="${root}/eleSign/approve?num=${vo.no}" class="btn appr-write-btn">승인하기</a>
 									<button type="button"  class="btn btn-green"
 									data-bs-toggle="modal" data-bs-target="#disapprModal">반려하기</button>
 								</c:if>
@@ -195,13 +195,13 @@ input:focus, textarea:focus {
 					                 <h5 class="modal-title" id="disapprModalLabel" style="margin-left:5px;">반려하기</h5>
 					                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					               </div>
-					               <form action="${root}/adminSign/disapproval" method="post">
+					               <form action="${root}/eleSign/disapprove?num=${vo.no}" method="post">
 					               	   <input type="hidden" name="no" value="${ vo.no }">
 						               <div class="modal-body" style="height:220px;">
 						                 <div class="form-group row" style="width:450px; padding-left:10px; margin-top:7px;">
 						                   <label class="col-sm-3 col-form-label">결재문서명</label>
 						                   <div class="col-sm-9">
-						                     <input type="text" class="form-control appr-tb-input" value="${ vo.signTitle }" style="background:none; padding-left:0; border:none;" readonly>
+						                     <input type="text" class="form-control appr-tb-input" value="${ vo.title }" style="background:none; padding-left:0; border:none;" readonly>
 						                   </div>
 						                   <label class="col-sm-3 col-form-label">반려사유</label>
 						                   <div class="col-sm-9">
@@ -211,7 +211,7 @@ input:focus, textarea:focus {
 						               </div>
 						               <div class="modal-footer">
 						                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">취소</button>
-						                 <button type="submit" class="btn btn-success btn-sm" style="background:#82CBC4; color:white;">확인</button>
+						                 <button type="submit" class="btn btn-sm" style="background:#82CBC4; color:white;">확인</button>
 						               </div>
 					               </form>
 					             </div>
@@ -221,10 +221,10 @@ input:focus, textarea:focus {
 								
 								<c:choose>
 								    <c:when test="${loginMember.no != '999999'}">
-								        <a href="${root}/mySign/list" class="btn btn-green">이전목록</a>&nbsp;<br>
+								        <a href="${root}/eleSign/list" class="btn btn-green">이전목록</a>&nbsp;<br>
 								    </c:when>
 								    <c:otherwise>
-								        <a href="${root}/adminSign/adminList" class="btn btn-green">목록으로</a>&nbsp;<br>
+								        <a href="${root}/eleSign/list" class="btn btn-green">목록으로</a>&nbsp;<br>
 								    </c:otherwise>
 								</c:choose>
 
@@ -244,7 +244,7 @@ input:focus, textarea:focus {
 									</tr>
 									<tr>
 										<th>제목</th>
-										<td>${ vo.signTitle }</td>
+										<td>${ vo.title }</td>
 									</tr>
 								</table>
 								<div>${ vo.content }</div>
@@ -253,7 +253,10 @@ input:focus, textarea:focus {
 						
 						<!-- 수정하기  -->
 						<div class="form-area">
-							<form action="${root}/mySign/edit" method="post">
+						<div class="btnfloat-danger">
+							<button onclick="location.href='${root}/eleSign/delete?num=${vo.no}'" class="btn btn-danger">삭제하기</button>
+						</div>
+							<form action="${root}/eleSign/edit" method="post">
 								<div class="appr-table-wrapper">
 									<div class="btnfloat">
 										<button type="submit" class="btn appr-write-btn">수정하기</button>
@@ -274,7 +277,7 @@ input:focus, textarea:focus {
 										</tr>
 										<tr>
 											<th>제목</th>
-											<td><input type="text" name="signTitle" value="${ vo.signTitle }"></td>
+											<td><input type="text" name="title" value="${ vo.title }"></td>
 										</tr>
 									</table>
 									<div>

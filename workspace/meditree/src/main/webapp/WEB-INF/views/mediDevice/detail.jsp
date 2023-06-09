@@ -33,7 +33,7 @@ body h1 {
 	width: 300px;
 	height: 100px;
 	margin: auto;
-	padding-top: 10px;
+	margin-top: 55px;
 	text-align: center;
 }
 

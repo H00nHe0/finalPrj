@@ -11,7 +11,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.google.gson.Gson;
-import com.medi.app.chatting.vo.ChatVo;
 import com.medi.app.member.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;

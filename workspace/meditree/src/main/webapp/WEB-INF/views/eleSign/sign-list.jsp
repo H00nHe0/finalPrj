@@ -88,7 +88,7 @@ body h1 {
 	display: flex;
 	justify-content: center;
 	border-color: #82CBC4;
-	margin-right: 65px;
+	margin-right: 71px;
 }
 
 .btn-green:hover {
@@ -112,7 +112,7 @@ body h1 {
 						<br>
 						<div class="approve">
 							<h2>
-								전자결재 | <b>나의 전체 문서함</b>
+								전자결재 | <b>전체 문서함</b>
 							</h2>
 							<hr>
 							<div class="allApp"></div>
@@ -128,28 +128,27 @@ body h1 {
 								</thead>
 								<tbody align="center">
 									<c:choose>
-										<c:when test="${empty signvoList}">
+										<c:when test="${empty elevoList}">
 											<tr>
 												<td colspan="4">기안한 문서가 없습니다.</td>
 											<tr>
 										</c:when>
 										<c:otherwise>
-											<c:forEach var="svo" items="${ signvoList }">
+											<c:forEach var="evo" items="${ elevoList }">
 												<tr>
-													<td>${svo.no}</td>
-													<td>${svo.enrollDate}</td>
-													<td>${svo.signTitle}</td>
-													<%-- <td>${svo.status}</td> --%>
+													<td>${evo.no}</td>
+													<td>${evo.enrollDate}</td>
+													<td>${evo.title}</td>
 													<td>
 													<c:choose>
-														<c:when test="${ svo.status eq 'H' || svo.status eq 'I' }">
+														<c:when test="${ evo.status eq 'H' || evo.status eq 'I' }">
 															<span class="badge" style="background:RGB(65, 125, 122); border:none;">진행중</span>
 														</c:when>
-														<c:when test="${ svo.status eq 'X' }">
-															<span class="badge" style="background:crimson; border:none;">반려</span>
+														<c:when test="${ evo.status eq 'X' }">
+															<span class="badge" style="background:crimson; border:none;">반&emsp;려</span>
 														</c:when>
 														<c:otherwise>
-															<span class="badge" style="background:#82CBC4; border:none;">완료</span>
+															<span class="badge" style="background:#82CBC4; border:none;">완&emsp;료</span>
 														</c:otherwise>
 													</c:choose>
 												</td>
@@ -162,24 +161,26 @@ body h1 {
 						</div>
 						
 						<br>
-							<a href="${root}/mySign/write" class="btn btn-green">기안하기</a>
+							<c:if test="${loginMember.no != '999999'}">
+								<a href="${root}/eleSign/write" class="btn btn-green">기안하기</a>
+							</c:if>
 						<br>
 
 						<!-- 페이징 처리 -->
 						<div id="page-area">
 							<c:if test="${pv.currentPage > 1}">
-								<a class = "btn btn-primary btn-sm" href="${root}/mySign/list?page=${pv.currentPage-1}">이전</a>
+								<a class = "btn btn-primary btn-sm" href="${root}/eleSign/list?page=${pv.currentPage-1}">이전</a>
 							</c:if>
 							<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 							<c:if test="${pv.currentPage != i}">
-								<a class = "btn btn-primary btn-sm" href="${root}/mySign/list?page=${i}">${i}</a>
+								<a class = "btn btn-primary btn-sm" href="${root}/eleSign/list?page=${i}">${i}</a>
 							</c:if>
 							<c:if test="${pv.currentPage == i}">
 								<a class = "btn btn-secondary btn-sm">${i}</a>
 							</c:if>
 							</c:forEach>
 							<c:if test="${pv.currentPage < pv.maxPage}">
-							<a class = "btn btn-primary btn-sm" href="${root}/mySign/list?page=${pv.currentPage+1}">다음</a>
+							<a class = "btn btn-primary btn-sm" href="${root}/eleSign/list?page=${pv.currentPage+1}">다음</a>
 							</c:if>
 						</div>
 					</div>
@@ -196,7 +197,7 @@ body h1 {
 	const table = document.querySelector("#appr-manage-table tbody");
 	table.addEventListener("click",(event)=>{
 	   const num = event.target.parentNode.children[0].innerText; 
-	   location.href = '${root}/mySign/signDetail?num=' + num;
+	   location.href = '${root}/eleSign/detail?num=' + num;
 	});
 
 </script>

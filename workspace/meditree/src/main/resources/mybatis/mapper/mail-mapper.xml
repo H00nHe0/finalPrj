@@ -209,22 +209,27 @@
   
   <!-- 메일 영구 삭제 -->
   <update id="fDel">
-  	<foreach item="item" collection="mailIds" separator=" ">
-	    UPDATE MAIL
+  	UPDATE MAIL
 	    SET
 	    STATUS = 'D'
-	    WHERE NO = #{item}
-	  </foreach>
+     	WHERE 1=1
+       	AND NO IN 
+       		<foreach collection="list" index="index" item="fDelList" open="(" close=")" separator=",">
+            	#{fDelList}
+            </foreach>
   </update>
+	   
   
   <!-- 메일 복구 -->
   <update id="recover">
-  	<foreach item="item" collection="mailIds" separator=" ">
-	    UPDATE MAIL
+  	UPDATE MAIL
 	    SET
 	    STATUS = 'N'
-	    WHERE NO = #{item}
-	  </foreach>
+     	WHERE 1=1
+       	AND NO IN 
+       		<foreach collection="list" index="index" item="recoverList" open="(" close=")" separator=",">
+            	#{recoverList}
+            </foreach>
   </update>
   
   

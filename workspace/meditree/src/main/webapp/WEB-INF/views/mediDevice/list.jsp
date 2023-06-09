@@ -70,7 +70,33 @@ body h1 {
 #page-area{
     	text-align: center;
     	padding-top: 20px;
-    }
+}
+.btn-outline-success {/* 상세보기 버튼 */
+	justify-content: center;
+	color: #82CBC4;
+	border-color: #82CBC4;
+}
+
+.btn-outline-success:hover {
+	background: #82CBC4;
+	border-color: #82CBC4;
+	color: white;
+}
+.appr-write-btn { /* 등록하기 버튼 */
+	float: right;
+	margin-bottom: 20px;
+	background: #82CBC4;
+	color: white;
+	justify-content: center;
+	margin-right: 10px;
+	border-color: #82CBC4;
+}
+
+.appr-write-btn:hover {
+	background: #82CBC4;
+	color: white;
+}
+
 </style>
 </head>
 <body>
@@ -104,7 +130,7 @@ body h1 {
 										<td>${mdvo.type}</td>
 										<td>${mdvo.status}</td>
 										<td>${mdvo.enrollDate}</td>
-										<td><a class="btn btn-outline-secondary btn-sm" href="${root}/mediDevice/detail?num=${mdvo.no}">상세보기</a></td>
+										<td><a class="btn btn-outline-success btn-sm" href="${root}/mediDevice/detail?num=${mdvo.no}">상세보기</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -132,7 +158,7 @@ body h1 {
 						<%-- <c:if test="${loginMember.id == 'ADMIN' }"> 
 						</c:if>--%>
 						<div class="btnfloat">
-							<a href="${root}/mediDevice/write" class="btn btn-secondary">등록하기</a>
+							<a href="${root}/mediDevice/write" class="btn appr-write-btn">등록하기</a>
 						</div>
 					</div>
 			</div>

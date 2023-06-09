@@ -98,7 +98,13 @@
 				                    <td>${vo.paName}</td>
 				                    <td>${vo.paGender}</td>
 				                    <td>${vo.age}</td>
-				                    <td>${vo.rrn}</td>
+				                    <td>
+				                    	<script>
+					                    	var rrn = "${vo.rrn}";
+					                        var maskedRRN = rrn.substring(0, rrn.lastIndexOf('-') + 2) + '*'.repeat(rrn.length - rrn.lastIndexOf('-') - 2);
+					                        document.write(maskedRRN);
+										</script>
+				                    </td>
 				                    <td>${vo.paTel}</td>
 				                    <td>${vo.paTel}</td>
 				                    <td>${vo.address}</td>
@@ -138,7 +144,7 @@
 					                		<button type="button" id="pre-btn" class="btn btn-secondary btn-sm">출력하기</button>	
 					                   	</a>
 							        </td>
-							        <td>${tmvo.paidYn}</td>
+							        <td>완료</td>
 							      </tr>
 							    </c:forEach>
 							  </c:when>

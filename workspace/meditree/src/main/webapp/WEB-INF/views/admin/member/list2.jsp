@@ -59,8 +59,13 @@
        text-align: center;
        padding-top: 20px;
     }
-    .table-hover{
-    	margin-top: 70px;
+    table{
+    	margin-top: 80px;
+    }
+    #out-btn{
+    	float: right;
+    	margin-right: 30%;
+    	font-weight: 4;
     }
 
 
@@ -76,72 +81,61 @@
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
             <div id="board">
             
-	            <form action="${root}/patientInquiry/list" method="get">
+	            <form action="${root}/admin/member/list" method="get">
 	               <div class="shadow p-3 mb-5 bg-body rounded">
 	               		<div class="htitle">
-	               			<h1>환자조회</h1>
+	               			<h1>직원조회</h1>
 	               		</div>
                         <div id="search-area">
                         <select name="searchType">
-							<option value="paName">이름</option>
-							<option value="rrn">생년월일</option>
-							<option value="paTel">전화번호</option>
+							<option value="name">이름</option>
+							<option value="title">소속과</option>
+							<option value="potitle">직급</option>
 						</select>
                            <input type="text" name="searchValue" value="${searchMap.searchValue}" placeholder="검색할값을 입력하세요">
                            <input type="submit" value="검색하기">
                         </div>
-                       
+                        <button type="button" id="out-btn" class="btn btn-light btn-md">입사자 보기</button>
+
                         
 	               		<table class="table table-hover">  
 	               			<thead class="table-light">
-			                    <tr> 
-			                      <th>환자번호</th>   
-			                      <th>이름</th>
-			                      <th>성별</th>
-			                      <th>주민등록번호</th>
-			                      <th>연락처</th>
-			                      <th>보호자연락처</th>
-			                      <th>주소</th>
+		                    	<tr> 
+		                            <th>사원번호</th>
+									<th>이름</th>
+									<th>상태</th>
+									<th>퇴사일</th>
+									<th>소속과</th>
+									<th>직급</th>
 			                    </tr> 
 	                  		</thead>
 			                <tbody>
-			                <c:forEach items="${pvoList}" var="pvo">
+			                <c:forEach items="${voList2}" var="vo">
 								<tr>
-									<td>${pvo.no}</td>
-									<td>${pvo.paName}</td>
-									<td>${pvo.paGender}</td>
-									<td>
-										<script>
-											var rrn = "${pvo.rrn}";
-										    var maskedRRN = rrn.substring(0, rrn.lastIndexOf('-') + 2) + '*'.repeat(rrn.length - rrn.lastIndexOf('-') - 2);
-										    document.write(maskedRRN);
-										</script>
-									</td>
-									<td>${pvo.paTel}</td>
-									<td>${pvo.paTel}</td>
-									<td>${pvo.address}</td>
-									
+									<td>${vo.no}</td>
+									<td>${vo.name}</td>
+									<td>${vo.quitStatus}</td>
+									<td>${vo.enrollDate}</td>
+									<td>${vo.title}</td>
+									<td>${vo.potitle}</td>
 								</tr>
 							</c:forEach>
 			                </tbody> 
 			             </table>
 			             <div id="page-area">
 		                     <c:if test="${pv.currentPage > 1}">
-		                        <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/list?page=${pv.currentPage-1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
->이전</a>
+		                        <a class = "btn btn-primary btn-sm" href="${root}/admin/member/list2?page=${pv.currentPage-1}">이전</a>
 		                     </c:if>
 		                     <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 		                     <c:if test="${pv.currentPage != i}">
-		                        <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/list?page=${i}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
->${i}</a>
+		                        <a class = "btn btn-primary btn-sm" href="${root}/admin/member/list2?page=${i}">${i}</a>
 		                     </c:if>
 		                     <c:if test="${pv.currentPage == i}">
 		                        <a class = "btn btn-secondary btn-sm">${i}</a>
 		                     </c:if>
 		                     </c:forEach>
 		                     <c:if test="${pv.currentPage < pv.maxPage}">
-		                     <a class = "btn btn-primary btn-sm" href="${root}/patientInquiry/list?page=${pv.currentPage+1}&searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}"
->다음</a>
+		                     <a class = "btn btn-primary btn-sm" href="${root}/admin/member/list2?page=${pv.currentPage+1}">다음</a>
 		                     </c:if>
 		                  </div>
 	
@@ -156,42 +150,15 @@
 
 <script>
 
-	//변수 준비
-	const searchTypeTag = document.querySelector('select[name="searchType"]');
-	const svInput = document.querySelector('input[name="searchValue"]');
-	
-	//서치타입 초기값 셋팅
-	function initSearchType(){
-		const optionTag = document.querySelector('option[value="${searchMap.searchType}"]');
-		if(optionTag != null){
-			optionTag.selected = true;
-		}
-	}
-	
-	//서치밸류 selected 셋팅
-	function initSearchValueSelected(){
-		const optionTag = document.querySelector('option[value="${searchMap.searchValue}"]');
-		if(optionTag != null){
-			optionTag.selected = true;
-		}
-	}
-	
-	//input태그 (서치밸류) 값 초기셋팅
-	function initSearchValueInput(){
-		svInput.value = '${searchMap.searchValue}';
-	}
-	
-	initSearchValueSelected();
-	initSearchType();
-	initSearchValueInput();
-	
-	
-	
-	
-    const tbody = document.querySelector('table > tbody');
-        tbody.addEventListener("click" , (event)=> {
-            const no = event.target.parentNode.children[0].innerText;
-            location.href = '${root}/patientInquiry/detail?no=' + no;
-        });
+	//행 클릭시 , 해당 회원번호로 상세조회 요청 보내기
+	const tbody = document.querySelector("tbody");
+	tbody.addEventListener('click' , function(event){
+		const no = event.target.parentNode.children[0].innerText;
+		location.href="${root}/admin/member/one/" + no;
+	});
+
+	document.getElementById('out-btn').addEventListener('click', function() {
+	    window.location.href = '${root}/admin/member/list';
+	});
 
 </script>

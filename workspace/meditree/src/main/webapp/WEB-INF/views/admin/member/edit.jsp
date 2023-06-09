@@ -32,7 +32,7 @@
     }
     .shadow {
       width: 90%;
-      height: 550px;
+      height: 600px;
       margin: auto;
       margin-top: 40px;
     }
@@ -73,13 +73,24 @@
     float: right;
     margin-right: 280px;
     }
-    #edit-btn {
-    margin-left: 1010px;
+    .form-select{
+    	width: 50%;
+    	justify-content: center;
+    	display: flex;
+    	margin: auto;
     }
-    #back-btn {
-    margin-left: 1080px;
-    margin-top: 20px;
-    }
+    input {
+      text-align: center;
+	  border: none;
+	  outline: none;
+	}
+	#edit-btn{
+   		margin-left: 990px;
+	}
+	#back-btn{
+		float: right;
+   		margin-right: 290px;
+	}
 
 
     
@@ -94,12 +105,13 @@
             <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
             <div id="board">
             
-	            <form action="${root}/admin/member/quit" method="post">
+	            <form action="${root}/admin/member/edit" method="post">
 	               <div class="shadow p-3 mb-5 bg-body rounded">
 	               		<div class="htitle">
 	               			<h1>직원조회</h1>
 	               		</div>
                         
+                        <input type="hidden" name="no" value="${vo.no}">
 	               		<table class="table table-bordered" id="personal">
 							<tr>
 							  <th>사원번호</th>
@@ -107,7 +119,7 @@
 							</tr>
 							<tr>
 							  <th>이름</th>
-							  <td>${vo.name}</td>
+							  <td><input type="text" name="name" value="${vo.name}"></td>
 							</tr>
 							<tr>
 							  <th>입사일</th>
@@ -115,43 +127,61 @@
 							</tr>
 							<tr>
 							  <th>소속과</th>
-							  <td>${vo.title}</td>
+							  <td>
+							  	<select class="form-select" name="deptNo" aria-label="Default select example" required>
+									<option value="" selected>선택</option>
+									<option value="10">간호부</option>
+									<option value="20">원무부</option>
+									<option value="30">의사</option>
+									<option value="99">경영지원부</option>
+									<option value="40">일반내과</option>
+									<option value="50">정신과</option>
+									<option value="60">이비인후과</option>
+									<option value="70">산부인과</option>
+									<option value="80">수술실</option>
+									<option value="90">일반</option>
+								</select>
+							  </td>
 							</tr>
 							<tr>
 							  <th>직급</th>
-							  <td>${vo.potitle}</td>
+							  <td>
+							  	<select class="form-select" name="positionNo" aria-label="Default select example" required>
+									<option value="" selected>선택</option>
+									<option value="1">병원장</option>
+									<option value="2">교수</option>
+									<option value="3">레지던트</option>
+									<option value="4">간호사</option>
+									<option value="5">사원</option>
+									<option value="6">부장</option>
+									<!-- <option value="7">팀장</option>
+									<option value="8">인턴</option> -->
+								</select>
+							  </td>
 							</tr>
 							<tr>
 							  <th>연락처</th>
-							  <td>${vo.tel}</td>
+							  <td><input type="text" name="tel" value="${vo.tel}"></td>
 							</tr>
 							<tr>
 							  <th>이메일</th>
 							  <td>${vo.email}</td>
 							</tr>
-
 						</table>
 						
 						<c:if test="${vo.quitYn == 'Y'}">
 						    <style>
-						        #quit-btn {
-						            display: none;
-						        }
 						        #edit-btn {
 						            display: none;
 						        }
 						    </style>
 						</c:if>
-			
+						
 						<a>
+                			<button type="submit" id="edit-btn" class="btn btn-secondary btn-sm">수정하기</button>
+                			<button class="btn btn-secondary btn-sm" id="back-btn" onclick="history.back()">뒤로가기</button>	
                    		</a>
-						<a>
-                			<button type="button" id="edit-btn" class="btn btn-secondary btn-sm">수정하기</button>	
-                			<button type="button" id="quit-btn" class="btn btn-secondary btn-sm" >퇴사처리</button>	
-                			<button type="button" id="back-btn"  onclick="history.back()" class="btn btn-secondary btn-sm">뒤로가기</button>	
-                   		</a>
-						<a>
-                   		</a>
+
 
 			            
 	
@@ -179,5 +209,3 @@ button.addEventListener("click", function() {
 
 
 </script>
-
-

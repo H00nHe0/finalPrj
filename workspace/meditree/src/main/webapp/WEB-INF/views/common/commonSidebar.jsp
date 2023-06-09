@@ -39,7 +39,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <img src="${root}/resources/img/homeImg/sideTreatment.png" /> 진료
       </li>
       <ul class="sub-menu">
-        <a href="/app/treat/prescription"><li>진료</li></a>
+        <a href="/app/treat/prescription"><li>진료하기</li></a>
         <a href="/app/treat/waiting"><li>진료 대기</li></a>
         <a href="/app/patientInquiry/list"><li>환자 정보</li></a>
       </ul>
@@ -54,22 +54,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <a href="/app/member/roomCheck"><li>입원실 현황</li></a>
         <a href="/app/member/sRoomCheck"><li>수술실 현황</li></a>
       </ul>
-      <li class="category">
-        <img src="${root}/resources/img/homeImg/sideCommute.png" />근태관리
-      </li>
-      <ul class="sub-menu">
-        <a href="/app/lsj/commute"><li>출퇴근</li></a>
-        <a href=""><li>연장근무</li></a>
-        <a href="/app/lsj/vacation"><li>휴가</li></a>
-        <a href="#"><li>월간근태</li></a>
-        <a href="/app/lsj/salary"><li>급여 조회</li></a>
-      </ul>
-      <li class="category">
-        <img src="${root}/resources/img/homeImg/sideApproval.png" />전자결재
-      </li>
-      <ul class="sub-menu">
-        <a href="${root}/mySign/list"><li>결재하기</li></a>
-      </ul>
+      
       <li class="category">
         <img src="${root}/resources/img/homeImg/calendar.png" />일정
       </li>
@@ -84,6 +69,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <a href="/app/organization/chartView"><li>조직도 조회</li></a>
       </ul>
       <li class="category">
+        <img src="${root}/resources/img/homeImg/sideApproval.png" />전자결재
+      </li>
+      <ul class="sub-menu">
+        <a href="${root}/eleSign/list"><li>결재하기</li></a>
+      </ul>
+      <li class="category">
         <img src="${root}/resources/img/homeImg/sideNotice.png" />게시판
       </li>
       <ul class="sub-menu">
@@ -94,22 +85,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       <li class="category">
         <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자 젼용
       </li>
-        <ul class="sub-menu">
-          <a href="#"><li>사원근태 관리</li></a>
-          <a href="#"><li>사원휴가 관리</li></a>
-          <a href="${root}/mediDevice/list"><li>의료기기 관리</li></a>
-          <a href="${root}/bipum/list"><li>비품 관리</li></a>
-          <a href="/app/member/manageSchedule"><li>병원일정 관리</li></a>
-          <a href="/app/organization/editChartView"><li>조직도 수정</li></a>
-          <a href="#"><li>급여 관리</li></a>
-          <a href="#"><li>식단 관리</li></a>
-          <a href="#"><li>급여입력</li></a>
-          <a href="/app/member/join"><li>직원 가입</li></a>
-          <a href="/app/admin/member/list"><li>직원 관리</li></a>
-          <a href="${root}/appr/list"><li>결재문서 관리</li>
-          <a href="${root}/adminSign/adminList"><li>결재현황</li></a> <!-- 관리자만 보이게  -->
-        </ul>
-      </c:if>
+      <ul class="sub-menu">
+        <a href="/app/member/join"><li>직원 가입</li></a>
+        <a href="/app/admin/member/list"><li>직원 관리</li></a>
+        <a href="${root}/appr/list"><li>결재문서 관리</li>
+        <a href="${root}/mediDevice/list"><li>의료기기 관리</li></a>
+        <a href="${root}/bipum/list"><li>비품 관리</li></a>
+      </ul>
       
     </ul>
   </nav>

@@ -148,9 +148,7 @@ function delCheck(){
     success: function (data){
       if (data = 1) {
         alert (" 삭제 성공");
-        window.onload = function() {
-        location.reload(); // 페이지 새로고침
-    }
+        window.location.reload();
       }
       else{
         alert("삭제 실패");

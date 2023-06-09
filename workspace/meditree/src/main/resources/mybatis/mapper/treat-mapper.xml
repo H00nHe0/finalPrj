@@ -8,6 +8,15 @@
   <select id="getCnt" resultType="int">
   	SELECT COUNT (NO)
   	FROM PATIENT
+  	<if test="searchType == 'paName'">
+	WHERE PA_NAME LIKE '%${searchValue}%'
+	</if>
+	<if test="searchType == 'rrn'">
+	WHERE RRN LIKE '%${searchValue}%'
+	</if>
+	<if test="searchType == 'paTel'">
+	WHERE PA_TEL LIKE '%${searchValue}%'
+	</if>
   </select>
   
   <select id="getCnt2" resultType="int">

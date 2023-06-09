@@ -71,6 +71,7 @@ th active {
 	color: rgb(72, 72, 72);
 	border-width: 2px;
 }
+
 </style>
 </head>
 <body>

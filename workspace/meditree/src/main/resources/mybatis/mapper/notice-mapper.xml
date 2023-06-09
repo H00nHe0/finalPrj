@@ -102,7 +102,23 @@
   		AND STATUS = 'N'
   	</select>
 	
+	<update id="fileDel" parameterType="java.util.List">
+	  UPDATE N_ATT
+	  SET STATUS = 'Y'
+	  WHERE NO IN
+	  <foreach item="item" collection="list" open="(" separator="," close=")">
+	    #{item.no, jdbcType=INTEGER}
+	  </foreach>
+	</update>
 	
+	<insert id="editAttachment">
+		INSERT ALL
+			<foreach collection="list" item="x" separator=" ">
+			    INTO N_ATT(NO,NNO, ORIGIN_NAME, CHANGE_NAME) VALUES ((SELECT GET_N_ATT_SEQ FROM DUAL) ,SEQ_NOTICE_NO.CURRVAL , #{x.originName} , #{x.changeName})
+			</foreach>
+		SELECT 1 FROM DUAL
+
+  	</insert>
 	
 	
 </mapper>

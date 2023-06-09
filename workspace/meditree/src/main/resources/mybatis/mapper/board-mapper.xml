@@ -74,15 +74,14 @@
 	  	AND STATUS = 'N'
   </update>
 	
-	
-	<insert id="insertAttachment">
-		INSERT ALL
+	 <insert id="insertAttachment">
+  	INSERT ALL
 			<foreach collection="list" item="x" separator=" ">
 			    INTO B_ATT(NO,BNO, ORIGIN_NAME, CHANGE_NAME) VALUES ((SELECT GET_B_ATT_SEQ FROM DUAL) ,SEQ_BOARD_NO.CURRVAL , #{x.originName} , #{x.changeName})
 			</foreach>
 		SELECT 1 FROM DUAL
-
-  	</insert>
+  </insert>
+	
   	<select id="getAttachmentList" resultType="fileVo">
   		SELECT 
   			NO
@@ -103,6 +102,22 @@
   		AND STATUS = 'N'
   	</select>
 	
+	<update id="fileDel" parameterType="java.util.List">
+	  UPDATE B_ATT
+	  SET STATUS = 'Y'
+	  WHERE NO IN
+	  <foreach item="item" collection="list" open="(" separator="," close=")">
+	    #{item.no, jdbcType=INTEGER}
+	  </foreach>
+	</update>
 	
+	<insert id="editAttachment">
+		INSERT ALL
+			<foreach collection="list" item="x" separator=" ">
+			    INTO B_ATT(NO,BNO, ORIGIN_NAME, CHANGE_NAME) VALUES ((SELECT GET_B_ATT_SEQ FROM DUAL) ,SEQ_BOARD_NO.CURRVAL , #{x.originName} , #{x.changeName})
+			</foreach>
+		SELECT 1 FROM DUAL
+
+  	</insert>
 	
 </mapper>

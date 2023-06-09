@@ -147,7 +147,7 @@ input:focus, textarea:focus {
 						<hr>
 						<form action="${root}/appr/write" method="post">
 							<div class="appr-table-wrapper" style="margin-left: 20px;">
-								<button type="submit" class="btn btn-success appr-write-btn">추가하기</button>
+								<button type="submit" class="btn appr-write-btn">추가하기</button>
 								<a href="${root}/appr/list" class="btn btn-outline-success btn-green">이전목록</a>
 								<table class="table table-bordered appr-table">
 									<tr>

@@ -68,47 +68,54 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </head>
   <body>
     <div id="wrap">
-      <%@ include file="/WEB-INF/views/common/common.jsp" %>
+        <%@ include file="/WEB-INF/views/common/common.jsp" %>
 
-      <div id="main">
-        <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
-        <div id="board" class="bootstrap-container">
-          <form action="">
-            <div class="shadow p-3 mb-5 bg-body rounded">
-              <div class="htitle">
-                <h1>진료대기환자목록</h1>
-              </div>
-              <table class="table table-hover">
-                <thead class="table-light">
-                  <tr>
-                    <th class="second-child">대기순번</th>
-                    <th>환자번호</th>
-                    <th>이름</th>
-                    <th>성별</th>
-                    <th class="last-child">주민등록번호</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <c:forEach
-                    items="${jvoList}"
-                    var="jvo"
-                    varStatus="status"
-                    end="${8}"
-                  >
-                    <tr>
-                      <td>${status.index + 1}</td>
-                      <td>${jvo.no}</td>
-                      <td>${jvo.paName}</td>
-                      <td>${jvo.paGender}</td>
-                      <td>${jvo.rrn}</td>
-                    </tr>
-                  </c:forEach>
-                </tbody>
-              </table>
+        <div id="main">
+            <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
+            <div id="board">
+            
+	            <form action="">
+	               <div class="shadow p-3 mb-5 bg-body rounded">
+	               		<div class="htitle">
+	               			<h1>진료대기환자목록</h1>
+	               		</div>
+	               		<table class="table table-hover">  
+	               			<thead class="table-light">
+			                    <tr> 
+			                      <th class="second-child">대기순번</th>
+			                      <th>환자번호</th>   
+			                      <th>이름</th>
+			                      <th>성별</th>
+			                      <th class="last-child">주민등록번호</th>
+			                      <th>증상</th>
+			                    </tr> 
+	                  		</thead>
+			                <tbody>
+			                 	<c:forEach items="${jvoList}" var="jvo" varStatus="status" end="${8}">
+								<tr>
+									<td>${status.index + 1}</td>
+									<td>${jvo.no}</td>
+									<td>${jvo.paName}</td>
+									<td>${jvo.paGender}</td>
+									<td>
+										<script>
+					                    	var rrn = "${jvo.rrn}";
+					                        var maskedRRN = rrn.substring(0, rrn.lastIndexOf('-') + 2) + '*'.repeat(rrn.length - rrn.lastIndexOf('-') - 2);
+					                        document.write(maskedRRN);
+										</script>
+									</td>
+									<td>${jvo.symptom}</td>
+								</tr>
+							</c:forEach>
+			                 </tbody> 
+			             </table>
+
+	
+	                </div>
+	            </form>
             </div>
-          </form>
         </div>
-      </div>
     </div>
-  </body>
+  
+</body>
 </html>

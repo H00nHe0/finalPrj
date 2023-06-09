@@ -35,7 +35,7 @@ public class MemberVo {
 	private String potitle;
 	
 	
-	
+	private String quitStatus;  
 	
 	
 	

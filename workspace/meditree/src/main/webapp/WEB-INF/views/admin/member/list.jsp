@@ -62,6 +62,11 @@
     table{
     	margin-top: 80px;
     }
+    #out-btn{
+    	float: right;
+    	margin-right: 30%;
+    	font-weight: 4;
+    }
 
 
     
@@ -90,6 +95,7 @@
                            <input type="text" name="searchValue" value="${searchMap.searchValue}" placeholder="검색할값을 입력하세요">
                            <input type="submit" value="검색하기">
                         </div>
+	               			<button type="button" id="out-btn" class="btn btn-light btn-md">퇴사자 보기</button>
 
                         
 	               		<table class="table table-hover">  
@@ -108,7 +114,7 @@
 								<tr>
 									<td>${vo.no}</td>
 									<td>${vo.name}</td>
-									<td>${vo.quitYn}</td>
+									<td>${vo.quitStatus}</td>
 									<td>${vo.enrollDate}</td>
 									<td>${vo.title}</td>
 									<td>${vo.potitle}</td>
@@ -151,5 +157,7 @@
 		location.href="${root}/admin/member/one/" + no;
 	});
 
-
+	document.getElementById('out-btn').addEventListener('click', function() {
+	    window.location.href = '${root}/admin/member/list2';
+	});
 </script>

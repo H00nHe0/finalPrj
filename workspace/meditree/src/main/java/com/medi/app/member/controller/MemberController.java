@@ -112,9 +112,6 @@ public class MemberController {
 		MemberVo loginMember = ms.login(vo);
 		System.out.println(loginMember);
 		
-		if(loginMember == null) {
-			session.setAttribute("alertMsg", "로그인 실패 흐엉엉..");
-		}
 		
 		//화면
 		session.setAttribute("loginMember", loginMember);
@@ -122,9 +119,14 @@ public class MemberController {
 		// ScheduleController 객체 생성 및 멤버 변수 전달 byHoon
 	    ScheduleController calendar = new ScheduleController(loginMember);
 
-		session.setAttribute("alertMsg", "로그인되었습니다.");
+	    if(loginMember == null) {
+	    	session.setAttribute("alertMsg", "로그인 실패하였습니다");
+	    	return "redirect:/home";
+	    }else {
+	    	session.setAttribute("alertMsg", "로그인되었습니다.");
+	    	return "redirect:/member/main";
+	    }
 
-		return "redirect:/member/main";
 	}
 	
 	//로그아웃
@@ -149,14 +151,18 @@ public class MemberController {
 	
 	//정보수정
 	@PostMapping("edit")
-	public String edit(MemberVo vo , Model model , HttpSession session) throws Exception  {
+	public String edit(MemberVo vo , Model model , HttpSession session , HttpServletRequest req) throws Exception  {
+		
+		
 		//서비스
 		MemberVo updatedMember = ms.edit(vo);
-		/*
-		 * //화면 if(updatedMember == null) { model.addAttribute("alertMsg" ,
-		 * "정보수정실패..."); return "common/error"; }
-		 */
-		session.setAttribute("loginMember", updatedMember);
+		
+		 if(updatedMember == null) {
+			 model.addAttribute("alertMsg" ,"정보수정실패..."); 
+			 return "common/error"; 
+		 }
+		model.addAttribute("loginMember", updatedMember);
+		//session.setAttribute("loginMember", updatedMember);
 		session.setAttribute("alertMsg", "정보수정성공~~~");
 		return "redirect:/member/main";
 		

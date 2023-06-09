@@ -83,6 +83,7 @@
 			                      <th>이름</th>
 			                      <th>성별</th>
 			                      <th class="last-child">주민등록번호</th>
+			                      <th>증상</th>
 			                    </tr> 
 	                  		</thead>
 			                <tbody>
@@ -92,7 +93,14 @@
 									<td>${jvo.no}</td>
 									<td>${jvo.paName}</td>
 									<td>${jvo.paGender}</td>
-									<td>${jvo.rrn}</td>
+									<td>
+										<script>
+					                    	var rrn = "${jvo.rrn}";
+					                        var maskedRRN = rrn.substring(0, rrn.lastIndexOf('-') + 2) + '*'.repeat(rrn.length - rrn.lastIndexOf('-') - 2);
+					                        document.write(maskedRRN);
+										</script>
+									</td>
+									<td>${jvo.symptom}</td>
 								</tr>
 							</c:forEach>
 			                 </tbody> 

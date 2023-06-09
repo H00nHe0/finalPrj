@@ -28,6 +28,9 @@ public class AdminMemberService {
 	public List<MemberVo> getMemberList(PageVo pv, Map<String, String> searchMap) {
 		return dao.getMemberList(sst , pv , searchMap);
 	}
+	public List<MemberVo> getMemberList2(PageVo pv, Map<String, String> searchMap) {
+		return dao.getMemberList2(sst , pv , searchMap);
+	}
 	
 	public MemberVo getMemberByNo(String no) {
 		return dao.getMemberByNo(sst , no);
@@ -36,9 +39,22 @@ public class AdminMemberService {
 	public int getCnt(Map<String, String> searchMap) {
 		return dao.getCnt(sst , searchMap);
 	}
+	public int getCnt2(Map<String, String> searchMap) {
+		return dao.getCnt2(sst , searchMap);
+	}
 
 	public int quit(String no) {
 		return dao.quit(sst , no);
 	}
+
+
+	public MemberVo getMemberByNo2(String no) {
+		return dao.getMemberByNo2(sst , no);
+	}
+
+	public int edit(MemberVo vo) {
+		return dao.edit(sst , vo);
+	}
+	
 	
 }

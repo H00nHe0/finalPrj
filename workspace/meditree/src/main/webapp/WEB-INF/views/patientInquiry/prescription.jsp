@@ -110,7 +110,7 @@
 							</tr>
 							<tr>
 								<td>면허번호</td>
-								<td colspan="2">${ps.docNo}</td>
+								<td colspan="2">323040124</td>
 
 							</tr>
 							<tr>
@@ -128,11 +128,11 @@
 							
 										<tr>
 											<td colspan="2" height="30">${ vo.drug } ${ vo.medName }</td>
-											<td width="50">${ m.medNo }</td>
-											<td>${ m.dosetime }</td>
-											<td width="30">${ ps.injectDay }</td>
+											<td width="50">30ml</td>
+											<td>3</td>
+											<td width="30">5</td>
 											<td></td>
-											<td colspan="3">${ps.usage}</td>
+											<td colspan="3">식후 30분 이내에 복용하세요.</td>
 										</tr>
 
 							<tr>

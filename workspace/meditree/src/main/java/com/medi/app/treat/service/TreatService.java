@@ -44,7 +44,7 @@ public class TreatService {
 
 	// 진료할 환자의 정보 조회
 	public JinryoVo selectNowPatient(JinryoVo jvo, String emNo) {
-		JinryoVo nowPatient = dao.selectNowPatient(sst, jvo, emNo);
+		JinryoVo nowPatient = dao.selectNowPatient(sst,emNo, jvo);
 		return nowPatient;
 	}
 

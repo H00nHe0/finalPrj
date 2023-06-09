@@ -51,10 +51,11 @@ public class TreatController {
 
 		// 현재 진료중인 환자
 		JinryoVo nowPatient = ts.selectNowPatient(jvo, emNo);
-		System.out.println("nowPatient" + nowPatient);
+
 
 		// 진료중인 환자의 과거진료내역 가져오기
 		String chartNo = nowPatient.getPaNo();
+		System.out.println("chartNo :"+chartNo);
 		List<TmHistoryVo> tmvoList = ts.getNowChart(chartNo);
 
 		// 약 조회

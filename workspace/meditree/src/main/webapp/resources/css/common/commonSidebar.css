@@ -61,7 +61,7 @@
         font-size: 18px;
         list-style: none;
         text-align: left;
-        margin-left: -20px;
+        margin-left: -20px; 
         }
         .sidebar-submenu {
         display: none;
@@ -83,11 +83,11 @@
       }
 
     .category img{
-      height: 20px;
-      width: 20px;
-      margin-bottom: -3px;
-      padding-right: 20px;
-      margin-left: -20px;
+      height: 40px !important;
+      width: 40px !important;
+      margin-bottom: -3px !important;
+      padding-right: 20px !important;
+      margin-left: -20px !important;
  
     }
     

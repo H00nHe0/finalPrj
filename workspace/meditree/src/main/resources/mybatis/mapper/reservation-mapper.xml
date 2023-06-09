@@ -51,7 +51,8 @@
 	
 	<select id="putWaitingPatient" resultType="PatientVo">
 	SELECT
-		R.PA_NO
+		R.NO AS RE_NO
+		,R.PA_NO
 		,R.EM_NO
 		,R.DEPT_NO		
 		,R.STATUS
@@ -66,7 +67,7 @@
 	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
 	    WHERE
     	TH.NEEDSTAY = 'Y'
-    	AND R.PA_NO = #{paNo}
+    	AND R.NO = #{reNo}
 	</select>
 	
 	<select id="putWaitingSPatient" resultType="PatientVo">
@@ -89,7 +90,7 @@
 	     JOIN DEPARTMENT DE ON R.DEPT_NO = DE.NO
 	    WHERE
     	TH.NEEDSURGERY = 'Y'
-    	AND R.NO = #{paNo}
+    	AND R.NO = #{reNo}
 	</select>
 
 	<select id="getPRmList" resultType="reservationVo">

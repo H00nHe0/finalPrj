@@ -386,7 +386,19 @@
 	P_ROOM
 	ORDER BY NO ASC
    </select> 
-   <!-- 입원실 출력용 날짜 조회 -->    
+   	<!-- 수술실 출력용 수술실리스트 조회 -->   
+   <select id="selectSRoomList" resultType="ReservationVo">    
+	SELECT
+	NO
+	,USE_YN
+	,NOTE
+	FROM
+	SURGERY_RM
+	ORDER BY NO ASC
+   </select> 
+   
+   
+   <!-- 입원실,수술실 출력용 날짜 조회 -->    
    <select id="selectDateList" resultType="ReservationVo"> 
          SELECT TO_CHAR(TRUNC(to_date(#{nowDate}), 'MM') + LEVEL - 1, 'YYYY-MM-DD') AS WORKING_DAY
 		FROM DUAL
@@ -423,6 +435,33 @@
 		LEFT JOIN PATIENT P ON(PB.PA_NO = P.NO)
 		GROUP BY M.WORKING_DAY, PB.PR_NO, PB.NO
 		ORDER BY M.WORKING_DAY, PR_NO
+	</select>
+	
+	      <!-- 수술실 출력용 수술실 예약 리스트 조회 -->
+	<select id="selectSRoomBookingList" resultType="ReservationVo">
+		SELECT 
+		   M.WORKING_DAY, 
+		   SB.NO, 
+		   SB.RM_NO, 
+		   SR.NOTE,
+		   COUNT(*) as "count"
+		FROM SURGERY_SCH SB
+		JOIN 
+		(
+		    SELECT 
+		    WORKING_DAY, 
+		    NO, 
+		    RM_NO
+		    FROM (
+		        SELECT TO_CHAR(TRUNC(to_date(#{nowDate}), 'MM') + LEVEL - 1, 'YYYY-MM-DD') AS WORKING_DAY
+		        FROM DUAL
+		        CONNECT BY LEVEL<![CDATA[ <= ]]> EXTRACT(DAY FROM LAST_DAY(to_date(#{nowDate})))
+		    ) D
+		    CROSS JOIN (SELECT NO, RM_NO FROM SURGERY_SCH) S
+		) M ON (M.WORKING_DAY = SB.SU_DATE AND M.NO = SB.NO)
+		LEFT JOIN SURGERY_RM SR ON (SB.RM_NO = SR.NO)
+		GROUP BY M.WORKING_DAY, SB.RM_NO, SB.NO, SR.NOTE
+		ORDER BY M.WORKING_DAY, SB.RM_NO
 	</select>
 	
 	<!-- 부서조회 -->

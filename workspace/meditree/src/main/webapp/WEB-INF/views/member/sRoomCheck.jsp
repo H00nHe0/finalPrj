@@ -143,12 +143,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
               <div class="innerArea">
                 <table class="table bggray title" id="title">
                   <tr height="40">
-                    <td id="except"><b>입원실 현황</B></td>
+                    <td id="except"><b>수술실 현황</B></td>
                   </tr>
                 </table>
                 <br>
       
-                <form action="roomCheck" method="get">
+                <form action="sRoomCheck" method="get">
                   <div align="center">
                     <button type="submit" name="cDate" class="button"
                       value="${preDate}">&lt;</button>
@@ -164,8 +164,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     <thead>
                       <tr>
                         <th>날짜 / 호</th>
-                        <c:forEach var="r" items="${ roomList }">
-                          <th>${r.no}호 -${r.type }인실</th>
+                        <c:forEach var="s" items="${ sRoomList }">
+                          <th>${s.note}</th>
                         </c:forEach>
                       </tr>
                     </thead>
@@ -178,55 +178,46 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                               <span date="${d.workingDay}">${d.workingDay}</span>
                             </td>
                             <td>
-                              <c:forEach var="b" items="${bookingList}">
+                              <c:forEach var="s" items="${sBookingList}">
                                 <c:choose>
-                                  <c:when test="${d.workingDay == b.workingDay and b.prNo == '201'}">
-                                    <span class="count2" count="${b.count}">${b.namelist}<br></span>
+                                  <c:when test="${d.workingDay == s.workingDay and s.rmNo == '1'}">
+                                    <span class="count2" count="${b.count}">${s.note}<br></span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
                             </td>
                             <td>
-                              <c:forEach var="b" items="${bookingList}">
+                              <c:forEach var="s" items="${sBookingList}">
                                 <c:choose>
-                                  <c:when test="${d.workingDay == b.workingDay and b.prNo == '202'}">
-                                    <span class="count2" count="${b.count}">${b.namelist}<br></span>
+                                  <c:when test="${d.workingDay == s.workingDay and s.rmNo == '2'}">
+                                    <span class="count2" count="${b.count}">${s.note}<br></span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
                             </td>
                             <td>
-                              <c:forEach var="b" items="${bookingList}">
+                              <c:forEach var="s" items="${sBookingList}">
                                 <c:choose>
-                                  <c:when test="${d.workingDay == b.workingDay and b.prNo == '203'}">
-                                    <span class="count2" count="${b.count}">${b.namelist}<br></span>
+                                  <c:when test="${d.workingDay == s.workingDay and s.rmNo == '3'}">
+                                    <span class="count2" count="${b.count}">${s.note}<br></span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
                             </td>
                             <td>
-                              <c:forEach var="b" items="${bookingList}">
+                              <c:forEach var="s" items="${sBookingList}">
                                 <c:choose>
-                                  <c:when test="${d.workingDay == b.workingDay and b.prNo == '204'}">
-                                    <span class="count4" count="${b.count}">${b.namelist}<br></span>
+                                  <c:when test="${d.workingDay == s.workingDay and s.rmNo == '4'}">
+                                    <span class="count2" count="${b.count}">${s.note}<br></span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
                             </td>
                             <td>
-                              <c:forEach var="b" items="${bookingList}">
+                              <c:forEach var="s" items="${sBookingList}">
                                 <c:choose>
-                                  <c:when test="${d.workingDay == b.workingDay and b.prNo == '205'}">
-                                    <span class="count4" count="${b.count}">${b.namelist}<br></span>
-                                  </c:when>
-                                </c:choose>
-                              </c:forEach>
-                            </td>
-                            <td>
-                              <c:forEach var="b" items="${bookingList}">
-                                <c:choose>
-                                  <c:when test="${d.workingDay == b.workingDay and b.prNo == '206'}">
-                                    <span class="count4" count="${b.count}">${b.namelist}<br></span>
+                                  <c:when test="${d.workingDay == s.workingDay and s.rmNo == '5'}">
+                                    <span class="count2" count="${b.count}">${s.note}<br></span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
@@ -257,16 +248,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   $(function() {
     $("#tableArea td").each(function() {
     var count2Elements = $(this).find("span.count2");
-    if (count2Elements.length === 2) {
+    if (count2Elements.length >= 1) {
       $(this).addClass("fullColor");
     }
   });
-  $("#tableArea td").each(function() {
-    var count4Elements = $(this).find("span.count4");
-    if (count4Elements.length === 4) {
-      $(this).addClass("fullColor");
-    }
-  });
+
     $("#tableArea span").each(function() {
       if ($(this).attr("date") == "${today2}") {
         $(this).parent().parent().addClass("todayColor");

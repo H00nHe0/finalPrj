@@ -51,9 +51,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <!-- <a href="#"><li>환자 진료내역</li></a> -->
         <a href="/app/member/rsvnWaiting"><li>병실 예약 대기</li></a>
         <a href="/app/member/receiveManage"><li>수납</li></a>
-        <a href="/app/member/roomCheck"><li>병실 현황</li></a>
-        <a href="#"><li>입원실 현황</li></a>
-        <a href="#"><li>수술실 현황</li></a>
+        <a href="/app/member/roomCheck"><li>입원실 현황</li></a>
+        <a href="/app/member/sRoomCheck"><li>수술실 현황</li></a>
       </ul>
       
       <li class="category">
@@ -82,8 +81,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <a href="${root}/notice/list"><li>공지 사항</li></a>
         <a href="${root}/board/list"><li>사내 게시판</li></a>
       </ul>
+      <c:if test="${loginMember.no == '999999'}">
       <li class="category">
-        <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자(히든)
+        <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자 젼용
       </li>
       <ul class="sub-menu">
         <a href="/app/member/join"><li>직원 가입</li></a>

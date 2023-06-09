@@ -1,8 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@ page
+language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>main</title>
@@ -17,40 +17,49 @@
 </head>
 <body>
     <div id="wrap">
-       <%@ include file="/WEB-INF/views/common/common.jsp" %>
-       <div id="main">
-           <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
-           <div id="background">
-               <div id="board">
-                <div class="board-visit" id="visit-daily">
-                    <div class="text-img">
-                        <img src="${root}/resources/img/homeImg/date.png" alt="daily"><h3>오늘 내원 환자수</h3>
-                    </div>
-                    <div class="count"><h2>${9}명</h2></div>
-                </div>
-                <div class="board-visit" id="visit-weekly">
-                    <div class="text-img">
-                        <img src="${root}/resources/img/homeImg/7-days.png" alt="weekly"><h3>이번 주 내원 환자수</h3>
-                    </div>
-                    <div class="count"><h2>${99}명</h2></div>
-                </div>
-                <div class="board-visit" id="visit-monthly">
-                    <div class="text-img">
-                        <img src="${root}/resources/img/homeImg/30-days.png" alt="monthly"><h3>이번 달 방문자 수</h3>
-                    </div>
-                    <div class="count"><h2>${999}명</h2></div>
-                </div>
+      <%@ include file="/WEB-INF/views/common/common.jsp" %>
+      <div id="main">
+        <%@ include file="/WEB-INF/views/common/commonSidebar.jsp" %>
+        <div id="background">
+          <div id="board">
+            <div class="board-visit" id="visit-daily">
+              <div class="text-img">
+                <img src="${root}/resources/img/homeImg/date.png" alt="daily" />
+                <h3>오늘 내원 환자수</h3>
+              </div>
+              <div class="count"><h2>${23}명</h2></div>
+            </div>
+            <div class="board-visit" id="visit-weekly">
+              <div class="text-img">
+                <img
+                  src="${root}/resources/img/homeImg/7-days.png"
+                  alt="weekly"
+                />
+                <h3>이번 주 내원 환자수</h3>
+              </div>
+              <div class="count"><h2>${152}명</h2></div>
+            </div>
+            <div class="board-visit" id="visit-monthly">
+              <div class="text-img">
+                <img
+                  src="${root}/resources/img/homeImg/30-days.png"
+                  alt="monthly"
+                />
+                <h3>이번 달 방문자 수</h3>
+              </div>
+              <div class="count"><h2>${719}명</h2></div>
+            </div>
 
-                <div class="board-graph chart-holder" id="graph-stick">
-                    <canvas id="stick-chart"></canvas>
+            <div class="board-graph chart-holder" id="graph-stick">
+              <canvas id="stick-chart"></canvas>
+            </div>
 
-                  </div>
+            <div class="board-graph" id="graph-circle">
+              <div class="chart-holder" style="max-width: 350px">
+                <canvas id="circle-chart"></canvas>
+              </div>
+            </div>
 
-                <div class="board-graph" id="graph-circle">
-                    <div class="chart-holder" style="max-width: 350px">
-                    <canvas id="circle-chart"></canvas>
-                    </div>
-                </div>
 
                 <div class="board-notice" id="board-notice1">
                 <div class="miniBoardTitle">
@@ -144,8 +153,7 @@
            </div>
        </div>
     </div>
-
-</body>
+  </body>
 </html>
-<link rel="stylesheet" href="${root}/resources/css/common/mainScreen.css">
+<link rel="stylesheet" href="${root}/resources/css/common/mainScreen.css" />
 <script defer src="${root}/resources/js/common/mainScreen.js"></script>

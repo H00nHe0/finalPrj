@@ -31,9 +31,11 @@ public class ScheduleDao {
 		return sst.insert("schedule.insertEventToDB", svo);
 	}
 
-	public int deleteEventFromDB(SqlSessionTemplate sst, String title) {
-
-		return sst.update("schedule.deleteEventFromDB", title);
+	public int deleteEventFromDB(SqlSessionTemplate sst, String title, int emNo) {
+	    Map<String, Object> parameterMap = new HashMap<>();
+	    parameterMap.put("title", title);
+	    parameterMap.put("emNo", emNo);
+		return sst.update("schedule.deleteEventFromDB", parameterMap);
 	}
 
 	public int insertPEventToDB(SqlSessionTemplate sst, ScheduleVo svo) {

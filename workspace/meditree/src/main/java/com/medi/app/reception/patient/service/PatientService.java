@@ -118,12 +118,18 @@ public int changeToReceipt(int no) {
 public ArrayList<ReservationVo> selectPRoomList() {
 	return dao.selectPRoomList(sst);
 }
+public ArrayList<ReservationVo> selectSRoomList() {
+	return dao.selectSRoomList(sst);
+}
 public ArrayList<ReservationVo> selectDateList(String nowDate) {
 	return dao.selectDateList(sst, nowDate);
 }
 public ArrayList<ReservationVo> selectPRoomBookingList(String nowDate) {
 	return dao.selectPRoomBookingList(sst, nowDate);
 
+}
+public ArrayList<ReservationVo> selectSRoomBookingList(String nowDate) {
+	return dao.selectSRoomBookingList(sst, nowDate);
 }
 }
 

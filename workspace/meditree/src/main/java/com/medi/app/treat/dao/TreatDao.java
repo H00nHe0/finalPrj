@@ -29,9 +29,9 @@ public class TreatDao {
 	}
 	
 	// 진료할 환자의 정보 조회
-	public JinryoVo selectNowPatient(SqlSessionTemplate sst, JinryoVo jvo, String emNo) {
+	public JinryoVo selectNowPatient(SqlSessionTemplate sst, String emNo, JinryoVo jvo) {
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("PatientVo", jvo);
+		map.put("JinryoVo", jvo);
 		map.put("emNo", emNo);
 		
 		return sst.selectOne("treat.selectNowPatient", map);

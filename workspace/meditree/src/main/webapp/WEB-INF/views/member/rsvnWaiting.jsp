@@ -240,8 +240,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           }
           //수술실 따라해서 paNo아닌 reNo로 바꾸기
           pRoomValue +=
-            "<tr><td id = 'paNo'>" +
-            plist[i].paNo +
+            "<tr><td id = 'reNo'>" +
+            plist[i].reNo +
             "</td>" +
             "<td>" +
             plist[i].paName +
@@ -273,7 +273,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   // 버튼 클릭 이벤트 핸들러-입원실
   $(document).on("click", "button[name='rsvPRoom']", function () {
     //alert("클릭!!");
-    const gotPaNo = $(this).closest("tr").find("td#paNo").text();
+    const gotPaNo = $(this).closest("tr").find("td#reNo").text();
     const gotPaDept = $(this).closest("tr").find("td#deptName").text();
     // ... 기존 코드 내용 ...
     $.ajax({

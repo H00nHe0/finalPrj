@@ -52,12 +52,12 @@
 					<h2 style="margin-top: 20px;">휴지통</h2>
 						<div id="btn">
 							<button type="button" class="btn btn-danger" onclick="fDelCheck();">영구삭제</button>
-							<button type="button" class="btn btn-success" onclick="location.href='${root}/mail/recover'">복구</button>
+							<button type="button" class="btn btn-success" onclick="recover();">복구</button>
 						</div>
                     <table class="table table-hover">
                           <thead class="table-success">
                             <tr>
-                                <th><input class="form-check-input" type="checkbox" name="allCheck" id="flexCheckDefault"></th>
+                                <th><input class="form-check-input" type="checkbox" id="allCheck"></th>
                                 <th></th>
                                 <th>제목</th>
                                 <th>보낸 사람</th>
@@ -69,7 +69,7 @@
                           <tbody>
 							<c:forEach items="${mvoList}" var="mvo">
 								<tr>
-									<td><input class="form-check-input" type="checkbox" name="RowCheck" id="flexCheckDefault"></td>
+									<td><input class="form-check-input RowCheck" type="checkbox"  value="${mvo.no}"></td>
 									<td><input type="hidden" name="no" value="${mvo.no}"></td>
 									<td>${mvo.title}</td>
 									<td>${mvo.writerName}</td>
@@ -114,39 +114,69 @@
             
         });
 
-		//선택삭제
-		function fDelCheck() {
-		var url = "${root}/mail/chkDel"; //controller로 보내고자 하는 URL
-		var valueArr = new Array();
-		var list = $("input[name='RowCheck']");
-		for(var i = 0; i < list.length; i++) {
-		if(list[i].checked){ // 선택되어 있으면 배열에 값을 저장함
-		valueArr.push(list[i].value);
-		}
-		}
-		if(valueArr.length == 0){
-		alert("선택된 글이 없습니다.");
-		} 
-		else{
-		var chk = confirm("정말 삭제하시겠습니까?");
-		$.ajax({
-		url: url, 	//전송 URL
-		type : 'POST',	//POST 방식
-		traditional: true,
-		data : {
-		valueArr : valueArr	//보내고자 하는 data 변수 설정
-		},
-		success: function (data){
-		if (data = 1) {
-			alert (" 삭제 성공");
-			location.replace("list")
-		}
-		else{
-			alert("삭제 실패");
-		}
-		}
-		});
+//선택 영구 삭제
+function fDelCheck(){
+
+let fDelList = "";
+
+$(".RowCheck:checked").each(function(idx, item){
+	if(idx == 0){
+		fDelList += item.value;
+	} else {
+		fDelList += "," + item.value;
 	}
 
+});
+console.log(fDelList);
+$.ajax({
+  url: "${root}/mail/fdel", 	//전송 URL
+  type : 'get',	
+  traditional: true,
+  data : {
+	fDelList : fDelList	//보내고자 하는 data 변수 설정
+  },
+  success: function (data){
+	if (data = 1) {
+	  alert (" 영구삭제 성공");
+	  window.location.reload();
 	}
+	else{
+	  alert("영구삭제 실패");
+	}
+  }
+  });
+}
+
+//선택 복구 삭제
+function recover(){
+
+let recoverList = "";
+
+$(".RowCheck:checked").each(function(idx, item){
+	if(idx == 0){
+		recoverList += item.value;
+	} else {
+		recoverList += "," + item.value;
+	}
+
+});
+console.log(recoverList);
+$.ajax({
+  url: "${root}/mail/recover", 	//전송 URL
+  type : 'post',	
+  traditional: true,
+  data : {
+	recoverList : recoverList	//보내고자 하는 data 변수 설정
+  },
+  success: function (data){
+	if (data = 1) {
+	  alert (" 복구 성공");
+	  window.location.reload();
+	}
+	else{
+	  alert("복구 실패");
+	}
+  }
+  });
+}
     </script>

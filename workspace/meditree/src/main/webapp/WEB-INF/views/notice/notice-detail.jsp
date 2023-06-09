@@ -33,6 +33,9 @@
     .active{
         display: block;
     }
+    .noVisible {
+    display: none;
+  }
 </style>
 </head>
 <body>
@@ -92,9 +95,11 @@
                  	 <input class="form-control" type="file" name="f" id="formFileMultiple" multiple>
                    		<div id="thumbnail-area">
                    		</div>
-                   		<c:forEach items="${vo.attList}" var="fvo">
-                   			${fvo.originName}
-                   			<br>
+                   		<c:forEach items="${vo.attList}" var="fvo" varStatus="status">
+                            <div class="row" style="display: inline;">
+                                ${fvo.originName}<a href="javascript:void(0)" onclick="f01(this);">삭제</a>
+                                 <br>
+                               </div>
                    		</c:forEach>
 						
                     </div>
@@ -123,4 +128,11 @@
 
         
     }
+
+    function f01(button) {
+    var row = button.parentNode;
+    var rows = document.getElementsByClassName("row");
+    var index = Array.prototype.indexOf.call(rows, row);
+    rows[index].style.display = "none";
+  };
 </script>

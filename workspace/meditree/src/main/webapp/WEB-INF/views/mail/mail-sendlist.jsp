@@ -57,7 +57,7 @@
                     <table class="table table-hover">
                           <thead class="table-success">
                             <tr>
-                                <th><input class="form-check-input" type="checkbox" name="allCheck" id="flexCheckDefault"></th>
+                                <th><input class="form-check-input" type="checkbox" id="allCheck"></th>
                                 <th></th>
                                 <th>제목</th>
 								                <th>받는사람</th>
@@ -67,7 +67,7 @@
                           <tbody>
                           	<c:forEach items="${mvoList}" var="mvo">
                           	<tr>
-                          		<td><input class="form-check-input" type="checkbox" name="RowCheck" id="flexCheckDefault"></td>
+                          		<td><input class="form-check-input RowCheck" type="checkbox"  value="${mvo.no}"></td>
                           		<td><input type="hidden" name="no" value="${mvo.no}"></td>
 								              <td>${mvo.title}</td>
                           		<td>${mvo.receiverName}</td>
@@ -119,39 +119,35 @@
        }
    });
 
-   //선택삭제
-   function delCheck() {
-    var url = "${root}/mail/chkDel"; //controller로 보내고자 하는 URL
-    var valueArr = new Array();
-    var list = $("input[name='RowCheck']");
-    for(var i = 0; i < list.length; i++) {
-    if(list[i].checked){ // 선택되어 있으면 배열에 값을 저장함
-    valueArr.push(list[i].value);
-      }
-    }
-    if(valueArr.length == 0){
-    alert("선택된 글이 없습니다.");
-    } 
-    else{
-    var chk = confirm("정말 삭제하시겠습니까?");
-    $.ajax({
-    url: url, 	//전송 URL
-    type : 'POST',	//POST 방식
-    traditional: true,
-    data : {
-    valueArr : valueArr	//보내고자 하는 data 변수 설정
-    },
-    success: function (data){
-      if (data = 1) {
-        alert (" 삭제 성공");
-        location.replace("list")
-      }
-      else{
-        alert("삭제 실패");
-      }
-    }
-    });
-  }
+   function delCheck(){
 
-   }
+let groupList = "";
+
+$(".RowCheck:checked").each(function(idx, item){
+    if(idx == 0){
+        groupList += item.value;
+    } else {
+        groupList += "," + item.value;
+    }
+
+});
+console.log(groupList);
+$.ajax({
+  url: "${root}/mail/chkDel", 	//전송 URL
+  type : 'POST',	//POST 방식
+  traditional: true,
+  data : {
+    groupList : groupList	//보내고자 하는 data 변수 설정
+  },
+  success: function (data){
+    if (data = 1) {
+      alert (" 삭제 성공");
+      window.location.reload();
+    }
+    else{
+      alert("삭제 실패");
+    }
+  }
+  });
+}
     </script>

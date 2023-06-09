@@ -6,6 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>main</title>
+<style>
+.miniBoardTitle{
+	display: grid;
+	grid-template-columns: 8fr 2fr;
+	
+}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -46,57 +53,83 @@
                 </div>
 
                 <div class="board-notice" id="board-notice1">
-                    <h3>공지사항</h3>
+                <div class="miniBoardTitle">
+                <h3>공지사항</h3>
+                <a style="padding-top: 20px;" href="${root}/notice/list">더보기</a>
+                </div> 
+                    
                     <div>
-                        <table>
+                        <table class="table table-hover">
+                          <thead class="table-success">
                             <tr>
                                 <th>번호</th>
                                 <th>제목</th>
-                                <th>작성일시</th>
-                                <th>조회수</th>
+                                <th>날짜</th>
                             </tr>
-                            <tr>
-                                <td>${1}</td>
-                                <td>짱</td>
-                                <td>2022-01-01</td>
-                                <td>999</td>
-                            </tr>
-                            <tr>
-                                <td>${2}</td>
-                                <td>하기싫다</td>
-                                <td>2022-01-02</td>
-                                <td>9952</td>
-                            </tr>
+                          </thead>  
+                            <tbody>
+	                          	<tr>
+	                          		<td>15</td>
+			                        <td>6월 세미나에 관해 안내드립니다.</td>
+			                        <td>2023-06-09</td>
+	                          	</tr>
+	                          	<tr>
+	                          		<td>${nvo.no}</td>
+			                        <td>6월 신규 약품 안내드립니다.</td>
+			                        <td>${nvo.enrollDate}</td>
+	                          	</tr>
+	                          	<tr>
+	                          		<td>${nvo.no}</td>
+			                        <td>6월 근무 안내드립니다.</td>
+			                        <td>${nvo.enrollDate}</td>
+	                          	</tr>
+                        	</tbody>    
                         </table>
                     </div>
                 </div>
                 <div class="board-notice" id="board-notice2">
+                    <div class="miniBoardTitle">
                     <h3>사내게시판</h3>
+                    <a style="padding-top: 20px;" href="${root}/board/list">더보기</a>
+                	</div> 
                     <div>
-                        <table>
+                        <table class="table table-hover">
+                          <thead class="table-success">
                             <tr>
                                 <th>번호</th>
                                 <th>제목</th>
-                                <th>작성일시</th>
-                                <th>조회수</th>
+                                <th>작성자</th>
+                                <th>날짜</th>
                             </tr>
-                            <tr>
-                                <td>${1}</td>
-                                <td>짱</td>
-                                <td>2022-01-01</td>
-                                <td>999</td>
-                            </tr>
-                            <tr>
-                                <td>${2}</td>
-                                <td>하기싫다</td>
-                                <td>2022-01-02</td>
-                                <td>9952</td>
-                            </tr>
+                          </thead>  
+                            <tbody>
+	                          	<tr>
+	                          		<td>${bvo.no}</td>
+			                        <td>${bvo.title}</td>
+			                        <td>${bvo.writerName}</td>
+			                        <td>${bvo.enrollDate}</td>
+	                          	</tr>
+	                          	<tr>
+	                          		<td>${bvo.no}</td>
+			                        <td>${bvo.title}</td>
+			                        <td>${bvo.writerName}</td>
+			                        <td>${bvo.enrollDate}</td>
+	                          	</tr>
+	                          	<tr>
+	                          		<td>${bvo.no}</td>
+			                        <td>${bvo.title}</td>
+			                        <td>${bvo.writerName}</td>
+			                        <td>${bvo.enrollDate}</td>
+	                          	</tr>
+                        </tbody>    
                        </table>
                     </div>
                 </div>
                 <div class="board-notice" id="board-notice3">
-                    <h3>오늘의 식단</h3>
+                    <div class="miniBoardTitle">
+                    <h3>오늘의 식단표</h3>
+                    <a style="padding-top: 20px;" href="${root}/weekly/pmenu">더보기</a>
+                	</div> 
                     <div id="meal-holder">
                         <div>
                             <h4>토마토 스파게티</h4>
@@ -104,9 +137,7 @@
                             <h5>로스까스</h5>
                             <h5>방울토마토</h5>
                         </div>
-                        <div id="img-holder">
-                            <img src="${root}/resources/img/homeImg/meal.jpg" alt="급식">
-                        </div>
+                        
                     </div>
                 </div>
                </div>

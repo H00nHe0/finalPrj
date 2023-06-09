@@ -113,16 +113,9 @@ body h1 {
 									<label class="col-sm-2 col-form-label">핸드폰번호</label>
 									<div class="col-sm-10">
 										<input type="tel" name="tel" class="form-control"
-											id="telNo" placeholder="핸드폰번호" required>
+											id="telNo" placeholder="(-)를 포함하여 작성해주세요." required>
 									</div>
 								</div>
-								<!-- <div class="row mb-3">
-									<label class="col-sm-2 col-form-label">이메일</label>
-									<div class="col-sm-10">
-										<input type="email" name="email" class="form-control"
-											id="mail" placeholder="이메일" required>
-									</div>
-								</div> -->
 								<div class="row mb-3">
 									<label class="col-sm-2 col-form-label">주소</label>
 									<div class="col-sm-10">
@@ -134,7 +127,7 @@ body h1 {
 									<label class="col-sm-2 col-form-label">생년월일</label>
 									<div class="col-sm-10">
 										<input type="text" name="birth" class="form-control"
-											id="rNo" placeholder="생년월일" required>
+											id="rNo" placeholder="생년월일 6자리" required>
 									</div>
 								</div>
 
@@ -175,7 +168,7 @@ body h1 {
 									<div class="col-sm-10">
 										<input type="file" name="profile" class="form-control"
 											id="inputGroupFile04"
-											aria-describedby="inputGroupFileAddon04" aria-label="Upload" placeholder="프로필 사진" >
+											aria-describedby="inputGroupFileAddon04" aria-label="Upload" placeholder="프로필 사진" required>
 									</div>
 								</div>
 							</div>
@@ -193,6 +186,7 @@ body h1 {
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
 
 const telRegex = /^\d{3}-\d{3,4}-\d{4}$/;
 
@@ -215,7 +209,7 @@ rNoInput.addEventListener('blur', function() {
   const rNo = rNoInput.value;
 
   if (!rNoRegex.test(rNo)) {
-    alert('생년월일 6자리를 입력해주세요.');
+    alert('생년월일 6자리를 올바른 형식으로 입력해주세요.');
     rNoInput.value = ''; // 입력값 초기화
   }
 });

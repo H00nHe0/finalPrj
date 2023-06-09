@@ -10,6 +10,11 @@
 	 	FROM EMPLOYEE
 	 	WHERE QUIT_YN = 'N' 
 	 </select>
+	<select id="getCnt2" resultType="int">
+		SELECT COUNT (NO)
+	 	FROM EMPLOYEE
+	 	WHERE QUIT_YN = 'Y' 
+	 </select>
 
 	<select id="getMemberList" resultType="memberVo">
 		SELECT
@@ -21,7 +26,11 @@
             ,E.EMAIL
             ,E.ADDRESS
             ,PROFILE AS profileName
-            ,E.QUIT_YN
+            ,CASE
+	            WHEN E.QUIT_YN = 'Y' THEN '퇴사'
+	            WHEN E.QUIT_YN = 'N' THEN '입사'
+	            ELSE E.QUIT_YN
+	         END AS QUIT_STATUS
             ,E.LEAVE_REMAIN
             ,E.USE_REMAIN
             ,E.BIRTH
@@ -36,7 +45,7 @@
 		FROM EMPLOYEE E
         LEFT JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
         LEFT JOIN POSITION P ON (E.POSITION_NO = P.NO)
-        WHERE E.QUIT_YN = 'N'
+        WHERE E.QUIT_YN = 'N' AND E.NO != 999999
         <if test="searchType == 'name'">
 			AND E.NAME LIKE '%${searchValue}%'
 		</if>
@@ -46,7 +55,50 @@
 		<if test="searchType == 'potitle'">
 			AND P.POTITLE = #{searchValue}
 		</if>
-		ORDER BY NO DESC
+		ORDER BY E.ENROLL_DATE DESC
+	</select>
+	
+	
+	<select id="getMemberList2" resultType="memberVo">
+		SELECT
+			E.NO
+            ,E.PWD
+            ,E.NAME
+            ,TO_CHAR(E.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE
+            ,E.TEL
+            ,E.EMAIL
+            ,E.ADDRESS
+            ,PROFILE AS profileName
+            ,CASE
+	            WHEN E.QUIT_YN = 'Y' THEN '퇴사'
+	            WHEN E.QUIT_YN = 'N' THEN '입사'
+	            ELSE E.QUIT_YN
+	         END AS QUIT_STATUS
+            ,E.LEAVE_REMAIN
+            ,E.USE_REMAIN
+            ,E.BIRTH
+            ,E.GENDER
+            ,E.PROFILE
+            ,E.SIGN_YN
+            ,E.DEPT_NO
+            ,D.TITLE
+            ,D.NO AS DE_NO
+            ,P.NO AS PO_NO
+            ,P.POTITLE
+		FROM EMPLOYEE E
+        LEFT JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+        LEFT JOIN POSITION P ON (E.POSITION_NO = P.NO)
+        WHERE E.QUIT_YN = 'Y'
+        <if test="searchType == 'name'">
+			AND E.NAME LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'title'">
+			AND D.TITLE LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'potitle'">
+			AND P.POTITLE = #{searchValue}
+		</if>
+		ORDER BY E.ENROLL_DATE DESC
 	</select>
 	
 	
@@ -78,12 +130,53 @@
 		WHERE E.NO = #{no}
 	</select>
 	
+	<select id="getMemberByNo2" resultType="memberVo">
+		SELECT
+            E.NO
+            ,E.PWD
+            ,E.NAME
+            ,TO_CHAR(E.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE
+            ,E.TEL
+            ,E.EMAIL
+            ,E.ADDRESS
+            ,PROFILE AS profileName
+            ,E.QUIT_YN
+            ,E.LEAVE_REMAIN
+            ,E.USE_REMAIN
+            ,E.BIRTH
+            ,E.GENDER
+            ,E.PROFILE
+            ,E.SIGN_YN
+            ,E.DEPT_NO
+            ,D.TITLE
+            ,D.NO AS DE_NO
+            ,P.NO AS PO_NO
+            ,P.POTITLE
+		FROM EMPLOYEE E
+        LEFT JOIN DEPARTMENT D ON (E.DEPT_NO = D.NO)
+        LEFT JOIN POSITION P ON (E.POSITION_NO = P.NO)
+		WHERE E.NO = #{no}
+	</select>
+	
 	<update id="quit">
   	UPDATE EMPLOYEE
   		SET
+  			ENROLL_DATE = TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD'),
   			QUIT_YN = 'Y'
   		WHERE NO = #{no}
   </update>
+  
+  	<!-- 정보수정  -->
+	<update id="edit">
+		UPDATE EMPLOYEE
+			SET
+				NAME = #{name}
+				,TEL = #{tel}
+				,DEPT_NO = #{deptNo}
+				,POSITION_NO = #{positionNo}
+			WHERE
+				NO = #{no}
+	</update>
 
 </mapper>
 

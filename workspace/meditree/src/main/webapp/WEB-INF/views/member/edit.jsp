@@ -134,9 +134,9 @@ body h1 {
 									</div>
 								</div>
 
-
 							<div class="btnwech">
 								<button type="submit" class="btn btn-primary">수정</button>
+								<a href="${root}/member/main" class="btn btn-primary" id="back-btn">뒤로가기</a>
 							</div>
 					</div>
 				</form>
@@ -147,19 +147,18 @@ body h1 {
 </html>
 
 <script>
-var pwdInput = document.getElementById("pwd");
-pwdInput.value = "*".repeat(pwdInput.value.length);
+  var pwdInput = document.getElementById("pwd");
 
-document.getElementById("no").addEventListener("click", function() {
-  alert("수정할 수 없습니다.");
-});
+  document.getElementById("no").addEventListener("click", function() {
+    alert("수정할 수 없습니다.");
+  });
 
-function togglePasswordVisibility() {
-  var showPasswordCheckbox = document.getElementById("showPassword");
-  if (showPasswordCheckbox.checked) {
-    pwdInput.type = "text";
-  } else {
-    pwdInput.type = "password";
+  function togglePasswordVisibility() {
+    var showPasswordCheckbox = document.getElementById("showPassword");
+    if (showPasswordCheckbox.checked) {
+      pwdInput.setAttribute("type", "text");
+    } else {
+      pwdInput.setAttribute("type", "password");
+    }
   }
-}
 </script>

@@ -184,9 +184,15 @@
                 <div>
                   <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="sickness" id="sickness" required>
                     <option selected>병명을 선택하세요.</option>
-                    <option value="화상">화상</option>
+                    <option value="감기">감기</option>
+                    <option value="담낭염 ">담낭염 </option>
+                    <option value="천식">천식</option>
                     <option value="탈장">탈장</option>
-                    <option value="장염">장염</option>
+                    <option value="심근경색증">심근경색증</option>
+                    <option value="고혈압 ">고혈압 </option>
+                    <option value="아펜딕시토미">고혈압 </option>
+                    <option value="위염">위염</option>
+                    <option value="당뇨병 ">당뇨병 </option>
                   </select>
                 </div>
                 
@@ -246,9 +252,12 @@
                 <div>
                   <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="chooseSurgery" id="chooseSurgery" required>
                     <option selected>수술을 선택하세요.</option>
-                    <option value="1">절개술</option>
-                    <option value="2">봉합술</option>
-                    <option value="3">이식술</option>
+                    <option value="1">담낭절제술</option>
+                    <option value="2">맹장절재수술</option>
+                    <option value="3">종양절재수술</option>
+                    <option value="4">봉합술</option>
+                    <option value="5">결석제거수술</option>
+                    <option value="6">판막치환수술</option>
                   </select>
                 </div>
                 <div></div>

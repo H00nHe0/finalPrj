@@ -26,6 +26,7 @@
         height: 20%;
         text-align: center;
         box-sizing: border-box;
+        margin-top: 100px;
     }
     img{
         width: 180px; height: 100%;

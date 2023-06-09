@@ -71,6 +71,20 @@ th active {
 	color: rgb(72, 72, 72);
 	border-width: 2px;
 }
+.appr-write-btn { /* 등록 버튼 */
+	background: #82CBC4;
+	color: white;
+	float: right;
+	margin-left: 10px;
+	display: flex;
+	justify-content: center;
+	border-color: #82CBC4;
+}
+
+.appr-write-btn:hover { /* 등록버튼 호버 */
+	background: #82CBC4;
+	color: white;
+}
 </style>
 </head>
 <body>
@@ -121,7 +135,7 @@ th active {
 										</table>
 									</div>
 									<div class="btnfloat">
-										<button type="submit" class="btn btn-secondary">등록</button>
+										<button type="submit" class="btn appr-write-btn">등록</button>
 										<a href="${root}/mediDevice/list" class="btn btn-danger">취소</a>
 									</div>
 								</form>

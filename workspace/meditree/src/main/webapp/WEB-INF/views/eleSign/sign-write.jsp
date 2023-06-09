@@ -97,13 +97,6 @@ input:focus, textarea:focus {
 	color: white;
 }
 
-.appr-menu-btn { /* 새 결재 진행 버튼 */
-	background: #82CBC4;
-	color: white;
-	border: none;
-	margin-left: 30px;
-}
-
 .appr-write-btn { /* 결재요청 버튼 */
 	background: #82CBC4;
 	color: white;
@@ -130,7 +123,7 @@ input:focus, textarea:focus {
 	border-width: 2px;
 }
 
-#formModal {
+#formModal { /* 결재양식선택 모달창 */
 	position: fixed;
 	display: none;
 	
@@ -151,7 +144,7 @@ input:focus, textarea:focus {
 							전자결재 | <b>결재문 작성</b>
 						</h2>
 						<hr>
-						<form action="${root}/mySign/write" method="post" enctype="multipart/form-data">
+						<form action="${root}/eleSign/write" method="post" enctype="multipart/form-data">
 							<input type="hidden" value="" name="no">
 							<div class="appr-table-wrapper">
 									<button type="submit" class="btn appr-write-btn">결재요청</button>
@@ -166,7 +159,7 @@ input:focus, textarea:focus {
 									</tr>
 									<tr>
 										<th>제목</th>
-										<td><input type="text" name="signTitle" placeholder="제목을 입력해주세요" required></td>
+										<td><input type="text" name="title" placeholder="제목을 입력해주세요" required></td>
 									</tr>
 								</table>
 								<div>
@@ -263,7 +256,7 @@ input:focus, textarea:focus {
 			console.log("함수실행");
 			$.ajax({
 				type: 'post',
-				url: "${root}/mySign/list",
+				url: "${root}/eleSign/list",
 				async:false,
 				success:function(apvoList){
 					console.log("결재양식선택 리스트 조회용 ajax통신 성공");
@@ -296,7 +289,7 @@ input:focus, textarea:focus {
 		// 결재양식 불러오기용 ajax함수
 		function selectFormDetail() {
 			  $.ajax({
-			    url: "${root}/mySign/detail",
+			    url: "${root}/eleSign/detail",
 			    type:"post",
 			    async: false,
 			    data: {num: $("input:radio[name=form]:checked").val()},

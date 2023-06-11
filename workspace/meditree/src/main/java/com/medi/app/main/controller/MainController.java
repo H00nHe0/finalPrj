@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("member")
 public class MainController {
 
-	//¸ÞÀÎÈ­¸é
+	//ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½
 	@GetMapping("main")
 	public String main() {
 		return "/member/main";

@@ -104,7 +104,8 @@
 						<div class="htitle">
 							<h1>진료</h1>
 						</div>
-						<input type="hidden" name="paNo" value="${nowPatient.no}">
+						<input type="hidden" name="no" value="${nowPatient.no}">
+						<input type="hidden" name="paNo" value="${nowPatient.paNo}">
 						<input type="hidden" name="emNo" value="${loginMember.no}">
 						<input type="hidden" name="tmContent" id="tmContent" value="">
 						<table class="table table-hover">
@@ -308,12 +309,9 @@
                       
                       <!-- Modal body -->
                       <div class="modal-body">
-                      	
                       	<span>약 명칭</span>
                       	<br>
-                      	
                       	<table id="gg">
-
                   			<c:forEach var="m" items="${ drvoList }" varStatus="s">
                   				
                   				<c:if test="${ s.index mod 4 eq 0 }">
@@ -325,10 +323,8 @@
                   				<c:if test="${ s.index mod 4 eq 3 }">
                   					</tr>
                   				</c:if>
-                  				
                   			</c:forEach>
                       	</table>
-                      
                       	<br>
                         <span>총 투여일수</span><br><br>
                         <select name="injectDay" id="injectDay" class="custom-select">
@@ -369,11 +365,9 @@ $("select[name=injectDay]").click(function(){
   	}
 	})
 
-
 $("#saveMed").click(function(){
 	
-	let list = []; // [{medNo:xxxx, medName:xxxx}, {medNo:xxxx, medName:xxxx}, ..]
-	//console.log($("input:checkbox[name=aa]:checked").length); // 체크된 요소들의 갯수
+	let list = [];
 	
 	if($("input:checkbox[name=aa]:checked").length != 0){
 		$("input:checkbox[name=aa]:checked").each(function(){
@@ -386,7 +380,7 @@ $("#saveMed").click(function(){
 			     		+ '<td>' + '<span name="medNo">' + '<input type="hidden" value="' + obj.medNo + '" name="medNo">' + obj.medNo + '</span>' + '</td>'
 			     		+ '<td>' + '<span name="medName">' + '<input type="hidden" value="' + obj.medName + '" name="medName">' + obj.medName + '</span>' + '</td>'
 			     		+ '<td>' +  
-			     					'<select name="preMedList[' + index + '].dosetime" class="custom-select" id="preMedList">'
+			     					'<select name="datail[' + index + '].dosetime" class="custom-select" id="preMedList">'
 			     				 +    '<option selected value="0">선택</option>'
 			     				 +	  '<option value="1">1회</option>'
 			     				 +    '<option value="2">2회</option>'
@@ -395,7 +389,6 @@ $("#saveMed").click(function(){
 			     		+ '<td>' +  '<span name="tiems">' + obj.times + "</span>" + '</td>'
 			     	 + '</tr>';
 		$("#table1").append(row);
-		
 	})
 	
 	let drug = document.querySelector("#drug").innerHtml;

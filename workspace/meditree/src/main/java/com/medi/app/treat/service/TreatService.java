@@ -67,4 +67,10 @@ public class TreatService {
 		return dao.insertTm(sst , vo);
 	}
 
+
+	//진료완료상태변경
+	public int treatmentCompleted(String no) {
+		return dao.treatmentCompleted(sst , no);
+	}
+
 }

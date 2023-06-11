@@ -41,7 +41,6 @@ public class MemberController {
 	@PostMapping("join")
 	public String join(MemberVo vo , HttpServletRequest req , HttpSession session , Model model) throws Exception {
 		
-		
 		//파일업로드
 		String path = req.getServletContext().getRealPath("/resources/img/member/");
 		String changeName = FileUploader.upload(vo.getProfile() , path);
@@ -49,15 +48,11 @@ public class MemberController {
 		
 		//부서번호가져와서 사원번호앞 2자리넣어주기
 		String department = vo.getDeptNo();
-		
 		String prefix = department;
 		Random randomN = new Random();
 		int suffix = randomN.nextInt(9000) + 1000;
 		String empNo = prefix + suffix;
-		
 		vo.setNo(empNo);
-		System.out.println(vo.getNo());
-		
 		
 		// 이메일 (랜덤알파벳3자리 + 사번)@meditree.com 형식으로 만들어주기
         char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -68,25 +63,16 @@ public class MemberController {
             int randomIndex = randomA.nextInt(alphabet.length);
             randomAlphabets.append(alphabet[randomIndex]);
         }
-		
         String newEmail = randomAlphabets.toString() + empNo + "@meditree.com";
         vo.setEmail(newEmail);
 		
-		
-		
 		//서비스
 		int result = ms.join(vo);
-		
-		
 		if(result != 1) {
-			/* model.addAttribute("errorMsg" , "직원가입 실패.."); */
 			return "common/error";
 		}
-		
-		
 		session.setAttribute("alertMsg", "직원가입 성공");
 		return "redirect:/member/main";
-		
 	}
 	
 	//아이디 중복확인
@@ -151,8 +137,14 @@ public class MemberController {
 	
 	//정보수정
 	@PostMapping("edit")
-	public String edit(MemberVo vo , Model model , HttpSession session , HttpServletRequest req) throws Exception  {
+	public String edit(MemberVo vo , Model model , HttpSession session , HttpServletRequest req, MultipartFile profile) throws Exception  {
 		
+		if(!profile.isEmpty()) {
+			String path = session.getServletContext().getRealPath("/resources/img/member/");
+			String changeName = FileUploader.upload(profile, path);
+			String originName = profile.getOriginalFilename();
+			vo.setProfileName(changeName);
+		}
 		
 		//서비스
 		MemberVo updatedMember = ms.edit(vo);
@@ -162,8 +154,7 @@ public class MemberController {
 			 return "common/error"; 
 		 }
 		model.addAttribute("loginMember", updatedMember);
-		//session.setAttribute("loginMember", updatedMember);
-		session.setAttribute("alertMsg", "정보수정성공~~~");
+		session.setAttribute("alertMsg", "다시 로그인 해주셔야 새롭게 정보가 등록됩니다.");
 		return "redirect:/member/main";
 		
 	}

@@ -163,9 +163,7 @@
                 </table>
               </div>
               <div class="symptom-area">
-                <textarea name="prContent" cols="30" rows="6" style="border-radius: 10px; text-align: left;">
-                	${nowPatient.symptom}
-                </textarea>
+                <textarea name="prContent" cols="30" rows="6" style="border-radius: 10px; text-align: left;">${nowPatient.symptom}</textarea>
               </div>
               <div id="calender-area">
                	 <!-- <div id='calendar'></div> -->

@@ -61,23 +61,21 @@
   
   <!-- 환자 상세조회  -->
   <select id="getPatientInquiry" resultType="PatientVo">
-		SELECT
-		P.NO
-		,RE.NO
-		,P.PA_NAME
-		,P.PA_TEL
-		,P.RRN
-		,CASE
-		WHEN P.PA_GENDER = 'M' THEN '남'
-		WHEN P.PA_GENDER = 'F' THEN '여'
-		ELSE P.PA_GENDER
-	END AS PA_GENDER
-		,P.ADDRESS
-		,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(RRN, 8, 1), '1', '19', '2', '19', '20')||substr(RRN, 1, 6))))/10000) as "AGE"
-		FROM PATIENT P
-		JOIN RECEIPT RE ON RE.PA_NO = P.NO 
-		WHERE P.NO = #{no};
-	</select>
+      SELECT
+      NO
+      ,PA_NAME
+      ,PA_TEL
+      ,RRN
+      ,CASE
+      WHEN PA_GENDER = 'M' THEN '남'
+      WHEN PA_GENDER = 'F' THEN '여'
+      ELSE PA_GENDER
+   END AS PA_GENDER
+      ,ADDRESS
+      ,trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(RRN, 8, 1), '1', '19', '2', '19', '20')||substr(RRN, 1, 6))))/10000) as "AGE"
+      FROM PATIENT
+      WHERE NO = #{no}
+   </select>
   
   <!-- 환자 정보수정  -->
   <update id="updatePatientInquiry">

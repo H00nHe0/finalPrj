@@ -96,7 +96,6 @@ public class MemberController {
 		
 		//서비스
 		MemberVo loginMember = ms.login(vo);
-		System.out.println(loginMember);
 		
 		
 		//화면

@@ -91,6 +91,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <a href="${root}/appr/list"><li>결재문서 관리</li>
         <a href="${root}/mediDevice/list"><li>의료기기 관리</li></a>
         <a href="${root}/bipum/list"><li>비품 관리</li></a>
+        <a href="${root}/member/manageSchedule"><li>병원 일정 관리</li></a>
       </ul>
       </c:if>
       

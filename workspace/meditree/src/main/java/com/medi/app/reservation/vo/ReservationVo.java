@@ -24,6 +24,7 @@ public class ReservationVo {
 	private String count;
 	private String date;
 	private String workingDay;
+	private String name;
 	
 	//수술실 예약처리용 vo
 	private String srmNo;

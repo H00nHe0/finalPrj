@@ -106,8 +106,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
       .today {
       position: fixed;
-      right: 50px;
-      top: 30px;
+      top: 100px;
+      right: 100px;
       width: 200px;
       height: 80px;
       z-index: 99;
@@ -128,10 +128,76 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           0.2
         );
     }
+    #modal {
+        display: none;
+        width: 300px;
+        height: 300px;
+        position: fixed;
+        left: 600px;
+        top: 300px;
+
+        z-index: 99;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      #modal-content {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 500px;
+        height: 650px;
+        position: relative;
+        top: -100px;
+        padding: 10px;
+      }
+      #hiddenDoctor{
+        display: none;
+      }
+      .modal-content table{
+        margin: auto;
+        text-align: center;
+        margin-top: 40px;
+        width: 90%;
+        height: 80%;
+      }
 
     </style>
   </head>
   <body>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="hideModal()">&times;</span>
+        <table>
+          <p style="font-size: 20px; font-weight: 600; text-align: center;">203호실 입실현황</p>
+          <thead>
+            <tr>
+              <td>입원자 명</td>
+              <td>담당의 명</td>
+          </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="b" items="${bookingList}" varStatus="status">
+              <c:if test="${b.prNo == '203' && status.index < 17}">
+                <tr>
+                  <td>${b.namelist}</td>
+                  <td>${b.name}</td>
+                </tr>
+              </c:if>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
+    </div> 
     <div id="wrap">
       <%@ include file="/WEB-INF/views/common/common.jsp" %>
 
@@ -171,7 +237,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                     </thead>
 
                       <tbody>
-
                         <c:forEach var="d" items="${dayList}">
                           <tr>
                             <td>
@@ -182,6 +247,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                                 <c:choose>
                                   <c:when test="${d.workingDay == b.workingDay and b.prNo == '201'}">
                                     <span class="count2" count="${b.count}">${b.namelist}<br></span>
+                                    <span id="hiddenDoctor">${b.name}</span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
@@ -191,15 +257,17 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                                 <c:choose>
                                   <c:when test="${d.workingDay == b.workingDay and b.prNo == '202'}">
                                     <span class="count2" count="${b.count}">${b.namelist}<br></span>
+                                    <span id="hiddenDoctor">${b.name}</span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
                             </td>
-                            <td>
+                            <td onclick="showModal(this)">
                               <c:forEach var="b" items="${bookingList}">
                                 <c:choose>
                                   <c:when test="${d.workingDay == b.workingDay and b.prNo == '203'}">
-                                    <span class="count2" count="${b.count}">${b.namelist}<br></span>
+                                    <span  id="patient" class="count2" count="${b.count}">${b.namelist}<br></span>
+                                    <span id="hiddenDoctor">${b.name}</span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
@@ -209,6 +277,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                                 <c:choose>
                                   <c:when test="${d.workingDay == b.workingDay and b.prNo == '204'}">
                                     <span class="count4" count="${b.count}">${b.namelist}<br></span>
+                                    <span id="hiddenDoctor">${b.name}</span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
@@ -218,6 +287,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                                 <c:choose>
                                   <c:when test="${d.workingDay == b.workingDay and b.prNo == '205'}">
                                     <span class="count4" count="${b.count}">${b.namelist}<br></span>
+                                    <span id="hiddenDoctor">${b.name}</span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
@@ -227,6 +297,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                                 <c:choose>
                                   <c:when test="${d.workingDay == b.workingDay and b.prNo == '206'}">
                                     <span class="count4" count="${b.count}">${b.namelist}<br></span>
+                                    <span id="hiddenDoctor">${b.name}</span>
                                   </c:when>
                                 </c:choose>
                               </c:forEach>
@@ -240,15 +311,15 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
                 </div>
               </div>
-              <div class="today">
-                <span><today>TODAY<today></span><br>
-                <span><b2>${today}</b2></span>
-                </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </body>
+    </body>
+    <div class="today">
+      <span><today>TODAY<today></span><br>
+      <span><b2>${today}</b2></span>
+      </div>
 </html>
 
 <script src="${root}/resources/js/index.global.js"></script>
@@ -273,4 +344,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       }
     });
   });
+  function showModal(td) {
+  var modal = document.querySelector("#modal");
+
+  modal.style.display = "block";
+  }
+function hideModal() {
+  var modal = document.querySelector("#modal");
+  modal.style.display = "none";
+}
 </script>

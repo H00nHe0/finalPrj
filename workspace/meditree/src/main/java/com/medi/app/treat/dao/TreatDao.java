@@ -49,6 +49,7 @@ public class TreatDao {
 
 	//진료입력
 	public int insertTm(SqlSessionTemplate sst, TmHistoryVo vo) {
+		System.out.println(vo);
 		return sst.insert("treat.insertTm" , vo);
 	}
 

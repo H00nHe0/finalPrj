@@ -453,8 +453,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       type: "post",
       data: calendarData,
       success: function () {
-        const patientName = document.querySelector('input[name="pName"]').id;
-        alert(patientName + "님 수술실 예약 성공");
         window.location.href = "/app/member/rsvnWaiting";
       },
       error: function () {

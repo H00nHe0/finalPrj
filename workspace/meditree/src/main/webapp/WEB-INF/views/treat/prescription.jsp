@@ -120,7 +120,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>000001</td>
+									<td>${nowPatient.no}</td>
 								    <td>${nowPatient.paName}</td>
 								    <td>${nowPatient.paGender}</td>
 								    <td>${nowPatient.age}</td>

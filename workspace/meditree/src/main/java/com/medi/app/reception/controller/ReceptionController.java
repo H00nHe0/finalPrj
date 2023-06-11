@@ -34,8 +34,6 @@ import com.medi.app.reception.patient.service.PatientService;
 import com.medi.app.reception.patient.vo.PatientVo;
 import com.medi.app.reservation.vo.ReservationVo;
 
-
-
 @Controller
 @RequestMapping("member")
 public class ReceptionController {
@@ -46,38 +44,30 @@ public class ReceptionController {
 	public ReceptionController(PatientService x) {
 		this.ps = x;
 	}
-	
 
 	//접수 화면
 	@GetMapping("reception")
 	public String reception(Model model,MemberVo mvo) {
-		String version = org.springframework.core.SpringVersion.getVersion();
 
-		System.out.println("Spring Framework Version : " + version);
 		//진료과 조회
-		System.out.println("겟메핑으로 진료과 조회서비스시작");
 		List<Map<String, String>> mvoList = ps.getDepartmentList();
 		List<MemberVo> evoList = ps.getDoctorList();
 		
 		//진료과 화면
 		//진료과목선택 및 진료의 선택
 		model.addAttribute("mvoList", mvoList);
-		//System.out.println("mvo리스트담김");
 		model.addAttribute("evoList", evoList);
-		//System.out.println("evo리스트 담김");
 		System.out.println("mvoList!!! = "+mvoList);
 		System.out.println("evoList!!! = "+evoList);
-
-		
+	
 		return "/member/reception";
 				}
 	
-	//접수 
+	//접수 로직
 	@PostMapping("reception")
 	public String enroll(PatientVo vo , HttpServletRequest req , HttpSession session , Model model) throws Exception {
 		//서비스
-		int result = ps.enroll(vo);
-		
+		int result = ps.enroll(vo);	
 		
 		if(result != 1) {
 			//에러메세지 담아서
@@ -117,13 +107,6 @@ public class ReceptionController {
 		return "member/simplePatientCheck";
 		
 	}
-	
-
-	
-	
-	
-	
-	
 	
 	//patient select
 	@PostMapping(value ="selectName", produces = "application/text; charset=utf8")
@@ -371,6 +354,7 @@ public class ReceptionController {
 					model.addAttribute("preDate", preDate);
 					model.addAttribute("nextDate", nextDate);
 					model.addAttribute("bookingList", bookingList);
+					System.out.println(bookingList);
 				} else {
 
 					// 오늘 날짜 구해서 String으로 형변환
@@ -400,7 +384,7 @@ public class ReceptionController {
 					String preDate = sdf.format(cal.getTime());
 
 					// 다음 날짜 구하기
-					cal.add(GregorianCalendar.MONTH, +2);
+					cal.add(GregorianCalendar.MONTH, +1);
 					String nextDate = sdf.format(cal.getTime());
 
 					// String으로 형변환한 오늘 날짜 전달해서 이번달 1일~말일 구하기

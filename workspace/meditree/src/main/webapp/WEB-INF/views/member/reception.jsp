@@ -635,8 +635,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         console.log("통신성공");
         const obj = JSON.parse(data);
         console.log(obj);
-        //jsp에 데이터 넣기
-        obj.paRecentTreat = obj.paRecentTreat || "최초 방문";
         // 주민등록번호 가리기
         if (obj.rrn.length > 10) {
           const maskedRrn = obj.rrn.slice(0, -6) + "******";
@@ -647,6 +645,13 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         const options = { year: "numeric", month: "numeric", day: "numeric" };
         const formattedPaDate = paDate.toLocaleDateString(undefined, options); // 연월일 형식으로 변환
         obj.paDate = formattedPaDate;
+        console.log(obj.paDate);
+        //jsp에 데이터 넣기
+        if (obj.paDate == "2023. 6. 11.") {
+          obj.paRecentTreat = "최초 방문";
+        } else {
+          obj.paRecentTreat = "일반 내과";
+        }
 
         const paName = document.querySelector("#nameBox");
         paName.innerHTML = obj.paName;

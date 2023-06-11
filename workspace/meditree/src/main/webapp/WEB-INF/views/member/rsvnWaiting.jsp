@@ -275,6 +275,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     //alert("클릭!!");
     const gotPaNo = $(this).closest("tr").find("td#reNo").text();
     const gotPaDept = $(this).closest("tr").find("td#deptName").text();
+    const patientNo = $("button[name='rsvPRoom']").val();
     // ... 기존 코드 내용 ...
     $.ajax({
       url: "rsvnScreen.pRm",

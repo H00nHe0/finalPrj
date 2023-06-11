@@ -69,7 +69,6 @@ public class TreatController {
 		// JSP에서 선택된 라디오 버튼 값 가져오기
 		String checkHospital = request.getParameter("checkHospital");
 		String checkSurgery = request.getParameter("checkSurgery");
-
 		// 서비스
 		int result = ts.insertTm(vo);
 		int result2 = ts.treatmentCompleted(no);

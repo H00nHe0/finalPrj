@@ -106,8 +106,8 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
       .today {
       position: fixed;
-      right: 50px;
-      top: 30px;
+      right: 100px;
+      top: 100px;
       width: 200px;
       height: 80px;
       z-index: 99;
@@ -128,10 +128,73 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           0.2
         );
     }
+    #modal {
+        display: none;
+        width: 300px;
+        height: 300px;
+        position: fixed;
+        left: 800px;
+        top: 400px;
+
+        z-index: 99;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      #modal-content {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 500px;
+        height: 650px;
+        position: relative;
+        top: -100px;
+        padding: 10px;
+      }
+      .modal-content table{
+        margin: auto;
+        text-align: center;
+        margin-top: 40px;
+        width: 90%;
+        height: 80%;
+      }
 
     </style>
   </head>
   <body>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="hideModal()">&times;</span>
+        <table>
+          <p style="font-size: 20px; font-weight: 600; text-align: center;">Operating-C 실 예역현황<BR>(2023-06-13)</p>
+          <thead>
+            <tr>
+              <td>수술자 명</td>
+              <td>담당의 명</td>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>이순경</td>
+              <td>김승우 교수(일반내과)</td>
+            </tr>
+            <tr>
+              <td>수술 시각</td>
+              <td>14:00PM ~ 18:00PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> 
     <div id="wrap">
       <%@ include file="/WEB-INF/views/common/common.jsp" %>
 
@@ -195,7 +258,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                                 </c:choose>
                               </c:forEach>
                             </td>
-                            <td>
+                            <td onclick="showModal(this)">
                               <c:forEach var="s" items="${sBookingList}">
                                 <c:choose>
                                   <c:when test="${d.workingDay == s.workingDay and s.rmNo == '3'}">
@@ -231,15 +294,15 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
                 </div>
               </div>
-              <div class="today">
-                <span><today>TODAY<today></span><br>
-                <span><b2>${today}</b2></span>
-                </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </body>
+    </body>
+    <div class="today">
+      <span><today>TODAY<today></span><br>
+      <span><b2>${today}</b2></span>
+      </div>
 </html>
 
 <script src="${root}/resources/js/index.global.js"></script>
@@ -259,4 +322,14 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       }
     });
   });
+//수정요함
+  function showModal(td) {
+  var modal = document.querySelector("#modal");
+
+  modal.style.display = "block";
+  }
+function hideModal() {
+  var modal = document.querySelector("#modal");
+  modal.style.display = "none";
+}
 </script>

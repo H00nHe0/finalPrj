@@ -82,6 +82,7 @@
 				NAME = #{name}
 				,PWD = #{pwd}
 				,TEL = #{tel}
+				,PROFILE = #{profileName}
 			WHERE
 				NO = #{no}
 	</update>

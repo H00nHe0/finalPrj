@@ -187,37 +187,39 @@
 		  INNER JOIN PATIENT p ON j.PA_NO = p.NO
 		  INNER JOIN D_ROOM d ON j.RM_NO = d.NO
 		  WHERE d.EM_NO = #{emNo}
+		  AND j.CXL_YN = 'N'
 		  ORDER BY j.NO ASC
 	</select>
 	
 	<!-- 진료중인 환자 정보 불러오기  -->
 	<select id="selectNowPatient" resultType="jinryoVo">
-SELECT
-  j.NO,
-  j.JI_DAY,
-  j.JI_TIME,
-  j.DEPT,
-  j.SYMPTOM,
-  j.CXL_YN,
-  j.PA_NO,
-  j.RM_NO,
-  p.PA_NAME,
-  p.RRN,
-  trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(RRN, 8, 1), '1', '19', '2', '19', '20')||substr(p.RRN, 1, 6))))/10000) as "AGE",
-  CASE
-    WHEN p.PA_GENDER = 'M' THEN '남'
-    WHEN p.PA_GENDER = 'F' THEN '여'
-    ELSE p.PA_GENDER
-  END AS PA_GENDER,
-  d.USE_YN,
-  d.NOTE,
-  d.EM_NO
-FROM JINRYO j
-INNER JOIN PATIENT p ON j.PA_NO = p.NO
-INNER JOIN D_ROOM d ON j.RM_NO = d.NO
-WHERE j.NO = (
- SELECT MIN(J.NO) FROM JINRYO J JOIN D_ROOM D ON J.RM_NO = D.NO WHERE D.EM_NO = #{emNo}
-)
+		SELECT
+		  j.NO,
+		  j.JI_DAY,
+		  j.JI_TIME,
+		  j.DEPT,
+		  j.SYMPTOM,
+		  j.CXL_YN,
+		  j.PA_NO,
+		  j.RM_NO,
+		  p.PA_NAME,
+		  p.RRN,
+		  trunc((to_number(to_char(sysdate, 'YYYYMMDD'))-to_number(to_char(decode(substr(RRN, 8, 1), '1', '19', '2', '19', '20')||substr(p.RRN, 1, 6))))/10000) as "AGE",
+		  CASE
+		    WHEN p.PA_GENDER = 'M' THEN '남'
+		    WHEN p.PA_GENDER = 'F' THEN '여'
+		    ELSE p.PA_GENDER
+		  END AS PA_GENDER,
+		  d.USE_YN,
+		  d.NOTE,
+		  d.EM_NO
+		FROM JINRYO j
+		INNER JOIN PATIENT p ON j.PA_NO = p.NO
+		INNER JOIN D_ROOM d ON j.RM_NO = d.NO
+		WHERE j.NO = (
+		 SELECT MIN(J.NO) FROM JINRYO J JOIN D_ROOM D ON J.RM_NO = D.NO WHERE D.EM_NO = #{emNo} AND CXL_YN = 'N'
+		)
+		
 	</select>
 	
 	<!-- 진료중인환자 과거내역조회 -->
@@ -301,6 +303,15 @@ WHERE j.NO = (
 	    </choose>
   	)
   </insert>
+  
+  <!-- 진료완료상태변경  -->
+	<update id="treatmentCompleted">
+		UPDATE JINRYO
+			SET
+				CXL_YN = 'Y'
+			WHERE
+				NO = #{no}
+	</update>
   
 	
 

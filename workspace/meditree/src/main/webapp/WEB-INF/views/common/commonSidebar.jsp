@@ -83,7 +83,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       </ul>
       <c:if test="${loginMember.no == '999999'}">
       <li class="category">
-        <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자 젼용
+        <img src="${root}/resources/img/homeImg/sideApproval.png" />관리자 전용
       </li>
       <ul class="sub-menu">
         <a href="/app/member/join"><li>직원 가입</li></a>

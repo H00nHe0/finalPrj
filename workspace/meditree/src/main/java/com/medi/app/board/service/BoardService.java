@@ -42,8 +42,13 @@ public class BoardService {
 	}
 	
 	//게시판 수정하기
-	public int edit(BoardVo vo) {
-		return dao.edit(sst,vo);
+	public int edit(BoardVo vo, List<FileVo> fvoList) {
+		int boardEditResult = dao.edit(sst,vo);
+		int attResult = 1;
+		if (fvoList.size() > 0) {
+			attResult = dao.editAttachment(sst,fvoList);
+		}
+		return boardEditResult * attResult;
 		
 	}
 
@@ -72,6 +77,16 @@ public class BoardService {
 	//첨부파일 불러오기
 	public FileVo getAttachment(String ano) {
 		return dao.getAttachment(sst,ano);
+	}
+
+	//파일 삭제
+	public Object deleteAttachments(List<FileVo> oldAttachments) {
+		return dao.fileDel(sst,oldAttachments);
+	}
+
+	//첨부파일 목록조회
+	public List<FileVo> getAttachmentList(BoardVo vo) {
+	    return dao.getAttachmentList(sst, vo.getNo());
 	}
 
 

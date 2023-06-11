@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.medi.app.admin.member.service.AdminMemberService;
+import com.medi.app.common.file.FileUploader;
 import com.medi.app.common.page.PageVo;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.reception.patient.vo.PatientVo;
@@ -73,7 +75,10 @@ public class AdminMemberController {
 	
 	//회원번호로 조회
 	@GetMapping("one/{no}")
-	public String getMemberByNo(@PathVariable String no , Model model) {
+	public String getMemberByNo(@PathVariable String no , Model model , MultipartFile profile, HttpSession session) {
+		
+		
+		
 		MemberVo vo = ams.getMemberByNo(no);
 		
 		model.addAttribute("vo" , vo);
@@ -122,7 +127,7 @@ public class AdminMemberController {
 
 		session.setAttribute("alertMsg", "수정하기 성공!");
 		
-		return "admin/member/list";
+		return "redirect:/admin/member/list";
 	}
 	
 	

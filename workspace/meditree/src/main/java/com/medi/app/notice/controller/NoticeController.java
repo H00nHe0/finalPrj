@@ -1,7 +1,13 @@
 package com.medi.app.notice.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,18 +64,7 @@ public class NoticeController {
 	//공지사항 작성하기(관리자만)(화면)
 	@GetMapping("write")
 	public String write(Model model, HttpSession session) {
-//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//		if (loginMember == null) {
-//			model.addAttribute("errorMsg","잘못된 접근입니다.");
-//			return "common/error-page";
-//		}
-//		String no = loginMember.getNo();
-//		boolean isAdmin = "999999".equals(no);
-//		
-//		if (!isAdmin) {
-//			model.addAttribute("errorMsg","잘못된 접근입니다.");
-//			return "common/error-page";
-//		}
+
 		return "notice/notice-write";
 	}
 	
@@ -118,25 +113,88 @@ public class NoticeController {
 	
 	//공지사항 수정하기
 		@PostMapping("edit")
-		public String edit(NoticeVo vo , Model model , HttpSession session) {
+		public String edit(NoticeVo vo ,  Model model , HttpSession session, List<MultipartFile> f ,HttpServletRequest req) {
 			
-//		/*
-//		 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
-//		 * id = ""; if (loginMember != null) { id = loginMember.getId(); }
-//		 * 
-//		 * if (!"999999".equals(no)) { model.addAttribute("errorMsg","잘못된 요청입니다.");
-//		 * return "common/error-page"; }
-//		 */
+			String path = req.getServletContext().getRealPath("/resources/upload/board/");
+			  List<String> changeNameList = FileUploader.upload(f, path);
+			  List<String> originNameList = FileUploader.getOriginNameList(f);
+			  
+			//데이터 준비 (이름 리스트)
+				List<FileVo> fvoList = new ArrayList<FileVo>();
+				if (changeNameList != null) {
+					int size = changeNameList.size();
+					for (int i = 0; i < size; i++) {
+						FileVo fvo = new FileVo();
+						fvo.setOriginName(originNameList.get(i));
+						fvo.setChangeName(changeNameList.get(i));
+						fvoList.add(fvo);
+				}
+			}
+			// 이전 첨부파일 목록 조회
+			  List<FileVo> oldAttachments = ns.getAttachmentList(vo);
+			  
+			  // 첨부파일이 변경된 경우에만 처리
+			   if (hasFileChanges(f, oldAttachments)) {
+			    // 1. 첨부파일 삭제
+			    ns.deleteAttachments(oldAttachments); // 첨부파일 삭제 메서드 호출
+
+			  }
+			  
 			
-			int result = ns.edit(vo);
+			int result = ns.edit(vo,fvoList);
 			
-			if (result != 1 ) {
+			if (result <= 0 ) {
 				model.addAttribute("errorMsg","수정실패");
-				return "common/error-page";
+				return "common/error";
 			}
 			session.setAttribute("alertMsg", "수정성공");
 			return "redirect:/notice/detail?num=" + vo.getNo();
 		}
+		private boolean hasFileChanges(List<MultipartFile> newAttachments, List<FileVo> oldAttachments) {
+			  if (newAttachments.size() != oldAttachments.size()) {
+			    return true; // 첨부파일 개수가 다르면 변경사항으로 간주
+			  }
+
+			  try {
+			    MessageDigest md = MessageDigest.getInstance("MD5");
+
+			    // 새로운 첨부파일과 이전 첨부파일 비교
+			    for (int i = 0; i < newAttachments.size(); i++) {
+			      MultipartFile newFile = newAttachments.get(i);
+			      FileVo oldFile = oldAttachments.get(i);
+
+			      // 파일 크기가 다르면 변경사항으로 간주
+			      if (newFile.getSize() != oldFile.getSize()) {
+			        return true;
+			      }
+
+			      // 파일 내용 비교
+			      byte[] newFileBytes = newFile.getBytes();
+			      byte[] oldFileBytes = readBytesFromFile(oldFile.getFilePath()); // 파일 경로에서 바이트 배열 읽어오는 메서드 호출
+
+			      byte[] newHash = md.digest(newFileBytes);
+			      byte[] oldHash = md.digest(oldFileBytes);
+
+			      // 파일 내용이 다르면 변경사항으로 간주
+			      if (!MessageDigest.isEqual(newHash, oldHash)) {
+			        return true;
+			      }
+			    }
+			  } catch (IOException e) {
+			    // 파일 읽기 오류 처리
+			    e.printStackTrace();
+			  } catch (NoSuchAlgorithmException e) {
+			    // 지원하지 않는 알고리즘 예외 처리
+			    e.printStackTrace();
+			  }
+
+			  return false; // 변경사항이 없음
+			}
+
+		private byte[] readBytesFromFile(String filePath) throws IOException {
+			  Path path = Paths.get(filePath);
+			  return Files.readAllBytes(path);
+			}
 		
 	//공지사항 삭제하기(관리자만)
 	@GetMapping("delete")

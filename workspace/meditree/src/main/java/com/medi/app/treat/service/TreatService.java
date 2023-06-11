@@ -68,9 +68,9 @@ public class TreatService {
 	}
 
 
-
-	public int updateReceiptStatus(TmHistoryVo vo) {
-		return dao.updateReceiptStatus(sst, vo);
+	//진료완료상태변경
+	public int treatmentCompleted(String no) {
+		return dao.treatmentCompleted(sst , no);
 	}
 
 }

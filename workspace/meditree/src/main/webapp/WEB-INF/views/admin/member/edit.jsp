@@ -122,10 +122,6 @@
 							  <td><input type="text" name="name" value="${vo.name}"></td>
 							</tr>
 							<tr>
-							  <th>입사일</th>
-							  <td>${vo.enrollDate}</td>
-							</tr>
-							<tr>
 							  <th>소속과</th>
 							  <td>
 							  	<select class="form-select" name="deptNo" aria-label="Default select example" required>
@@ -179,7 +175,7 @@
 						
 						<a>
                 			<button type="submit" id="edit-btn" class="btn btn-secondary btn-sm">수정하기</button>
-                			<button class="btn btn-secondary btn-sm" id="back-btn" onclick="history.back()">뒤로가기</button>	
+                			<button type="button" class="btn btn-secondary btn-sm" id="back-btn" onclick="history.back()">뒤로가기</button>	
                    		</a>
 
 

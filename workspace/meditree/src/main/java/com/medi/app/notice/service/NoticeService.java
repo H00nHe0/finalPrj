@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.medi.app.board.vo.BoardVo;
 import com.medi.app.common.file.FileVo;
 import com.medi.app.common.page.PageVo;
 import com.medi.app.notice.dao.NoticeDao;
@@ -31,8 +32,13 @@ public class NoticeService {
 	}
 
 	//공지사항 수정하기(관리자만)
-	public int edit(NoticeVo vo) {
-		return dao.edit(sst,vo);
+	public int edit(NoticeVo vo, List<FileVo> fvoList) {
+		int noticeEditResult = dao.edit(sst,vo);
+		int attResult = 1;
+		if (fvoList.size() > 0) {
+			attResult = dao.editAttachment(sst,fvoList);
+		}
+		return noticeEditResult * attResult;
 	}
 
 	//공지사항 상세보기(+조회수)
@@ -80,6 +86,14 @@ public class NoticeService {
 		return dao.getAttachment(sst,ano);
 	}
 
+	public Object deleteAttachments(List<FileVo> oldAttachments) {
+		return dao.fileDel(sst,oldAttachments);
+	}
+	public List<FileVo> getAttachmentList(NoticeVo vo) {
+	    return dao.getAttachmentList(sst, vo.getNo());
+	}
+
+	
 	
 
 }

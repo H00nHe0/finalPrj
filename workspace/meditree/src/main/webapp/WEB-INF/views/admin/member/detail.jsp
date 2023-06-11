@@ -32,7 +32,7 @@
     }
     .shadow {
       width: 90%;
-      height: 550px;
+      height: 600px;
       margin: auto;
       margin-top: 40px;
     }
@@ -70,15 +70,18 @@
     	margin-left: 20%;
     }
     #quit-btn {
-    float: right;
-    margin-right: 280px;
+    	float: right;
+   		margin-right: 280px;
     }
     #edit-btn {
-    margin-left: 1010px;
+    	margin-left: 1010px;
     }
     #back-btn {
-    margin-left: 1080px;
-    margin-top: 20px;
+    	margin-left: 1080px;
+    	margin-top: 20px;
+    }
+    .profile-area{
+    	vertical-align: middle;
     }
 
 
@@ -101,6 +104,10 @@
 	               		</div>
                         
 	               		<table class="table table-bordered" id="personal">
+	               			<tr>
+							  <th class="profile-area">프로필</th>
+							  <td><div id="preview-area"> </div></td>
+							</tr>
 							<tr>
 							  <th>사원번호</th>
 							  <td>${vo.no}</td>
@@ -108,10 +115,6 @@
 							<tr>
 							  <th>이름</th>
 							  <td>${vo.name}</td>
-							</tr>
-							<tr>
-							  <th>입사일</th>
-							  <td>${vo.enrollDate}</td>
 							</tr>
 							<tr>
 							  <th>소속과</th>
@@ -129,6 +132,7 @@
 							  <th>이메일</th>
 							  <td>${vo.email}</td>
 							</tr>
+							
 
 						</table>
 						
@@ -176,6 +180,60 @@ button.addEventListener("click", function() {
 	  var link = "/app/admin/member/quit/" + no; // 링크 생성
 	  window.location.href = link; // 링크로 이동
 	});
+var button = document.querySelector("#edit-btn"); // 버튼 요소 가져오기
+
+button.addEventListener("click", function() {
+	  var link = "/app/admin/member/edit/" + no; // 링크 생성
+	  window.location.href = link; // 링크로 이동
+	});
+	
+//이미지 미리보기
+const div = document.querySelector('#preview-area');
+let imgTag;
+	//이미지 요소 만들기
+	imgTag = document.createElement('img');
+	imgTag.setAttribute("src" , "${root}/resources/img/member/${vo.profileName}");
+	imgTag.setAttribute("alt" , "${vo.profileName}");
+	imgTag.setAttribute("width" , "70px");
+	imgTag.setAttribute("height" , "70px");
+	
+	// 이미지 로딩이 완료되면 썸네일처럼 보여주기
+	imgTag.addEventListener('load', function() {
+	  // 이미지가 로드되면 썸네일처럼 표시할 너비와 높이 설정
+	  const thumbnailWidth = 70;
+	  const thumbnailHeight = 70;
+
+	  // 이미지의 실제 너비와 높이를 가져옴
+	  const imageWidth = imgTag.width;
+	  const imageHeight = imgTag.height;
+
+	  // 이미지의 비율을 유지한 채로 썸네일 크기 조정
+	  let thumbnailWidthAdjusted, thumbnailHeightAdjusted;
+	  if (imageWidth > imageHeight) {
+	    thumbnailWidthAdjusted = thumbnailWidth;
+	    thumbnailHeightAdjusted = (imageHeight / imageWidth) * thumbnailWidth;
+	  } else {
+	    thumbnailHeightAdjusted = thumbnailHeight;
+	    thumbnailWidthAdjusted = (imageWidth / imageHeight) * thumbnailHeight;
+	  }
+
+	  // 썸네일처럼 이미지 크롭 및 중앙 정렬
+	  imgTag.setAttribute("width", thumbnailWidthAdjusted + "px");
+	  imgTag.setAttribute("height", thumbnailHeightAdjusted + "px");
+	  imgTag.style.objectFit = "cover";
+	  imgTag.style.objectPosition = "center";
+
+	  // 이미지 요소를 div 안에 추가하기
+	  div.appendChild(imgTag);
+	});
+
+	// 이미지 로딩 실패 시 대체 텍스트 표시
+	imgTag.addEventListener('error', function() {
+	  imgTag.setAttribute("alt", "Image not found");
+	});
+
+	// 이미지 요소를 div 안에 추가하기 전에 src를 설정
+	imgTag.src = "${root}/resources/img/member/${vo.profileName}";
 
 
 </script>

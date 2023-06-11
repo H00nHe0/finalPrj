@@ -53,8 +53,9 @@ public class TreatDao {
 		return sst.insert("treat.insertTm" , vo);
 	}
 
-	public int updateReceiptStatus(SqlSessionTemplate sst, TmHistoryVo vo) {
-		return sst.update("treat.updateReceiptStatus" , vo);
+	//진료완료상태변경
+	public int treatmentCompleted(SqlSessionTemplate sst, String no) {
+		return sst.update("treat.treatmentCompleted" , no);
 	}
 
 }

@@ -121,29 +121,15 @@ textarea{
         </div>
         <div class="chat-messages">
             <div class="message-row">
-                <div class="message sender">
-                    <p>안녕하세요!</p>
-                    <span class="time">9:00 AM</span>
-                </div>
-            </div>
+			    <div class="message sender">
+			        
+			    </div>
+			</div>
             <div class="message-row">
-                <div class="message receiver">
-                    <p>안녕하세요! 반갑습니다.</p>
-                    <span class="time">9:02 AM</span>
-                </div>
-            </div>
-            <div class="message-row">
-                <div class="message sender">
-                    <p>오늘 날씨가 참 좋네요.</p>
-                    <span class="time">9:05 AM</span>
-                </div>
-            </div>
-            <div class="message-row">
-                <div class="message receiver">
-                    <p>네, 정말 좋은 날씨입니다.</p>
-                    <span class="time">9:07 AM</span>
-                </div>
-            </div>
+			    <div class="message receiver">
+			        
+			    </div>
+			</div>
         </div>
       <div class="chat-input">
             <input type="text" placeholder="메시지를 입력하세요." name="msg" style="width: 485px; height: 160px; margin-top: 10px;">
@@ -155,8 +141,6 @@ textarea{
 </html>
 
 <script>
-
-	
         const socket = new WebSocket("ws://127.0.0.1:8888/app/server");
         // 현재 시간을 얻기 위해 Date 객체 생성
         const currentDate = new Date();
@@ -175,15 +159,18 @@ textarea{
             console.log("웹소켓 연결 실패");
         }
         socket.onmessage = function (e) {
-
-            const msgArea = document.querySelector('.chat-messages');
-            msgArea.innerHTML += e.data + "<br>";
+            const msgArea = document.querySelector('.message.sender');
+            msgArea.innerHTML += e.data + "<br>"; 
         }
         
+        
         function sendMsg(){
-            const str = document.querySelector("input[name=msg]").value;
-            socket.send(str);
+        	 const input = document.querySelector("input[name=msg]");
+        	    const message = input.value.trim();
+        	    if (message !== "") {
+        	        socket.send(message);
+        	        input.value = "";
+        	    }
         }
-
 
     </script>

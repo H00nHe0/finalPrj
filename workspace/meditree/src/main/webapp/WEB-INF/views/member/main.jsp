@@ -78,19 +78,19 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           </thead>  
                             <tbody>
 	                          	<tr>
-	                          		<td>15</td>
-			                        <td>6월 세미나에 관해 안내드립니다.</td>
-			                        <td>2023-06-09</td>
+	                          		<td>24</td>
+			                        <td>6월 세미나에...</td>
+			                        <td>2023-06-11</td>
 	                          	</tr>
 	                          	<tr>
-	                          		<td>${nvo.no}</td>
-			                        <td>6월 신규 약품 안내드립니다.</td>
-			                        <td>${nvo.enrollDate}</td>
+	                          		<td>23</td>
+			                        <td>6월 신규 약...</td>
+			                        <td>2023-06-11</td>
 	                          	</tr>
 	                          	<tr>
-	                          		<td>${nvo.no}</td>
-			                        <td>6월 근무 안내드립니다.</td>
-			                        <td>${nvo.enrollDate}</td>
+	                          		<td>22</td>
+			                        <td>6월 근무 안...</td>
+			                        <td>2023-06-11</td>
 	                          	</tr>
                         	</tbody>    
                         </table>
@@ -113,22 +113,22 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                           </thead>  
                             <tbody>
 	                          	<tr>
-	                          		<td>${bvo.no}</td>
-			                        <td>${bvo.title}</td>
-			                        <td>${bvo.writerName}</td>
-			                        <td>${bvo.enrollDate}</td>
+	                          		<td>24</td>
+			                        <td>6/20(화) 저녁...</td>
+			                        <td>로이킴</td>
+			                        <td>2023-06-11</td>
 	                          	</tr>
 	                          	<tr>
-	                          		<td>${bvo.no}</td>
-			                        <td>${bvo.title}</td>
-			                        <td>${bvo.writerName}</td>
-			                        <td>${bvo.enrollDate}</td>
+	                          		<td>23</td>
+			                        <td>6/15(목) 간호부...</td>
+			                        <td>오영심</td>
+			                        <td>2023-06-11</td>
 	                          	</tr>
 	                          	<tr>
-	                          		<td>${bvo.no}</td>
-			                        <td>${bvo.title}</td>
-			                        <td>${bvo.writerName}</td>
-			                        <td>${bvo.enrollDate}</td>
+	                          		<td>22</td>
+			                        <td>6/30일까지 신청...</td>
+			                        <td>이영하</td>
+			                        <td>2023-06-11</td>
 	                          	</tr>
                         </tbody>    
                        </table>
@@ -141,12 +141,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                 	</div> 
                     <div id="meal-holder">
                         <div>
-                            <h4>토마토 스파게티</h4>
-                            <h5>게살수프</h5>
-                            <h5>로스까스</h5>
-                            <h5>방울토마토</h5>
+                            <h5>김치볶음밥/된장찌개</h5>
+                            <h5>소세지볶음/배추김치</h5>
+                            <h5 style="padding-bottom: 30px;">제육볶음/사과</h5>
                         </div>
-                        
                     </div>
                 </div>
                </div>

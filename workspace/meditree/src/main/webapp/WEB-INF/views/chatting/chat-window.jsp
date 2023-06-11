@@ -117,19 +117,11 @@ textarea{
 <body>
     <div class="container">
         <div class="chat-header">
-            <img alt="뒤로가기" src="${root}/resources/img/test/arrowleft.png" onclick="history.back();">  <h1>채팅방</h1>
+             <h1>채팅방</h1>
         </div>
         <div class="chat-messages">
-            <div class="message-row">
-			    <div class="message sender">
-			        
-			    </div>
-			</div>
-            <div class="message-row">
-			    <div class="message receiver">
-			        
-			    </div>
-			</div>
+            
+            
         </div>
       <div class="chat-input">
             <input type="text" placeholder="메시지를 입력하세요." name="msg" style="width: 485px; height: 160px; margin-top: 10px;">
@@ -159,7 +151,7 @@ textarea{
             console.log("웹소켓 연결 실패");
         }
         socket.onmessage = function (e) {
-            const msgArea = document.querySelector('.message.sender');
+            const msgArea = document.querySelector('.chat-messages');
             msgArea.innerHTML += e.data + "<br>"; 
         }
         

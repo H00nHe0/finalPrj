@@ -35,13 +35,6 @@ public class TreatController {
 		this.ts = ts;
 	}
 
-	/*
-	 * //진료대기목록
-	 * 
-	 * @GetMapping("waiting") public String waiting() { return "treat/waitingList";
-	 * }
-	 */
-
 	// 진료처방(화면)
 	@GetMapping("prescription")
 	public String prescription(HttpSession session, JinryoVo jvo, Model model) {
@@ -55,7 +48,6 @@ public class TreatController {
 
 		// 진료중인 환자의 과거진료내역 가져오기
 		String chartNo = nowPatient.getPaNo();
-		System.out.println("chartNo :"+chartNo);
 		List<TmHistoryVo> tmvoList = ts.getNowChart(chartNo);
 
 		// 약 조회
@@ -64,14 +56,13 @@ public class TreatController {
 		model.addAttribute("nowPatient", nowPatient);
 		model.addAttribute("tmvoList", tmvoList);
 		model.addAttribute("drvoList", drvoList);
-		System.out.println("진료중인 환자 : " + nowPatient); // 나중에 지워야됨
 
 		return "treat/prescription";
 	}
 
 	// 진료입력
 	@PostMapping("prescription")
-	public String prescription(TmHistoryVo vo, HttpServletRequest request) {
+	public String prescription(TmHistoryVo vo, HttpServletRequest request , String no , HttpSession session) {
 
 		String tmContent = request.getParameter("tmContent");
 
@@ -81,17 +72,17 @@ public class TreatController {
 
 		// 서비스
 		int result = ts.insertTm(vo);
+		int result2 = ts.treatmentCompleted(no);
 
-		return "treat/prescription";
+		session.setAttribute("alertMsg", "진료처방이 완료되었습니다.");
+		return "redirect:/treat/waiting";
 	}
-
 	// 진료대기목록
 	@GetMapping("waiting")
 	public String waiting(Model model, HttpSession session, @SessionAttribute MemberVo loginMember, JinryoVo vo) {
 
 		String emNo = loginMember.getNo();
 		vo.setEmNo(emNo);
-		System.out.println(emNo);
 
 		// 서비스
 		List<JinryoVo> jvoList = ts.getWaitingList(emNo);
@@ -103,12 +94,7 @@ public class TreatController {
 	}
 
 	
-	  @RequestMapping("drugName") public String drugName(@RequestParam String drug)
-	  { System.out.println(drug);
-	  
-	  return "treat/prescription";
-	  
+	  @RequestMapping("drugName") public String drugName(@RequestParam String drug) { 
+		  return "treat/prescription";
 	  }
-	 
-
 }

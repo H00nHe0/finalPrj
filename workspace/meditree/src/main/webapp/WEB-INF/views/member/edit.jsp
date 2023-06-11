@@ -100,7 +100,7 @@ body h1 {
 			<%@ include file="/WEB-INF/views/common/commonSidebar.jsp"%>
 			<div id="board">
 
-				<form action="${root}/member/edit" method="post">
+				<form action="${root}/member/edit" method="post" enctype="multipart/form-data">
 					<div class="shadow p-3 mb-5 bg-body rounded">
 						<div class="htitle">
 							<h1>정보 수정</h1>
@@ -133,6 +133,14 @@ body h1 {
 											id="telNo" value="${loginMember.tel}" required>
 									</div>
 								</div>
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">프로필</label>
+									<div class="col-sm-10">
+										<input type="file" name="profile" class="form-control" 
+											 value="${loginMember.profileName}" >
+									</div>
+								</div>
+								<div id="preview-area"> </div>
 
 							<div class="btnwech">
 								<button type="submit" class="btn btn-primary">수정</button>
@@ -161,4 +169,54 @@ body h1 {
       pwdInput.setAttribute("type", "password");
     }
   }
+  
+	//이미지 미리보기
+	const div = document.querySelector('#preview-area');
+	let imgTag;
+		//이미지 요소 만들기
+		imgTag = document.createElement('img');
+		imgTag.setAttribute("src" , "${root}/resources/img/member/${loginMember.profileName}");
+		imgTag.setAttribute("alt" , "${loginMember.profileName}");
+		imgTag.setAttribute("width" , "150px");
+		imgTag.setAttribute("height" , "150px");
+		
+		// 이미지 로딩이 완료되면 썸네일처럼 보여주기
+		imgTag.addEventListener('load', function() {
+		  // 이미지가 로드되면 썸네일처럼 표시할 너비와 높이 설정
+		  const thumbnailWidth = 150;
+		  const thumbnailHeight = 150;
+
+		  // 이미지의 실제 너비와 높이를 가져옴
+		  const imageWidth = imgTag.width;
+		  const imageHeight = imgTag.height;
+
+		  // 이미지의 비율을 유지한 채로 썸네일 크기 조정
+		  let thumbnailWidthAdjusted, thumbnailHeightAdjusted;
+		  if (imageWidth > imageHeight) {
+		    thumbnailWidthAdjusted = thumbnailWidth;
+		    thumbnailHeightAdjusted = (imageHeight / imageWidth) * thumbnailWidth;
+		  } else {
+		    thumbnailHeightAdjusted = thumbnailHeight;
+		    thumbnailWidthAdjusted = (imageWidth / imageHeight) * thumbnailHeight;
+		  }
+
+		  // 썸네일처럼 이미지 크롭 및 중앙 정렬
+		  imgTag.setAttribute("width", thumbnailWidthAdjusted + "px");
+		  imgTag.setAttribute("height", thumbnailHeightAdjusted + "px");
+		  imgTag.style.objectFit = "cover";
+		  imgTag.style.objectPosition = "center";
+
+		  // 이미지 요소를 div 안에 추가하기
+		  div.appendChild(imgTag);
+		});
+
+		// 이미지 로딩 실패 시 대체 텍스트 표시
+		imgTag.addEventListener('error', function() {
+		  imgTag.setAttribute("alt", "Image not found");
+		});
+
+		// 이미지 요소를 div 안에 추가하기 전에 src를 설정
+		imgTag.src = "${root}/resources/img/member/${loginMember.profileName}";
+  
+  
 </script>

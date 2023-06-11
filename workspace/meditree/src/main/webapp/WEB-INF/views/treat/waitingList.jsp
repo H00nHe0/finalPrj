@@ -94,7 +94,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 			                 	<c:forEach items="${jvoList}" var="jvo" varStatus="status" end="${8}">
 								<tr>
 									<td>${status.index + 1}</td>
-									<td>${jvo.no}</td>
+									<td>${jvo.paNo}</td>
 									<td>${jvo.paName}</td>
 									<td>${jvo.paGender}</td>
 									<td>

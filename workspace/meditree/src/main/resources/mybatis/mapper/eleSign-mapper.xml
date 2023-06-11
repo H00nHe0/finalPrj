@@ -11,7 +11,6 @@
 			NO
 			, TITLE
 			, CONTENT
-			, CATEGORY_NO
 			, ENROLL_DATE
 			, MODIFY_DATE
 			, STATUS
@@ -68,7 +67,6 @@
 			NO
 			, TITLE
 			, CONTENT
-			, CATEGORY_NO
 			, ENROLL_DATE
 			, MODIFY_DATE
 			, STATUS
@@ -113,7 +111,5 @@
 		AND   DELYN = 'N'
 	
 	</update>
-	
-	 
 	
 </mapper>

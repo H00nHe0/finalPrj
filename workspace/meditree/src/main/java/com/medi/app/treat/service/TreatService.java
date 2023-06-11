@@ -67,4 +67,10 @@ public class TreatService {
 		return dao.insertTm(sst , vo);
 	}
 
+
+
+	public int updateReceiptStatus(TmHistoryVo vo) {
+		return dao.updateReceiptStatus(sst, vo);
+	}
+
 }

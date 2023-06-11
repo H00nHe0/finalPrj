@@ -272,7 +272,8 @@
 	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
 	WHERE
     	TH.NEEDSURGERY = 'Y'
-    	AND R.STATUS = 'S'
+		AND R.STATUS = 'S'
+    	AND R.PAY = 'N'
 	</select>
 	
 		<select id="proomWaitingList" resultType="PatientVo">
@@ -291,7 +292,8 @@
 	    JOIN TM_HISTORY TH ON R.PA_NO = TH.PA_NO
 	WHERE
     	TH.NEEDSTAY = 'Y'
-    AND R.STATUS = 'S'
+    	AND R.STATUS = 'S'
+    	AND R.PAY = 'N'
 	</select>
 	
 
@@ -407,10 +409,12 @@
    
       <!-- 입원실 출력용 입원실 예약 리스트 조회 -->
 	<select id="selectPRoomBookingList" resultType="ReservationVo">
-		    SELECT 
+ 		SELECT 
 		   M.WORKING_DAY, 
 		   PB.NO, 
 		   PB.PR_NO, 
+		   PB.EM_NO,
+           EM.NAME,
 		   LISTAGG(P.PA_NAME, ',') WITHIN GROUP(ORDER BY P.PA_NAME) as "namelist", 
 		   COUNT(*) as "count"
 		FROM ADM PB
@@ -423,7 +427,7 @@
 		    FROM (
 	         SELECT TO_CHAR(TRUNC(to_date(#{nowDate}), 'MM') + LEVEL - 1, 'YYYY-MM-DD') AS WORKING_DAY
 			FROM DUAL
-			CONNECT BY LEVEL <![CDATA[ <= ]]> EXTRACT(DAY FROM LAST_DAY(to_date(#{nowDate})))
+			CONNECT BY LEVEL<![CDATA[ <= ]]> EXTRACT(DAY FROM LAST_DAY(to_date(#{nowDate})))
 		    ), 
 		    ( 
 		        SELECT 
@@ -433,7 +437,8 @@
 		    )
 		) M ON ( (M.WORKING_DAY BETWEEN PB.ADM_START AND PB.ADM_FINISH) AND M.NO = PB.NO)
 		LEFT JOIN PATIENT P ON(PB.PA_NO = P.NO)
-		GROUP BY M.WORKING_DAY, PB.PR_NO, PB.NO
+        JOIN EMPLOYEE EM ON(PB.EM_NO = EM.NO)
+		GROUP BY M.WORKING_DAY, PB.PR_NO, PB.NO, PB.EM_NO, EM.NAME
 		ORDER BY M.WORKING_DAY, PR_NO
 	</select>
 	
@@ -443,6 +448,7 @@
 		   M.WORKING_DAY, 
 		   SB.NO, 
 		   SB.RM_NO, 
+		   SB.DOCTOR,
 		   SR.NOTE,
 		   COUNT(*) as "count"
 		FROM SURGERY_SCH SB
@@ -460,7 +466,7 @@
 		    CROSS JOIN (SELECT NO, RM_NO FROM SURGERY_SCH) S
 		) M ON (M.WORKING_DAY = SB.SU_DATE AND M.NO = SB.NO)
 		LEFT JOIN SURGERY_RM SR ON (SB.RM_NO = SR.NO)
-		GROUP BY M.WORKING_DAY, SB.RM_NO, SB.NO, SR.NOTE
+		GROUP BY M.WORKING_DAY, SB.RM_NO, SB.NO, SR.NOTE,SB.DOCTOR
 		ORDER BY M.WORKING_DAY, SB.RM_NO
 	</select>
 	

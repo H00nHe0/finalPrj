@@ -104,7 +104,7 @@
 						<div class="htitle">
 							<h1>진료</h1>
 						</div>
-						<input type="hidden" name="paNo" value="${nowPatient.no}">
+						<input type="hidden" name="paNo" value="${nowPatient.paNo}">
 						<input type="hidden" name="emNo" value="${loginMember.no}">
 						<input type="hidden" name="tmContent" id="tmContent" value="">
 						<table class="table table-hover">
@@ -119,7 +119,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>000001</td>
+									<td>${nowPatient.no}</td>
 								    <td>${nowPatient.paName}</td>
 								    <td>${nowPatient.paGender}</td>
 								    <td>${nowPatient.age}</td>

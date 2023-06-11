@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.medi.app.member.vo.MemberVo;
 import com.medi.app.organization.service.OrganizationService;
 
-
 @Controller
 @RequestMapping("organization")
 public class OrganizationController {
@@ -24,17 +23,12 @@ public class OrganizationController {
 	public OrganizationController(OrganizationService os) {
 		this.os = os;
 	}
-
-	// 어찌어찌 노가다로 ajax로 바꾸긴함.
-	// 고쳐야 할거 -> jsp파일 스크립트 코드 너무 노가다여서 방안 물어보기(반복문같은)
 	// 노가다로 할때 td 늘려놨던거 반복문안되면 써야 하는데 값없을때 사진도 안뜨게 ??
 	@GetMapping("chartView")
 	public void chartView(MemberVo vo, Model model) {
 
-
 	}
-
-	// 일반외과
+	// 일반내과
 	@PostMapping(value = "surgery", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String surgery(Model model, String major) {
@@ -55,9 +49,7 @@ public class OrganizationController {
 			e.printStackTrace();
 		}
 		return "organization/chartView"; 
-
 	}
-
 	// 정신과
 	@PostMapping(value = "generalMedicine", produces = "application/text; charset=utf8")
 	@ResponseBody

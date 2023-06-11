@@ -104,6 +104,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           0.4
         ); /* 변경할 색상을 여기에 입력하세요 */
       }
+      #page-area a{
+        text-decoration: none;
+      }
+      #page-area {
+        margin-top: 100px;
+      }
     </style>
   </head>
   <body>

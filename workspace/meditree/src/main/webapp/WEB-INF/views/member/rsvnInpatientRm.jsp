@@ -143,6 +143,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       .fc-event-time {
         display: none;
       }
+      #paNo1 {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -263,6 +266,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
                               rows="10"
                             ></textarea>
                           </td>
+                          <td id="paNo1"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -316,9 +320,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         const parsedData = JSON.parse(data);
         const chartNo = parsedData.reNo;
         const name = parsedData.paName;
+        const paNo1 = parsedData.paNo;
         console.log(name);
         document.querySelector('input[name="chartNo"]').value = chartNo;
         document.querySelector('input[name="pName"]').value = name;
+        document.querySelector('td[id ="paNo1"]').innerHTML = paNo1;
       },
       error: function () {
         console.log("ajax통신 실패");
@@ -334,6 +340,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     const note = document.querySelector("#sickRmMemo").value;
     const pRoom2 = document.querySelector("#sickroom2").value;
     const pRoom4 = document.querySelector("#sickroom4").value;
+    const paNo = document.querySelector("#paNo1").innerHTML;
     if (pRoom2 == "noSelect") {
       selectedRm = pRoom4;
     } else {
@@ -358,7 +365,6 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       success: function (data) {
         if (data === "success") {
           console.log("데이터 삽입성공!");
-          console.log(arg);
           alert("일정 등록이 성공하였습니다.");
         } else {
           console.log("데이터 삽입실패..");
@@ -373,7 +379,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       admStart: inDate,
       admFinish: outDate,
       notice: note,
-      paNo: pChartNo,
+      paNo: paNo,
       emNo: emNo,
       prNo: selectedRm,
     };

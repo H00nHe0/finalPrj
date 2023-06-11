@@ -39,9 +39,7 @@ public class ReservationController {
 		System.out.println(rmList);
 		List<MemberVo> evoList = rs.getDoctorList();
 		model.addAttribute("evoList", evoList);
-
 	}	
-	
 	//수숳실 예약 화면
 	@GetMapping("rsvnOperatingRm")
 	public void rsvnOperatingRm(Model model,MemberVo mvo) {
@@ -50,8 +48,7 @@ public class ReservationController {
 		System.out.println(sRmList);
 		List<MemberVo> evoList = rs.getDoctorList();
 		model.addAttribute("evoList", evoList);
-	}
-	
+	}	
 	//수술실
 	@PostMapping(value ="rsvnScreenS.sRm", produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -59,12 +56,10 @@ public class ReservationController {
 		PatientVo vo = rs.rsvnScreenS(paNo);
 		
 		model.addAttribute("vo", vo);
-		System.out.println("예약화면으로 넘어가는 vo:"+vo);
-		
+		System.out.println("예약화면으로 넘어가는 vo:"+vo);		
 		
         Gson gson = new Gson();
         String str = gson.toJson(vo);
-
         
         return str;
 	}

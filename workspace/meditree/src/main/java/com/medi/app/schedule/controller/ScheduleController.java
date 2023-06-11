@@ -1,7 +1,6 @@
 package com.medi.app.schedule.controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,6 @@ import com.medi.app.reservation.vo.ReservationVo;
 import com.medi.app.schedule.service.ScheduleService;
 import com.medi.app.schedule.vo.ScheduleVo;
 
-
-
 @Controller
 @RequestMapping("member")
 public class ScheduleController {
@@ -34,7 +31,6 @@ public class ScheduleController {
 	@Autowired
 	public ScheduleController(ScheduleService ss) {
 		this.ss = ss;
-
 
 	}
 	public MemberVo getLoginMember() {
@@ -48,17 +44,11 @@ public class ScheduleController {
 
 		this.loginMember = loginMember;
 	}
-
-	
-
-
-
 	
 	@GetMapping("schedule")
 	public void schedule() {
 		
 	}
-
 	@GetMapping("pSchedule")
 	public void pSchedule() {
 		
@@ -69,7 +59,6 @@ public class ScheduleController {
 		
 	}
 	
-
 	@PostMapping(value ="list.pCalendar", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String selectPCalendarList(HttpSession session, String emNo) {

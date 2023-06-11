@@ -1,10 +1,12 @@
 package com.medi.app.chatting.server;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,7 +24,7 @@ public class ChattingServer extends TextWebSocketHandler{
 		private final Set<WebSocketSession> sessionSet = new HashSet<WebSocketSession>();
 		@Override
 		public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-			MemberVo loginMember = (MemberVo)session.getAttributes().get("loginMember");
+			MemberVo loginMember = (MemberVo) session.getAttributes().get("loginMember");
 			log.info("{}연결됨",loginMember.getName());
 			sessionSet.add(session);
 			
@@ -33,9 +35,9 @@ public class ChattingServer extends TextWebSocketHandler{
 			System.out.println(message.getPayload());
 			MemberVo loginMember = (MemberVo)session.getAttributes().get("loginMember");
 			Map<String, Object> attrMap = session.getAttributes();
-			String sender = (String)attrMap.get("loginMember");
+			String sender = (String)attrMap.get(loginMember.getName());
 			String msg = message.getPayload();
-			TextMessage textMsg = new TextMessage(sender + " : " +msg);
+			TextMessage textMsg = new TextMessage(loginMember.getName() + " : " +msg);
 			//더많은 정보를 보내고 싶으면 json형태로 작성하여 정보를 전달
 			broadCast(textMsg);
 			
@@ -51,7 +53,7 @@ public class ChattingServer extends TextWebSocketHandler{
 
 		@Override
 		public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-			MemberVo loginMember = (MemberVo)session.getAttributes().get("loginMember");
+			MemberVo loginMember = (MemberVo) session.getAttributes().get("loginMember");
 			log.info("{} 연결끊김",loginMember.getName());
 			sessionSet.remove(session);
 		}
